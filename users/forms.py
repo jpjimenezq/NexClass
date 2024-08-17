@@ -1,18 +1,16 @@
 from django import forms
-from .models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.forms.widgets import PasswordInput, TextInput
+from django.contrib.auth.forms import User
 
-# Define las opciones para el campo user_type
-USER_TYPE_CHOICES = [
-    ('Student', 'Student'),
-    ('Teacher', 'Teacher'),
-]
-
-class CreateUserForm(forms.ModelForm):
-    user_type = forms.ChoiceField(choices=USER_TYPE_CHOICES)
-
+class CreateUserForm(UserCreationForm):
+    typeUser = forms.ChoiceField(choices=[('Student', 'Student'), ('Teacher', 'Teacher')])
+    location = forms.CharField(max_length=255, required=False)
+    
     class Meta:
         model = User
-        fields = ['name', 'email', 'user_type', 'profile_photo', 'location', 'password']
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
+        fields = ['first_name', 'last_name', 'username', 'email', 'typeUser', 'location', 'password1', 'password2']
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=TextInput())
+    password = forms.CharField(widget=PasswordInput())
