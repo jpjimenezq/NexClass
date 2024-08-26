@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+
 </head>
 <body>
+    <header>
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="home.html">
+                    <h1 class="logo__nombre no-margin centrar-texto">n<span class='logo__color'>ext</span>c<span class="logo__color">lass</span></h1>
+                </a>
+
+                <nav class="navegacion" >
+                    <a href="{%  url 'favoritos' %}" class="navegacion__enlace">favoritos</a>
+                    <a href="#" class="navegacion__enlace">perfil</a>
+                    <a href="#" class="navegacion__enlace">categoria</a>
+                </nav>
+            </div>
+        </div>
+    </header>
     <h1>Home here!!!</h1>
 </body>
 </html>

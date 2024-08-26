@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+
+</head>
+<body>
+    <header class="header imagen_oscura">
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="{%  url 'home' %}">
+                    <h1 class="logo__nombre no-margin centrar-texto">n<span class='logo__color'>ext</span>c<span class="logo__color">lass</span></h1>
+                </a>
+
+                <nav class="navegacion" >
+                    <a href="#" class="navegacion__enlace">nav</a>
+                    <a href="#" class="navegacion__enlace">nav</a>
+                    <a href="#" class="navegacion__enlace">nav</a>
+                </nav>
+            </div>
+            <div class="header__texto">
+                <h2 class="no-margin">Guarda tus clases o profesores favoritos</h2>
+            </div>
+        </div>
+    </header>
+    <div class="contenedor">
+        <ul class="lista-categorias-favoritos">
+        <li>Todos</li>
+        <li>Profesores</li>
+        <li>Clase</li>
+    </ul>
+    </div>
+
+    <main class="contenedor" id="contenedor-favoritos">
+        <div CLASS="grid">
+
+       <!-- USO FINAL CON LA BASE DE DATOS LLENA    -->
+
+{#            #}
+{#            {%  for favourite in favourites %}#}
+{#            <div class="elemento-favoritos">#}
+{#                <a href="#">#}
+{#                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">#}
+{#                    <div class="producto__imformacion">#}
+{#                        <p class="elemento__nombre">{{ favourite.estudiante }}</p>#}
+{#                        <p class="elemento__nombre">{{favourite.clase}}</p>#}
+{#                        <p class="elemento__nombre">{{favourite.profesor}}</p>#}
+{#                    </div>#}
+{#                </a>#}
+{#            </div>#}
+{#            {%  endfor %}#}
+
+<!-- EJEMPLO VISUAL    -->
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+
+                    </div>
+                </a>
+            </div>
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+                    </div>
+                </a>
+            </div>
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+                    </div>
+                </a>
+            </div>
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+                    </div>
+                </a>
+            </div>
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+                    </div>
+                </a>
+            </div>
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+                        <p class="elemento__nombre">etc...</p>
+                    </div>
+                </a>
+            </div>
+            <div class="elemento-favoritos">
+                <a href="#">
+                    <img class="elemento__imagen" src="../static/images/elemento-default.png" alt="Imagen camisa">
+                    <div class="producto__imformacion">
+                        <p class="elemento__nombre">clase: xxxxx</p>
+                        <p class="elemento__nombre">profesor: xxxxx</p>
+                        <p class="elemento__nombre">precio: xxxxx</p>
+                        <p class="elemento__nombre">etc...</p>
+                    </div>
+                </a>
+            </div>
+
+
+        </div>
+    </main>
+</body>
+</html>

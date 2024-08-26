@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import LoginForm, RegisterForm
 from .models import User
 from django.urls import reverse
+from .models import Favourites
 
 # Create your views here.
 def home(request):
@@ -54,3 +55,7 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
+
+def favoritos(request):
+    favourites = Favourites.objects.all()
+    return render(request, 'favoritos.html', {'favourites':favourites})
