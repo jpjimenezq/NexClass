@@ -46,6 +46,17 @@ class Teacher(models.Model):
         choices=Mode.choices
     )
 
+class Class(models.Model):
+    className = models.CharField(max_length=100)
+    id_teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+
+
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorites = models.ManyToManyField(Teacher, related_name='favorites')
+
+class Favourites(models.Model):
+    estudiante = models.OneToOneField(Student, on_delete=models.CASCADE, primary_key=True)
+    clase = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, blank=True)
+    profesor = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True, blank=True)
+
