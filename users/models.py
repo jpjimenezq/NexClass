@@ -28,7 +28,7 @@ class User(models.Model):
         choices=UserType.choices
     )
     registration_date = models.DateTimeField(auto_now_add=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', default='profile_photos/default_profile.png', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_photos/', default='profile_photos/default_profile.png', null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
 
 class Teacher(models.Model):
