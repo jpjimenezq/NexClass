@@ -30,6 +30,7 @@ class User(models.Model):
     registration_date = models.DateTimeField(auto_now_add=True)
     profile_picture = models.ImageField(upload_to='profile_photos/', default='profile_photos/default_profile.png', null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
+    profile_complete = models.BooleanField(default=False)
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -40,7 +41,6 @@ class Teacher(models.Model):
         max_length=50,
         choices=Availability.choices
     )
-    hourly_rate = models.DecimalField(max_digits=10, decimal_places=2)
     mode = models.CharField(
         max_length=50,
         choices=Mode.choices
@@ -50,7 +50,6 @@ class Class(models.Model):
     className = models.CharField(max_length=100)
     id_teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
 
-
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorites = models.ManyToManyField(Teacher, related_name='favorites')
@@ -59,4 +58,3 @@ class Favourites(models.Model):
     estudiante = models.OneToOneField(Student, on_delete=models.CASCADE, primary_key=True)
     clase = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, blank=True)
     profesor = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True, blank=True)
-
