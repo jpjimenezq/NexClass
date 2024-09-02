@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from .forms import LoginForm, RegisterForm, TeacherForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import LoginForm, RegisterForm, TeacherForm, EditUserForm, EditTeacherForm
 from .models import User, Student, Teacher
 from django.urls import reverse
 from .models import Favourites
@@ -22,7 +22,6 @@ def login(request):
                 if user.password == password:
                     request.session['usuario_autenticado'] = True
                     request.session['usuario_id'] = user.user_id
-
                     if not user.profile_complete:
                         if user.user_type == 'Teacher':
                             return redirect('complete_profile')
@@ -53,7 +52,6 @@ def register(request):
         del request.session['usuario_id']
     except KeyError:
         pass
-
     if request.method == 'POST':
         form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
@@ -86,23 +84,44 @@ def favoritos(request):
 def complete_profile(request):
     user_id = request.session.get('usuario_id')
     user = User.objects.get(user_id=user_id)
-
     if request.method == 'POST':
         if user.user_type == 'Teacher':
             form = TeacherForm(request.POST)
-        
         if form.is_valid():
             if user.user_type == 'Teacher':
                 teacher = form.save(commit=False)
                 teacher.user = user
                 teacher.save()
-
             user.profile_complete = True
             user.save()
-
             return redirect('home')
     else:
         if user.user_type == 'Teacher':
             form = TeacherForm()
-
     return render(request, 'complete_profile.html', {'form': form})
+
+def edit_profile(request):
+    if not request.session.get('usuario_autenticado'):
+        return redirect('login')
+    user_id = request.session.get('usuario_id')
+    user = get_object_or_404(User, user_id=user_id)
+    if request.method == 'POST':
+        user_form = EditUserForm(request.POST, request.FILES, instance=user)
+        if user.user_type == 'Teacher':
+            teacher = get_object_or_404(Teacher, user=user)
+            teacher_form = EditTeacherForm(request.POST, instance=teacher)
+            if user_form.is_valid() and teacher_form.is_valid():
+                user_form.save()
+                teacher_form.save()
+                return redirect('home')
+        else:
+            if user_form.is_valid():
+                user_form.save()
+                return redirect('home')
+    else:
+        user_form = EditUserForm(instance=user)
+        teacher_form = None
+        if user.user_type == 'Teacher':
+            teacher = get_object_or_404(Teacher, user=user)
+            teacher_form = EditTeacherForm(instance=teacher)
+    return render(request, 'edit_profile.html', {'user_form': user_form, 'teacher_form': teacher_form})

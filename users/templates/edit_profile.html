@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Edit Profile</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+
+        {% if teacher_form %}
+            {{ teacher_form.as_p }}
+        {% endif %}
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>
