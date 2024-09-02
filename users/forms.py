@@ -10,6 +10,7 @@ class RegisterForm(forms.ModelForm):
         model = User
         fields = [
             'username',
+            'name',
             'email',
             'password',
             'user_type',
@@ -34,6 +35,7 @@ class EditUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
+            'name',
             'email',
             'profile_picture',
             'address',
