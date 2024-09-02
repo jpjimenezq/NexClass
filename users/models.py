@@ -18,8 +18,27 @@ class Mode(models.TextChoices):
     IN_PERSON = 'In-Person', 'In-Person'
     HYBRID = 'Hybrid', 'Hybrid'
 
+class Specialties(models.TextChoices):
+    MATHEMATICS = 'Mathematics', 'Mathematics'
+    SCIENCE = 'Science', 'Science'
+    LANGUAGES = 'Languages', 'Languages'
+    HISTORY = 'History', 'History'
+    GEOGRAPHY = 'Geography', 'Geography'
+    MUSIC = 'Music', 'Music'
+    ART = 'Art', 'Art'
+    PHYSICAL_EDUCATION = 'Physical Education', 'Physical Education'
+    COMPUTER_SCIENCE = 'Computer Science', 'Computer Science'
+    ECONOMICS = 'Economics', 'Economics'
+    PHILOSOPHY = 'Philosophy', 'Philosophy'
+    ENGINEERING = 'Engineering', 'Engineering'
+    PSYCHOLOGY = 'Psychology', 'Psychology'
+    LAW = 'Law', 'Law'
+    MEDICINE = 'Medicine', 'Medicine'
+    OTHER = 'Other', 'Other'
+
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
@@ -34,7 +53,10 @@ class User(models.Model):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    specialties = models.TextField()
+    specialties = models.CharField(
+        max_length=50,
+        choices=Specialties.choices
+    )
     biography = models.TextField()
     average_rating = models.FloatField(default=0.0)
     availability = models.CharField(
@@ -45,6 +67,7 @@ class Teacher(models.Model):
         max_length=50,
         choices=Mode.choices
     )
+
 
 class Class(models.Model):
     className = models.CharField(max_length=100)

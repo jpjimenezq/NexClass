@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Find your ideal teacher</h1>
+    <form action="" method="GET">
+        <label for="searchTeacher">
+            Search your teacher:
+        </label>
+        <input type="text" id="searchTeacher" name="searchTeacher" value="{{ searchTeacher }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for teacher in teachers %}
+        <div class="col">
+            <div class="card">
+                <img class="card-img-top" src="{{ teacher.user.profile_picture.url }}" alt="Profile Picture" />
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ teacher.user.name }}</h5>
+                    <p class="card-text"><small>@{{ teacher.user.username }}</small></p>
+                    <p class="card-text">{{ teacher.biography }}</p>
+                    <p class="card-text"><small>{{ teacher.average_rating }}</small></p>
+                    <p class="card-text"><small>{{ teacher.mode }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+{% endblock content %}
