@@ -71,11 +71,13 @@ class Teacher(models.Model):
 
 class Class(models.Model):
     className = models.CharField(max_length=100)
-    id_teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    description = models.TextField()
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     favorites = models.ManyToManyField(Teacher, related_name='favorites')
+    classes = models.ManyToManyField(Class, related_name='student')
 
 class Favourites(models.Model):
     estudiante = models.OneToOneField(Student, on_delete=models.CASCADE, primary_key=True)

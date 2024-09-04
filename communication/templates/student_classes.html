@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clases Estudiante</title>
+</head>
+<header>
+    <h1> Mis clases </h1>
+    <h2>{{ student.user.name }}</h2>
+</header>
+<body>
+    <h2> Clases </h2>
+    <ul>
+        {% for class in classes %}
+        <li>
+            <h3>{{ class.name }}</h3>
+            <p>{{ class.description }}</p> <!--Agregar campo a base de datos -->
+            <p>{{ class.teacher.user.name }}</p>
+            <form action="{% url 'send_invitation' student_id=student.id teacher_id=class.teacher.id %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="class_id" value="{{class.id}}">
+                <button type="submit">Enviar enlace de reunión</button>
+            </form>
+        </li>
+        {empty %}
+            <li>No hay clases disponibles.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+{% endblock content %}
