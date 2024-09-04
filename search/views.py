@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from users.models import Teacher, Specialties, Mode, Availability
 from django.db.models import Q
 
@@ -36,3 +36,7 @@ def teachers(request):
         'modes': Mode.choices,
         'availabilities': Availability.choices
     })
+
+def teachers_detail(request, teacher_id):
+    teacher = get_object_or_404(Teacher, id=teacher_id)
+    return render(request, 'teachers_detail.html', {'teacher': teacher})
