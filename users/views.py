@@ -125,3 +125,7 @@ def edit_profile(request):
             teacher = get_object_or_404(Teacher, user=user)
             teacher_form = EditTeacherForm(instance=teacher)
     return render(request, 'edit_profile.html', {'user_form': user_form, 'teacher_form': teacher_form})
+
+def student_classes(request):
+    # Aquí va la lógica para obtener las clases del estudiante
+    return render(request, 'student_classes.html')  # Renderiza el template

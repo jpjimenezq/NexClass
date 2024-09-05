@@ -16,7 +16,7 @@
     <header>
         <div class="contenedor">
             <div class="barra">
-                <a class="logo" href="home.html">
+                <a class="logo" href="{% url 'home' %}">
                     <h1 class="logo__nombre no-margin centrar-texto">n<span class='logo__color'>ext</span>c<span class="logo__color">lass</span></h1>
                 </a>
 
@@ -25,6 +25,7 @@
                     <a href="{% url 'teachers' %}" class="navegacion__enlace">Teachers</a>
                     <a href="{% url 'edit_profile' %}" class="navegacion__enlace">Perfil</a>
                     <a href="{% url 'loguout' %}" class="navegacion__enlace">Salir</a>
+                    <a href="{% url 'student_classes' %}" class="navegacion__enlace">Mis Clases</a>
                 </nav>
             </div>
         </div>
