@@ -1,89 +1,118 @@
-from django.shortcuts import render, get_object_or_404
-from users.models import Student, Teacher, Class
+from django.shortcuts import render, get_object_or_404, redirect
+from users.models import Student, Teacher, Class, User, StudentFavoritesClasses
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
-from django.core.mail import send_mail
-from django.shortcuts import redirect
-
-import os
 import datetime
-
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+import os
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from django.conf import settings
+from django.core.mail import send_mail
+from django.http import JsonResponse
+
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
+SERVICE_ACCOUNT_FILE = os.path.join(settings.BASE_DIR, 'credentials.json')
 
-def get_google_calendar_service():
-    creds = None
-    if os.path.exists('credentials.json'):
-        creds = Credentials.from_authorized_user_file('credentials.json', SCOPES)
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Guardar el token de acceso
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
 
-    service = build('calendar', 'v3', credentials=creds)
-    return service
+def create_google_meet_link(request, class_id):
+    credentials = service_account.Credentials.from_service_account_file(
+        SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
-def create_google_meet_event(teacher_email, student_email, class_name):
-    service = get_google_calendar_service()
+    service = build('calendar', 'v3', credentials=credentials)
 
+    # Definir la hora de inicio y fin de la reunión
+    start_time = datetime.datetime.utcnow().isoformat() + 'Z'  # Hora actual UTC
+    end_time = (datetime.datetime.utcnow() + datetime.timedelta(hours=1)).isoformat() + 'Z'
+
+    # Obtener la clase
+    class_instance = get_object_or_404(Class, id=class_id)
+    teacher = class_instance.teacher
+    student = Student.objects.get(user=request.user)
+
+    # Crear el evento con enlace de Meet
     event = {
-        'summary': f'Clase: {class_name}',
-        'description': 'Clase a través de Google Meet',
+        'summary': f'Clase: {class_instance.className}',
+        'description': class_instance.description,
         'start': {
-            'dateTime': (datetime.datetime.utcnow() + datetime.timedelta(minutes=5)).isoformat() + 'Z',
+            'dateTime': start_time,
             'timeZone': 'America/Bogota',
         },
         'end': {
-            'dateTime': (datetime.datetime.utcnow() + datetime.timedelta(hours=1)).isoformat() + 'Z',
+            'dateTime': end_time,
             'timeZone': 'America/Bogota',
         },
-        'attendees': [
-            {'email': teacher_email},
-            {'email': student_email},
-        ],
         'conferenceData': {
             'createRequest': {
-                'requestId': 'random-string',
-                'conferenceSolutionKey': {
-                    'type': 'hangoutsMeet'
-                },
-            },
+                'requestId': 'random-string',  # Cambiar por un identificador único
+                'conferenceSolutionKey': {'type': 'hangoutsMeet'},
+            }
         },
     }
 
-    # Crear el evento con Google Meet
-    event = service.events().insert(
-        calendarId='primary',
-        body=event,
-        conferenceDataVersion=1,
-    ).execute()
+    event = service.events().insert(calendarId='primary', body=event, conferenceDataVersion=1).execute()
 
-    return event['hangoutLink']
+    # Obtener el enlace de Google Meet
+    meet_link = event['hangoutLink']
 
-def create_meet_and_send_emails(request, class_id):
-    clase = Class.objects.get(pk=class_id)
-    student = Student.objects.get(user=request.user)
-    teacher = clase.teacher
+    teacher_email = teacher.user.email
+    student_email = student.user.email
 
-    meet_link = create_google_meet_event(teacher.user.email, student.user.email, clase.className)
-
-    # Enviar el correo con el enlace
+    # Enviar el enlace por correo a los participantes
     send_mail(
-        'Enlace de Google Meet para tu clase',
-        f'El enlace para la clase "{clase.className}" es: {meet_link}',
-        'noreply@tuapp.com',
-        [teacher.user.email, student.user.email],
+        'Enlace de videollamada Google Meet',
+        f'Aquí está el enlace para la clase: {meet_link}',
+        settings.EMAIL_HOST_USER,
+        ['afprietol2005@gmail.com', 'afprietol@eafit.edu.co'],  # Reemplazar con los correos reales
         fail_silently=False,
     )
-    return redirect('student_classes')
+
+    return JsonResponse({'meet_link': meet_link})
 
 
+def classes(request):
+    searchClass = request.GET.get('searchClass', '')
+    className = request.GET.get('className', '')
+    teacher = request.GET.get('teacher', '')
+
+    filters = Q()
+    if searchClass:
+        filters |= (
+                Q(teacher__user__username__icontains=searchClass) |
+                Q(teacher__biography__icontains=searchClass) |
+                Q(teacher__specialties__icontains=searchClass) |
+                Q(teacher__mode__icontains=searchClass) |
+                Q(teacher__availability__icontains=searchClass) |
+                Q(className__icontains=searchClass) |
+                Q(description__icontains=searchClass)
+        )
+    if className:
+        filters &= Q(className__icontains=className)
+
+    if teacher:
+        filters &= Q(teacher__user__username__icontains=teacher)
+
+    classes = Class.objects.filter(filters)
+
+    context = {
+        'classes': classes,
+        'className': Class.objects.values_list('className', flat=True).distinct(),
+        'teacher': Teacher.objects.values_list('user__username', flat=True).distinct()
+    }
+
+    return render(request, 'student_classes.html', context)
+
+
+def add_favorite(request, class_id):
+
+    student = get_object_or_404(Student, user=request.user)
+
+    selected_class = get_object_or_404(Class, id=class_id)
+
+    favorite, created = StudentFavoritesClasses.objects.get_or_create(
+        student=student,
+        student_class=selected_class
+    )
+
+    return redirect('student_classes')  # Cambiar por la URL adecuada

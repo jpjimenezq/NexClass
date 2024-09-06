@@ -1,29 +1,63 @@
 {% extends 'base.html' %}
 {% block content %}
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Clases</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-    <h1>Mis Clases</h1>
-    <ul>
+    <h1>Find your ideal class</h1>
+
+    <form method="GET" action="{% url 'student_classes' %}">
+        <div>
+            <label for="searchClass">Search: </label>
+            <input type="text" id="searchClass" name="searchClass" value="{{ request.GET.searchClass }}">
+        </div>
+
+        <div>
+            <label for="className">Class Name:</label>
+            <select id="className" name="className">
+                <option value=""></option>
+                {% for class in className %}
+                <option value="{{ class }}" {% if request.GET.className == class %}selected{% endif %}>{{ class }}</option>
+
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="teacher">Teacher:</label>
+            <select id="teacher" name="teacher">
+                <option value=""></option>
+                {% for teacher_name in teacher %}
+                    <option value="{{ teacher_name }}" {% if request.GET.teacher == teacher_name %}selected{% endif %}>{{ teacher_name }}</option>
+
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for class in classes %}
-            <li>
-                <strong>{{ class.className }}</strong><br>
-                <p>{{ class.description }}</p>
-                <p>Profesor: {{ class.teacher.user.name }}</p>
-                <form action="{% url 'create_meet' class.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Crear Llamada</button>
-                </form>
-            </li>
-        {% empty %}
-            <li>No tienes clases asignadas.</li>
+        <div class="col">
+            <div class="card">
+                <img class="card-img-top" src="{{ class.class_picture.url }}" alt="{{ class.className }}">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ class.className }}</h5>
+                    <p class="card-text">Profesor: {{ class.teacher.user.name }}</p>
+                    <p class="card-text"><small>Acerca del curso: {{ class.description }}</small></p>
+                    <a href="{% url 'create_meet' class.id %}" class="btn btn-primary">Generar Enlace de Videollamada</a>
+                    <a href="{% url 'add_favorite' class.id %}" class="btn btn-primary">Agregar a Favoritos</a>
+
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
-    <a href="{% url 'student_classes' %}">Ver mis clases</a>
+    </div>
 </body>
 </html>
 {% endblock content %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import LoginForm, RegisterForm, TeacherForm, EditUserForm, EditTeacherForm
 from .models import User, Student, Teacher
 from django.urls import reverse
-from .models import Favourites
+from .models import StudentFavoritesTeachers, StudentFavoritesClasses
 
 # Create your views here.
 def home(request):
