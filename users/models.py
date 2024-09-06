@@ -73,13 +73,16 @@ class Class(models.Model):
     className = models.CharField(max_length=100)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     description = models.TextField()
+    class_picture = models.ImageField(upload_to='class_photos/', default='class_photos/default_profile.png', null=True, blank=True)
+
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    favorites = models.ManyToManyField(Teacher, related_name='favorites')
-    classes = models.ManyToManyField(Class, related_name='student')
 
-class Favourites(models.Model):
-    estudiante = models.OneToOneField(Student, on_delete=models.CASCADE, primary_key=True)
-    clase = models.ForeignKey(Class, on_delete=models.CASCADE, null=True, blank=True)
-    profesor = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True, blank=True)
+class StudentFavoritesClasses(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+
+class StudentFavoritesTeachers(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
