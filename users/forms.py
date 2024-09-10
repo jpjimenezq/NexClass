@@ -43,3 +43,23 @@ class EditTeacherForm(forms.ModelForm):
             'availability',
             'mode'
         ]
+
+
+class StudentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = []  # Si no tienes campos adicionales en Student, puedes dejarlo vacío
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = [
+            'name',
+            'username',
+            'email',
+            'profile_picture',
+            'address'
+        ]
+        widgets = {
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }

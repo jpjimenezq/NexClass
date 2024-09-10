@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm
+from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm, StudentUpdateForm, UserUpdateForm
 from .models import User, Student, Teacher
 from .models import UserType
 from django.urls import reverse
@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required
 def home(request):
     user = request.user
     return render(request, 'home.html', {'user' : user})
@@ -95,6 +96,7 @@ def logout_view(request):
     return redirect('login')
 
 
+@login_required
 def student_classes(request):
     if not request.session.get('usuario_autenticado'):
         return redirect('login')
@@ -102,3 +104,26 @@ def student_classes(request):
     student = get_object_or_404(Student, user=user)
     # Aquí va la lógica para obtener las clases del estudiante
     return render(request, 'student_classes.html', {'user': user})  # Renderiza el template
+
+
+@login_required
+def modificar_perfil(request):
+    user = request.user
+    student = Student.objects.get(user=user)  # Asegúrate de que solo los estudiantes puedan acceder
+
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
+        student_form = StudentUpdateForm(request.POST, instance=student)
+
+        if user_form.is_valid() and student_form.is_valid():
+            user_form.save()
+            student_form.save()
+            return redirect('home')
+    else:
+        user_form = UserUpdateForm(instance=user)
+        student_form = StudentUpdateForm(instance=student)
+
+    return render(request, 'edit_profile.html', {
+        'user_form': user_form,
+        'student_form': student_form
+    })

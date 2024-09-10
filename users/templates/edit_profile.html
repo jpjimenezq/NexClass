@@ -1,25 +1,15 @@
 {% extends 'base.html' %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Edit Profile</h1>
 
-    <form method="POST" enctype="multipart/form-data">
+{% block content %}
+<div class="container">
+    <h2>Modificar Perfil</h2>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <h2>Actualizar Información del Usuario</h2>
         {{ user_form.as_p }}
 
-        {% if teacher_form %}
-            {{ teacher_form.as_p }}
-        {% endif %}
-
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+        <button type="submit">Guardar cambios</button>
     </form>
-</body>
-</html>
+</div>
 {% endblock content %}
