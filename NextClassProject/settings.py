@@ -145,7 +145,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 AUTH_USER_MODEL = 'users.User'
 
+LOGIN_URL = '/login/'
 
-
-
+LOGIN_REDIRECT_URL = '/home/'
 
