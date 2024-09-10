@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favoritos</title>
+</head>
+<body>
+    <div>
+        <nav>
+            <a href="{% url 'home' %}">home</a>
+        </nav>
+    </div>
+   <h1>CLASES</h1>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for favorite_class in student_favorites_classes %}
+        <div class="col">
+            <div class="card">
+                <img class="card-img-top" src="{{ favorite_class.student_class.class_picture.url }}" alt="{{ favorite_class.student_class.className }}">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ favorite_class.student_class.className }}</h5>
+                    <p class="card-text">Profesor: {{ favorite_class.student_class.teacher.user.name }}</p>
+                    <p class="card-text"><small>Acerca del curso: {{ favorite_class.student_class.description }}</small></p>
+                    <form action="{% url 'generate_meet_link' favorite_class.student_class.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Generar enlace de Google Meet</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+<h1>TEACHERS</h1>
+   <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for favorite_teacher in student_favorites_teacher %}
+        <div class="col">
+            <div class="card">
+                <img class="card-img-top" src="{{ favorite_teacher.teacher.user.profile_picture.url }}" alt="{{ favorite_teacher.teacher.user.username }}">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ favorite_teacher.teacher.user.username }}</h5>
+                    <p class="card-text">{{ favorite_teacher.teacher.biography }}</p>
+                    <p class="card-text"><small>Rating: {{ favorite_teacher.teacher.average_rating }}</small></p>
+                    <p class="card-text"><small>Modalidad: {{ favorite_teacher.teacher.get_mode_display }}</small></p>
+                    <p class="card-text"><small>Disponibilidad: {{ favorite_teacher.teacher.get_availability_display }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+{% endblock content %}

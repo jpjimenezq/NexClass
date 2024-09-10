@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
+
 # Create your models here.
 # Opciones de tipo de usuario
 class UserType(models.TextChoices):
@@ -36,7 +39,24 @@ class Specialties(models.TextChoices):
     MEDICINE = 'Medicine', 'Medicine'
     OTHER = 'Other', 'Other'
 
-class User(models.Model):
+class UserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(username, email, password, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     username = models.CharField(max_length=150, unique=True)
@@ -47,9 +67,21 @@ class User(models.Model):
         choices=UserType.choices
     )
     registration_date = models.DateTimeField(auto_now_add=True)
-    profile_picture = models.ImageField(upload_to='profile_photos/', default='profile_photos/default_profile.png', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_photos/', default='profile_photos/default_profile.png',
+                                        null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     profile_complete = models.BooleanField(default=False)
+
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    objects = UserManager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email', 'name']
+
+    def __str__(self):
+        return self.username
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

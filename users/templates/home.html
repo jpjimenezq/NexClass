@@ -23,14 +23,12 @@
                 <nav class="navegacion" >
                     <a href="{%  url 'favoritos' %}" class="navegacion__enlace">Favoritos</a>
                     <a href="{% url 'teachers' %}" class="navegacion__enlace">Teachers</a>
-                    <a href="{% url 'edit_profile' %}" class="navegacion__enlace">Perfil</a>
-                    <a href="{% url 'loguout' %}" class="navegacion__enlace">Salir</a>
                     <a href="{% url 'student_classes' %}" class="navegacion__enlace">Mis Clases</a>
                 </nav>
             </div>
         </div>
     </header>
-    <h1>Home here!!!</h1>
+    <h1>{{user.username}}</h1>
 </body>
 </html>
 {% endblock content %}
