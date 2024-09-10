@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Teacher Detail</h1>
-    <h2>{{ teacher.user.username }}</h1>
+    <h2>{{ teacher.user.username }}</h2>
     <img src="{{ teacher.user.profile_picture.url }}" alt="{{ teacher.user.username }}">
     <p><strong>Name:</strong> {{ teacher.user.name }}</p>
     <p><strong>Biography:</strong> {{ teacher.biography }}</p>
@@ -20,6 +20,8 @@
     <p><strong>Location:</strong> {{ teacher.user.address }}</p>
     <p><strong>Registration date:</strong> {{ teacher.user.registration_date|date:"Y-m-d" }}</p>
     <a  class="btn btn-primary">Contact me</a>
+    <a href="{% url 'add_favorite_teacher' teacher.id %}" class="btn btn-primary">Agregar a Favoritos</a>
+
 </body>
 </html>
 {% endblock content %}

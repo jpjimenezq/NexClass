@@ -8,8 +8,13 @@
     <title>Document</title>
 </head>
 <body>
+    <div>
+        <nav>
+            <a href="{% url 'home' %}">home</a>
+        </nav>
+    </div>
     <h1>Find your ideal class</h1>
-
+    <h1>{{user.username }}</h1>
     <form method="GET" action="{% url 'student_classes' %}">
         <div>
             <label for="searchClass">Search: </label>
@@ -50,8 +55,11 @@
                     <h5 class="card-title fw-bold">{{ class.className }}</h5>
                     <p class="card-text">Profesor: {{ class.teacher.user.name }}</p>
                     <p class="card-text"><small>Acerca del curso: {{ class.description }}</small></p>
-                    <a href="{% url 'create_meet' class.id %}" class="btn btn-primary">Generar Enlace de Videollamada</a>
-                    <a href="{% url 'add_favorite' class.id %}" class="btn btn-primary">Agregar a Favoritos</a>
+                    <a href="{% url 'add_favorite_class' class.id %}" class="btn btn-primary">Agregar a Favoritos</a>
+                    <form action="{% url 'generate_meet_link' class.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Generar enlace de Google Meet</button>
+                    </form>
 
                 </div>
             </div>

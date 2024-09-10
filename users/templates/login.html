@@ -9,12 +9,13 @@
 </head>
 <body>
     <h1>Login noww</h1>
-    <form method="post" enctype="multipart/form-data">
+        <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Login" class="btn btn-primary">
-    </form>
-    <a href="{% url 'register' %}" class="navegacion__enlace">I don't have an account</a>
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <button type="submit">Login</button>
+        </form>
+    <a href="{% url 'signup' %}" class="navegacion__enlace">I don't have an account</a>
 </body>
 </html>
 {% endblock content %}

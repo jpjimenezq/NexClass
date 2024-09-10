@@ -10,7 +10,7 @@
     <p></p>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ teacher_form.as_p }}
         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save</button>
     </form>
 </body>

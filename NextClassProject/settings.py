@@ -142,3 +142,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'nexclassapp@gmail.com'  # Reemplaza con tu correo de Gmail
 EMAIL_HOST_PASSWORD = 'izqf rpcp nxyl mkla'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'users.User'
+
+
+
+
+

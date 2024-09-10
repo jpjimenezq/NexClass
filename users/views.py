@@ -1,131 +1,104 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import LoginForm, RegisterForm, TeacherForm, EditUserForm, EditTeacherForm
+from django.contrib.auth import login, authenticate, logout
+
+from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm
 from .models import User, Student, Teacher
+from .models import UserType
 from django.urls import reverse
 from .models import StudentFavoritesTeachers, StudentFavoritesClasses
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    user = request.user
+    return render(request, 'home.html', {'user' : user})
+
 
 def landing(request):
     return render(request, 'landing.html')
 
-def login(request):
+
+def signup_view(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            try:
-                user = User.objects.get(username=username)
-                if user.password == password:
-                    request.session['usuario_autenticado'] = True
-                    request.session['usuario_id'] = user.user_id
-                    if not user.profile_complete:
-                        if user.user_type == 'Teacher':
-                            return redirect('complete_profile')
-                        elif user.user_type == 'Student':
-                            Student.objects.get_or_create(user=user)
-                            user.profile_complete = True
-                            user.save()
-                    return redirect('home')
-                else:
-                    form.add_error(None, 'Access denied')
-            except User.DoesNotExist:
-                form.add_error(None, 'Access denied, user not found')
-    else:
-        form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+        user_form = CustomUserCreationForm(request.POST)
+        teacher_form = None
+        student_form = None
 
-def loguout(request):
-    try:
-        del request.session['usuario_autenticado']
-        del request.session['usuario_id']
-    except KeyError:
-        pass
-    return redirect('login')
+        if user_form.is_valid():
+            user = user_form.save()
 
-def register(request):
-    try:
-        del request.session['usuario_autenticado']
-        del request.session['usuario_id']
-    except KeyError:
-        pass
-    if request.method == 'POST':
-        form = RegisterForm(request.POST, request.FILES)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            if User.objects.filter(username=username).exists():
-                form.add_error('username', 'This username is already in use')
-            else:
-                form.save()
-                user = User.objects.get(username=username)
-                request.session['usuario_autenticado'] = True
-                request.session['usuario_id'] = user.user_id
-                if not user.profile_complete:
-                    if user.user_type == 'Teacher':
-                        return redirect('complete_profile')
-                    elif user.user_type == 'Student':
-                        Student.objects.get_or_create(user=user)
-                        user.profile_complete = True
-                        user.save()
-                return redirect('home')
-        else:
-            form.add_error(None, "Error")
-    else:
-        form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+            # Si el tipo de usuario es Teacher, redirigir a completar el perfil
+            if user.user_type == UserType.TEACHER:
+                login(request, user)  # Autenticamos al usuario antes de redirigirlo
+                return redirect('complete_profile')
 
-def favoritos(request):
-    favourites = Favourites.objects.all()
-    return render(request, 'favoritos.html', {'favourites':favourites})
 
-def complete_profile(request):
-    user_id = request.session.get('usuario_id')
-    user = User.objects.get(user_id=user_id)
-    if request.method == 'POST':
-        if user.user_type == 'Teacher':
-            form = TeacherForm(request.POST)
-        if form.is_valid():
-            if user.user_type == 'Teacher':
-                teacher = form.save(commit=False)
-                teacher.user = user
-                teacher.save()
-            user.profile_complete = True
-            user.save()
+            elif user.user_type == UserType.STUDENT:
+                student_form = StudentCreationForm(request.POST)
+                if student_form.is_valid():
+                    student = student_form.save(commit=False)
+                    student.user = user
+                    student.save()
+
+
+            login(request, user)
             return redirect('home')
     else:
-        if user.user_type == 'Teacher':
-            form = TeacherForm()
-    return render(request, 'complete_profile.html', {'form': form})
+        user_form = CustomUserCreationForm()
+        teacher_form = TeacherCreationForm()
+        student_form = StudentCreationForm()
+    return render(request, 'register.html', {
+        'user_form': user_form,
+        'teacher_form': teacher_form,
+        'student_form': student_form,
+    })
 
-def edit_profile(request):
-    if not request.session.get('usuario_autenticado'):
-        return redirect('login')
-    user_id = request.session.get('usuario_id')
-    user = get_object_or_404(User, user_id=user_id)
+
+@login_required()
+def complete_profile_view(request):
+    user = request.user
+
+    if not user.is_authenticated or user.user_type != UserType.TEACHER:
+        return redirect('login')  # Redirigir si no es un profesor o no está autenticado
+
     if request.method == 'POST':
-        user_form = EditUserForm(request.POST, request.FILES, instance=user)
-        if user.user_type == 'Teacher':
-            teacher = get_object_or_404(Teacher, user=user)
-            teacher_form = EditTeacherForm(request.POST, instance=teacher)
-            if user_form.is_valid() and teacher_form.is_valid():
-                user_form.save()
-                teacher_form.save()
-                return redirect('home')
-        else:
-            if user_form.is_valid():
-                user_form.save()
-                return redirect('home')
+        teacher_form = TeacherCreationForm(request.POST)
+        if teacher_form.is_valid():
+            teacher = teacher_form.save(commit=False)
+            teacher.user = user  # Asociamos el usuario con el perfil de Teacher
+            teacher.save()
+            return redirect('home')
     else:
-        user_form = EditUserForm(instance=user)
-        teacher_form = None
-        if user.user_type == 'Teacher':
-            teacher = get_object_or_404(Teacher, user=user)
-            teacher_form = EditTeacherForm(instance=teacher)
-    return render(request, 'edit_profile.html', {'user_form': user_form, 'teacher_form': teacher_form})
+        teacher_form = TeacherCreationForm()
+
+    return render(request, 'complete_profile.html', {
+        'teacher_form': teacher_form,
+    })
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid credentials'})
+    return render(request, 'login.html')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 
 def student_classes(request):
+    if not request.session.get('usuario_autenticado'):
+        return redirect('login')
+    user = request.user  # Obtenemos al usuario autenticado
+    student = get_object_or_404(Student, user=user)
     # Aquí va la lógica para obtener las clases del estudiante
-    return render(request, 'student_classes.html')  # Renderiza el template
+    return render(request, 'student_classes.html', {'user': user})  # Renderiza el template

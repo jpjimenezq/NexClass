@@ -4,11 +4,10 @@ from . import views
 urlpatterns = [
     path('', views.landing, name='landing'),
     path('home/', views.home, name='home'),
-    path('login/', views.login, name='login'),
-    path('register/', views.register, name='register'),
-    path('loguout/', views.loguout, name='loguout'),
-    path('favoritos/', views.favoritos, name='favoritos'),
-    path('complete_profile/', views.complete_profile, name='complete_profile'),
-    path('edit_profile/', views.edit_profile, name='edit_profile'),
+    path('signup/', views.signup_view, name='signup'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
     path('student/classes/', views.student_classes, name='student_classes'),  # La URL con el name
+    path('complete_profile/', views.complete_profile_view, name='complete_profile'),
+
 ]

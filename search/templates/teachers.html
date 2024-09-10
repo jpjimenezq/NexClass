@@ -8,6 +8,13 @@
     <title>Document</title>
 </head>
 <body>
+
+    <div>
+        <nav>
+            <a href="{% url 'home' %}">home</a>
+        </nav>
+    </div>
+
     <h1>Find your ideal teacher</h1>
 
     <form method="GET" action="{% url 'teachers' %}">
@@ -65,6 +72,7 @@
                     <p class="card-text"><small>Rating: {{ teacher.average_rating }}</small></p>
                     <p class="card-text"><small>Modalidad: {{ teacher.get_mode_display }}</small></p>
                     <p class="card-text"><small>Disponibilidad: {{ teacher.get_availability_display }}</small></p>
+                    <a href="{% url 'add_favorite_teacher' teacher.id %}" class="btn btn-primary">Agregar a Favoritos</a>
                     <a href="{% url 'teachers_detail' teacher.id %}" class="btn btn-primary">Learn more</a>
                 </div>
             </div>

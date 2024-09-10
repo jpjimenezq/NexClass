@@ -10,11 +10,16 @@
 <body>
     <h1>Register now</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Register" class="btn btn-primary">
-    </form>
+    <form method="POST">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {% if user_form.cleaned_data.user_type == 'Teacher' %}
+        {{ teacher_form.as_p }}
+    {% elif user_form.cleaned_data.user_type == 'Student' %}
+        {{ student_form.as_p }}
+    {% endif %}
+    <button type="submit">Sign Up</button>
+</form>
     <a href="{% url 'login' %}" class="navegacion__enlace">I already have an account</a>
 </body>
 </html>

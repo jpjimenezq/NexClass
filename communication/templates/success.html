@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase Confirmada</title>
+</head>
+<body>
+    <h1>¡Clase Programada Exitosamente!</h1>
+    <p>Tu enlace para la clase es: <a href="{{ meet_link }}" target="_blank">{{ meet_link }}</a></p>
+
+    <!-- Botón para ir a las clases -->
+    <a href="{% url 'student_classes' %}" class="button">Volver a las Clases</a>
+</body>
+</html>
