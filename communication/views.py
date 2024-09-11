@@ -101,7 +101,7 @@ def generate_meet_link(request, class_id):
     )
     return render(request, 'success.html', {'meet_link': meet_link})
 
-
+@login_required()
 def classes(request):
     searchClass = request.GET.get('searchClass', '')
     className = request.GET.get('className', '')

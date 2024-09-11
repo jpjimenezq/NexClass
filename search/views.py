@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from users.models import Teacher, Specialties, Mode, Availability
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required()
 def teachers(request):
     searchTeacher = request.GET.get('searchTeacher', '')
     specialties_filter = request.GET.get('specialties', '')
@@ -37,6 +39,7 @@ def teachers(request):
         'availabilities': Availability.choices
     })
 
+@login_required()
 def teachers_detail(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     return render(request, 'teachers_detail.html', {'teacher': teacher})
