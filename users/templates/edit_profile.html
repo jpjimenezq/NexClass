@@ -3,13 +3,17 @@
 {% block content %}
 <div class="container">
     <h2>Modificar Perfil</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
 
-        <h2>Actualizar Información del Usuario</h2>
-        {{ user_form.as_p }}
+    {% if student_form %}
+        {{ student_form.as_p }}
+    {% elif teacher_form %}
+        {{ teacher_form.as_p }}
+    {% endif %}
 
-        <button type="submit">Guardar cambios</button>
-    </form>
+    <button type="submit">Guardar cambios</button>
+</form>
 </div>
 {% endblock content %}

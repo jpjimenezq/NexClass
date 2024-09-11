@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 
-from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm, StudentUpdateForm, UserUpdateForm
+from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm, StudentUpdateForm, UserUpdateForm, EditTeacherForm
 from .models import User, Student, Teacher
 from .models import UserType
 from django.urls import reverse
@@ -109,21 +109,46 @@ def student_classes(request):
 @login_required
 def modificar_perfil(request):
     user = request.user
-    student = Student.objects.get(user=user)  # Asegúrate de que solo los estudiantes puedan acceder
 
-    if request.method == 'POST':
-        user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
-        student_form = StudentUpdateForm(request.POST, instance=student)
+    # Verificar si el usuario es un estudiante
+    if hasattr(user, 'student'):
+        student = user.student  # Usamos la relación OneToOneField
+        if request.method == 'POST':
+            user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
+            student_form = StudentUpdateForm(request.POST, instance=student)
 
-        if user_form.is_valid() and student_form.is_valid():
-            user_form.save()
-            student_form.save()
-            return redirect('home')
+            if user_form.is_valid() and student_form.is_valid():
+                user_form.save()
+                student_form.save()
+                return redirect('home')
+        else:
+            user_form = UserUpdateForm(instance=user)
+            student_form = StudentUpdateForm(instance=student)
+
+        return render(request, 'edit_profile.html', {
+            'user_form': user_form,
+            'student_form': student_form
+        })
+
+    # Verificar si el usuario es un profesor
+    elif hasattr(user, 'teacher'):
+        teacher = user.teacher  # Usamos la relación OneToOneField
+        if request.method == 'POST':
+            user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
+            teacher_form = EditTeacherForm(request.POST, instance=teacher)
+
+            if user_form.is_valid() and teacher_form.is_valid():
+                user_form.save()
+                teacher_form.save()
+                return redirect('home')
+        else:
+            user_form = UserUpdateForm(instance=user)
+            teacher_form = EditTeacherForm(instance=teacher)
+
+        return render(request, 'edit_profile.html', {
+            'user_form': user_form,
+            'teacher_form': teacher_form
+        })
+
     else:
-        user_form = UserUpdateForm(instance=user)
-        student_form = StudentUpdateForm(instance=student)
-
-    return render(request, 'edit_profile.html', {
-        'user_form': user_form,
-        'student_form': student_form
-    })
+        return redirect('home')  # Redirigir si no es ni estudiante ni profesor
