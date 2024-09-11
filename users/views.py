@@ -69,7 +69,7 @@ def complete_profile_view(request):
             teacher = teacher_form.save(commit=False)
             teacher.user = user  # Asociamos el usuario con el perfil de Teacher
             teacher.save()
-            return redirect('home')
+            return redirect('home_teacher')
     else:
         teacher_form = TeacherCreationForm()
 
@@ -83,11 +83,19 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect('home')
+
+            # Redirigir dependiendo del tipo de usuario
+            if hasattr(user, 'student'):
+                return redirect('home')  # Si es estudiante, redirige a home.html
+            elif hasattr(user, 'teacher'):
+                return redirect('home_teacher')  # Si es profesor, redirige a otro template
+
         else:
             return render(request, 'login.html', {'error': 'Invalid credentials'})
+
     return render(request, 'login.html')
 
 
@@ -152,3 +160,7 @@ def modificar_perfil(request):
 
     else:
         return redirect('home')  # Redirigir si no es ni estudiante ni profesor
+
+@login_required
+def home_teacher(request):
+    return render(request, 'home_teacher.html')
