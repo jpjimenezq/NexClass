@@ -1,16 +1,130 @@
-{% extends 'navbar.html' %}
-{% block content %}
+{% extends 'navbarLanding.html' %} {% block content %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-</head>
-<body>
-    <h1>Bienvenidos a NexClass</h1>
-    <p><a href="/login">Iniciar Sesion</a></p>
-    <p><a href="/signup">Registrarse</a></p>
-</body>
+  </head>
+  <main class="flex-grow-1">
+    <section class="w-100 py-5 py-md-5 py-lg-5 py-xl-5 mb-5">
+      <div class="container px-4 px-md-6">
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="d-flex flex-column justify-content-center mb-4">
+              <h1 class="text-3xl fw-bold sm:text-5xl xl:text-6xl">
+                Unlock Your Learning Potential
+              </h1>
+              <p class="max-w-600 text_custom">
+                Our platform connects you with experienced and qualified
+                teachers who can help you achieve your educational goals.
+              </p>
+            </div>
+            <div class="d-flex flex-column gap-2 gap-sm-0 flex-sm-row">
+              <a href="#" class="text-decoration-none button-custom-two"> Find Teachers </a>
+              <a href="#" class="text-decoration-none button-custom">Become a Teacher</a>
+            </div>
+          </div>
+          <div class="col-lg-4 d-none d-lg-block">
+            <img
+              src="{% static 'images/LogoConFondo.png' %}"
+              alt="Logo of NexClass"
+              class="img-fluid rounded"
+              style="object-fit: cover; aspect-ratio: 1/1"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 py-md-5 py-lg-5 background-color-custom">
+      <div class="container px-4 px-md-6 text-center">
+        <div class="mb-4">
+          <div class="badge bg-secondary px-3 py-1">Personalized Learning</div>
+          <h2 class="text-3xl fw-bold sm:text-5xl">Find the Perfect Teacher</h2>
+          <p class="max-w-900 mx-auto text_custom">
+            Our advanced search filters allow you to find teachers who
+            specialize in the subjects and grade levels you need, with options
+            for online, local, or international instruction.
+          </p>
+        </div>
+        <div class="row g-4 py-4">
+          <div class="col-lg-4">
+            <h3 class="fw-bold">Availabilitys</h3>
+            <div>
+              <p>Full time</p>
+              <p>Part time</p>
+              <p>Flexible</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <h3 class="fw-bold">Specialties</h3>
+            <div>
+              <p>Mathematics</p>
+              <p>Science</p>
+              <p>Languages</p>
+              <p>Music</p>
+              <p>Others</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <h3 class="fw-bold">Modes</h3>
+            <div>
+              <p>Online</p>
+              <p>In person</p>
+              <p>Hybrid</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-5 py-md-5 py-lg-5">
+      <div class="container px-4 px-md-6 text-center">
+        <div class="mb-4">
+          <div class="badge bg-secondary px-3 py-1">
+            Personalized Assistance
+          </div>
+          <h2 class="text-3xl fw-bold sm:text-5xl">
+            Let Our AI Tutor Help You
+          </h2>
+          <p class="max-w-900 mx-auto text_custom">
+            Our intelligent AI tutor is here to guide you through the process of
+            finding the perfect teacher and providing personalized learning
+            recommendations.
+          </p>
+        </div>
+        <div class="row g-4 py-4">
+          <div class="col">
+            <textarea
+              class="form-control mb-2 background-color-custom-two"
+              placeholder="Type your question here..."
+              rows="3"
+            ></textarea>
+            <button class="button-custom-two">Get Recommendations</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="background-color-custom py-3">
+    <div class="container d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <a href="#" class="d-flex align-items-center">
+          <i class="bi bi-pencil-fill"></i>
+          <!-- Placeholder for the logo -->
+        </a>
+        <span class="text_custom">&copy; 2024 NexClass</span>
+      </div>
+      <nav class="d-flex gap-3">
+        <a href="#" class="text_custom">Privacy Policy</a>
+        <a href="#" class="text_custom">Terms of Service</a>
+        <a href="#" class="text_custom">Contact Us</a>
+      </nav>
+    </div>
+  </footer>
 </html>
 {% endblock content %}
