@@ -1,5 +1,4 @@
-
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html>
@@ -7,11 +6,6 @@
     <title>Favoritos</title>
 </head>
 <body>
-    <div>
-        <nav>
-            <a href="{% url 'home' %}">home</a>
-        </nav>
-    </div>
    <h1>CLASES</h1>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for favorite_class in student_favorites_classes %}

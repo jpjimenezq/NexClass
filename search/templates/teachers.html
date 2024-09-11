@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,13 +8,6 @@
     <title>Document</title>
 </head>
 <body>
-
-    <div>
-        <nav>
-            <a href="{% url 'home' %}">home</a>
-        </nav>
-    </div>
-
     <h1>Find your ideal teacher</h1>
 
     <form method="GET" action="{% url 'teachers' %}">
