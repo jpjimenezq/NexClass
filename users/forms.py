@@ -43,6 +43,12 @@ class EditTeacherForm(forms.ModelForm):
             'availability',
             'mode'
         ]
+        widgets = {
+            'specialties': forms.Select(attrs={'class': 'form-control'}),
+            'biography': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Biografía'}),
+            'availability': forms.Select(attrs={'class': 'form-control'}),
+            'mode': forms.Select(attrs={'class': 'form-control'}),
+        }
 
 
 class StudentUpdateForm(forms.ModelForm):
@@ -61,5 +67,9 @@ class UserUpdateForm(forms.ModelForm):
             'address'
         ]
         widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre completo'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de usuario'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo electrónico'}),
             'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
         }
