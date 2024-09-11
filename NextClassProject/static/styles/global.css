@@ -1,0 +1,82 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Mono", monospace;
+  --font-monospace: "Space Mono";
+  color: #cdfffe;
+}
+body {
+  font-family: "Space Mono", monospace;
+  --font-monospace: "Space Mono";
+  background-color: #010f1e;
+  color: #cdfffe;
+}
+
+.text_custom {
+  color: #cdfffe;
+}
+
+.background-color-custom {
+  background-color: #275972;
+}
+
+.background-color-custom-two {
+  background-color: #010f1e;
+  color: #cdfffe;
+}
+
+.background-color-custom-two:focus {
+  background-color: #010f1e;
+  color: #cdfffe;
+}
+
+.background-color-custom-two::placeholder {
+  color: #cdfffe;
+}
+
+/* Estilo general para los botones cuadrados */
+.button-custom {
+  background-color: #010f1e; /* Color de fondo */
+  color: #cdfffe; /* Color del texto */
+  border: 0.5px solid #cdfffe; /* Color del borde */
+  border-radius: 0; /* Bordes cuadrados (sin redondear) */
+  padding: 12px 24px; /* Ajusta el espaciado interno */
+  text-align: center; /* Alinea el texto en el centro */
+  display: inline-block; /* Asegura que el botón se alinee correctamente */
+  font-size: 16px; /* Tamaño de fuente */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  transition: background-color 0.3s, color 0.3s; /* Transición suave para el cambio de color */
+}
+
+/* Estilo para el botón cuando está en foco (seleccionado) */
+.button-custom:focus {
+  outline: none; /* Elimina el borde de enfoque predeterminado del navegador */
+  background-color: #010f1e; /* Color de fondo cuando está en foco */
+  color: #cdfffe; /* Color del texto cuando está en foco */
+}
+
+.button-custom-two {
+  background-color: #275972; /* Color de fondo */
+  color: #cdfffe; /* Color del texto */
+  border: 0.5px solid #cdfffe; /* Color del borde */
+  border-radius: 0; /* Bordes cuadrados (sin redondear) */
+  padding: 12px 24px; /* Ajusta el espaciado interno */
+  text-align: center; /* Alinea el texto en el centro */
+  display: inline-block; /* Asegura que el botón se alinee correctamente */
+  font-size: 16px; /* Tamaño de fuente */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  transition: background-color 0.3s, color 0.3s; /* Transición suave para el cambio de color */
+}
+
+.button-custom:focus {
+  outline: none; /* Elimina el borde de enfoque predeterminado del navegador */
+  background-color: #275972; /* Color de fondo cuando está en foco */
+  color: #cdfffe; /* Color del texto cuando está en foco */
+}
+
+a {
+  gap: 2px;
+}
