@@ -1,0 +1,7 @@
+
+<h2>Rate {{ teacher.user.username }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Rating</button>
+</form>

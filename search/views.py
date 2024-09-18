@@ -27,19 +27,35 @@ def teachers(request):
         filters &= Q(mode=mode_filter)
     if availability_filter:
         filters &= Q(availability=availability_filter)
-    if rating_filter:
-        filters &= Q(average_rating__gte=float(rating_filter))
 
+    
     teachers = Teacher.objects.filter(filters)
 
+    
+    filtered_teachers = []
+    for teacher in teachers:
+        avg_rating = teacher.average_rating()
+        if rating_filter:
+            if avg_rating >= float(rating_filter):
+                filtered_teachers.append(teacher)
+        else:
+            filtered_teachers.append(teacher)
+
     return render(request, 'teachers.html', {
-        'teachers': teachers,
+        'teachers': filtered_teachers,
         'specialties': Specialties.choices,
         'modes': Mode.choices,
         'availabilities': Availability.choices
     })
 
+
+
 @login_required()
 def teachers_detail(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
-    return render(request, 'teachers_detail.html', {'teacher': teacher})
+    ratings = teacher.ratings.all()
+    return render(request, 'teachers_detail.html', {
+        'teacher': teacher,
+        'ratings': ratings,
+        'average_rating': teacher.average_rating(),
+    })

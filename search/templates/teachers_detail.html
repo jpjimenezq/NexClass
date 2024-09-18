@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teacher Detail</title>
 </head>
 <body>
     <h1>Teacher Detail</h1>
@@ -13,14 +13,30 @@
     <img src="{{ teacher.user.profile_picture.url }}" alt="{{ teacher.user.username }}">
     <p><strong>Name:</strong> {{ teacher.user.name }}</p>
     <p><strong>Biography:</strong> {{ teacher.biography }}</p>
-    <p><strong>Rating:</strong> {{ teacher.average_rating }}</p>
+
+   
+    <p><strong>Average Rating:</strong> {{ average_rating }}</p>
+
     <p><strong>Specialties:</strong> {{ teacher.get_specialties_display }}</p>
     <p><strong>Mode:</strong> {{ teacher.get_mode_display }}</p>
     <p><strong>Availability:</strong> {{ teacher.get_availability_display }}</p>
     <p><strong>Location:</strong> {{ teacher.user.address }}</p>
     <p><strong>Registration date:</strong> {{ teacher.user.registration_date|date:"Y-m-d" }}</p>
-    <a  class="btn btn-primary">Contact me</a>
+    <a class="btn btn-primary">Contact me</a>
     <a href="{% url 'add_favorite_teacher' teacher.id %}" class="btn btn-primary">Agregar a Favoritos</a>
+
+    <p></p>
+    <h4>Student Ratings</h4>
+    <ul>
+        {% for rating in ratings %}
+            <li><strong>{{ rating.student.user.username }}</strong>: {{ rating.rating }} - {{ rating.comment }}</li>
+        {% empty %}
+            <p>No ratings yet.</p>
+        {% endfor %}
+    </ul>
+
+    
+    <a href="{% url 'rate_teacher' teacher.id %}" class="btn btn-primary">Rate this Teacher</a>
 
 </body>
 </html>
