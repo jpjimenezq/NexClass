@@ -100,6 +100,11 @@ class Teacher(models.Model):
         max_length=50,
         choices=Mode.choices
     )
+    def average_rating(self):
+        ratings = self.ratings.all()
+        if ratings:
+            return sum([rating.rating for rating in ratings]) / ratings.count()
+        return 0
 
 
 
