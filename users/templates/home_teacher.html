@@ -1,8 +1,7 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'navbarTeacher.html' %} {% block content %}{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,18 +10,7 @@
     <title>Home</title>
 </head>
 <body>
-    <header>
-        <div>
-            <div>
-                <a href="{% url 'home_teacher' %}">
-                    <h1>NexClass</h1>
-                </a>
-                <nav class="navegacion" >
-                    <a href="{% url 'edit_profile' %}">Modificar Perfil</a>
-                </nav>
-            </div>
-        </div>
-    </header>
+
     <h1>{{user.username}}</h1>
 </body>
 </html>

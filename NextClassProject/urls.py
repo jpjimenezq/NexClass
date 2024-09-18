@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('search.urls')),
     path('', include('communication.urls')),
     path('', include('favorites.urls')),
+    path('', include('classCreation_Schedules.urls')),
 ]
 
 if settings.DEBUG:

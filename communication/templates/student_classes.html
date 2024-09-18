@@ -54,6 +54,9 @@
                     <form action="{% url 'generate_meet_link' class.id %}" method="post">
                         {% csrf_token %}
                         <button type="submit">Generar enlace de Google Meet</button>
+
+                    <a href="{% url 'class_detail' class.id %}" class="btn btn-info">View Details</a>
+
                     </form>
 
                 </div>

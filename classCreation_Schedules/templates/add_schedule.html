@@ -1,0 +1,8 @@
+<h1>Add Schedule for {{ class_obj.className }}</h1>
+<form method="POST">
+    <a href="{%  url 'home_teacher' %}">HOME</a>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Schedule</button>
+
+</form>

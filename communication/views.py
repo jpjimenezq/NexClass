@@ -101,6 +101,7 @@ def generate_meet_link(request, class_id):
     )
     return render(request, 'success.html', {'meet_link': meet_link})
 
+
 @login_required()
 def classes(request):
     searchClass = request.GET.get('searchClass', '')
@@ -133,6 +134,11 @@ def classes(request):
     }
 
     return render(request, 'student_classes.html', context)
+
+def class_detail(request, class_id):
+    class_obj = get_object_or_404(Class, id=class_id)
+    schedules = class_obj.schedules.all()  # Obtener los horarios asociados a esta clase
+    return render(request, 'class_detail.html', {'class_obj': class_obj, 'schedules': schedules})
 
 
 
