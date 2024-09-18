@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from classCreation_Schedules.models import Class
 
 # Create your models here.
 # Opciones de tipo de usuario
@@ -101,19 +102,16 @@ class Teacher(models.Model):
     )
 
 
-class Class(models.Model):
-    className = models.CharField(max_length=100)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
-    description = models.TextField()
-    class_picture = models.ImageField(upload_to='class_photos/', default='class_photos/default_profile.png', null=True, blank=True)
 
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+
 class StudentFavoritesClasses(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     student_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+
 
 class StudentFavoritesTeachers(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

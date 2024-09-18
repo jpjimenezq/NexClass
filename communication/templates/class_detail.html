@@ -1,0 +1,32 @@
+{% extends 'navbar.html' %}{% block content %}{%  load static  %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Clase</title>
+</head>
+<body>
+<!-- class_detail.html -->
+<h1>{{ class_obj.className }}</h1>
+<p><strong>Teacher:</strong> {{ class_obj.teacher.user.name }}</p>
+<p><strong>Description:</strong> {{ class_obj.description }}</p>
+<img src="{{ class_obj.class_picture.url }}" alt="{{ class_obj.className }}" />
+
+<!-- Menú desplegable para seleccionar un horario -->
+<label for="schedule-select">Select a Schedule:</label>
+<select id="schedule-select" name="schedule">
+    {% for schedule in schedules %}
+        <option value="{{ schedule.id }}">
+            {{ schedule.start_time }} - {{ schedule.end_time }} (Available: {{ schedule.available }})
+        </option>
+    {% endfor %}
+</select>
+
+
+<!-- Botón para regresar a la lista de clases -->
+<a href="{% url 'student_classes' %}" class="btn btn-secondary">Back to Classes</a>
+
+
+</body>
+</html>
+{% endblock content %}

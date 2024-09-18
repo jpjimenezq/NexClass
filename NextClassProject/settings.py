@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'communication',
     'reviews',
     'favorites',
+    'classCreation_Schedules',
 ]
 
 MIDDLEWARE = [
