@@ -13,14 +13,22 @@
 <img src="{{ class_obj.class_picture.url }}" alt="{{ class_obj.className }}" />
 
 <!-- Menú desplegable para seleccionar un horario -->
-<label for="schedule-select">Select a Schedule:</label>
-<select id="schedule-select" name="schedule">
+ <h2>Horarios disponibles</h2>
+  <ul>
     {% for schedule in schedules %}
-        <option value="{{ schedule.id }}">
-            {{ schedule.start_time }} - {{ schedule.end_time }} (Available: {{ schedule.available }})
-        </option>
+      <li>
+        <strong>Inicio:</strong> {{ schedule.start_time }} <br>
+        <strong>Fin:</strong> {{ schedule.end_time }} <br>
+
+        <!-- Formulario para enviar el schedule -->
+        <form action="{% url 'generate_meet_link' class_obj.id %}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="schedule_id" value="{{ schedule.id }}">
+          <button type="submit" class="btn btn-primary">Generar Google Meet</button>
+        </form>
+      </li>
     {% endfor %}
-</select>
+  </ul>
 
 
 <!-- Botón para regresar a la lista de clases -->
