@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import google.auth
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -14,7 +14,8 @@ from googleapiclient.errors import HttpError
 import os
 import uuid
 from google.auth.transport.requests import Request
-
+from classCreation_Schedules.models import Schedule
+import pytz
 
 
 from django.contrib import messages
@@ -42,20 +43,29 @@ def get_google_credentials():
     return creds
 
 
-def create_google_meet_event(student_email, teacher_email, class_name):
+
+def create_google_meet_event(student_email, teacher_email, class_name, start_time, end_time):
     credentials = get_google_credentials()
     service = build('calendar', 'v3', credentials=credentials)
+
+    print(f"{start_time} ---- {end_time}")
+
+    # Convertir los tiempos a UTC usando timezone.utc
+    start_time_utc = start_time.astimezone(timezone.utc).isoformat()
+    end_time_utc = end_time.astimezone(timezone.utc).isoformat()
+
+    print(f"{start_time_utc} ---- {end_time_utc}")
 
     # Definir el evento de Google Calendar
     event = {
         'summary': f'Clase: {class_name}',
         'description': 'Enlace para la clase en Google Meet.',
         'start': {
-            'dateTime': (datetime.now() + timedelta(minutes=5)).isoformat(),
+            'dateTime': start_time_utc,
             'timeZone': 'America/Bogota',  # Ajusta la zona horaria
         },
         'end': {
-            'dateTime': (datetime.now() + timedelta(hours=1)).isoformat(),
+            'dateTime': end_time_utc,
             'timeZone': 'America/Bogota',
         },
         'attendees': [
@@ -78,28 +88,34 @@ def create_google_meet_event(student_email, teacher_email, class_name):
 # Vista que genera el enlace de Meet y envía los correos
 @login_required
 def generate_meet_link(request, class_id):
-    student = Student.objects.get(user=request.user)
-    selected_class = Class.objects.get(id=class_id)
+    if request.method == 'POST':
+        schedule_id = request.POST.get('schedule_id')
+        schedule = get_object_or_404(Schedule, id=schedule_id)
+        student = Student.objects.get(user=request.user)
+        selected_class = Class.objects.get(id=class_id)
 
-    meet_link = create_google_meet_event(
-        student_email=request.user.email,
-        teacher_email=selected_class.teacher.user.email,
-        class_name=selected_class.className
-    )
+        meet_link = create_google_meet_event(
+            student_email=request.user.email,
+            teacher_email=selected_class.teacher.user.email,
+            class_name=selected_class.className,
+            start_time=schedule.start_time,
+            end_time=schedule.end_time)
 
-    # Enviar correos tanto al estudiante como al profesor
-    subject = f'Enlace para la clase {selected_class.className}'
-    message = f'El enlace para la clase es: {meet_link}'
-    student_email = request.user.email
-    teacher_email = selected_class.teacher.user.email
+        # Enviar correos tanto al estudiante como al profesor
+        subject = f'Enlace para la clase {selected_class.className}'
+        message = f'El enlace para la clase es: {meet_link}\n HORARIO: {schedule.start_time} - {schedule.end_time}'
+        student_email = request.user.email
+        teacher_email = selected_class.teacher.user.email
 
-    send_mail(
-        subject,
-        message,
-        settings.DEFAULT_FROM_EMAIL,
-        [student_email, teacher_email]
-    )
-    return render(request, 'success.html', {'meet_link': meet_link})
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [student_email, teacher_email]
+        )
+        return render(request, 'success.html', {'meet_link': meet_link})
+    else:
+        return redirect('student_classes')
 
 
 @login_required()
