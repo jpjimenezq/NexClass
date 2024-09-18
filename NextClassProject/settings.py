@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'reviews',
     'favorites',
     'classCreation_Schedules',
+    
 ]
 
 MIDDLEWARE = [
@@ -113,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -152,4 +153,7 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/home/'
+
+
+
 
