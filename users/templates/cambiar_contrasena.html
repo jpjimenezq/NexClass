@@ -1,0 +1,12 @@
+{% include navbar_template %}
+
+{% block content %}
+<div class="container">
+    <h2>Cambiar Contraseña</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cambiar Contraseña</button>
+    </form>
+</div>
+{% endblock content %}

@@ -8,8 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Find your ideal class</h1>
-    <h1>{{user.username }}</h1>
+    <h1>Find your ideal class: {{user.username }}</h1>
     <form method="GET" action="{% url 'student_classes' %}">
         <div>
             <label for="searchClass">Search: </label>
@@ -38,22 +37,23 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="submit" class="button-custom-two ">Search</button>
     </form>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row">
         {% for class in classes %}
-        <div class="col">
-            <div class="card">
-                <img class="card-img-top" src="{{ class.class_picture.url }}" alt="{{ class.className }}">
-                <div class="card-body">
-                    <h5 class="card-title fw-bold">{{ class.className }}</h5>
+        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="card bg-transparent border">
+                <img class="card-img-top px-3 pt-3" src="{{ class.class_picture.url }}" alt="{{ class.className }}">
+                <div class="card-body text_custom">
+                    <h5 class="card-title text-center fw-bold">{{ class.className }}</h5>
                     <p class="card-text">Profesor: {{ class.teacher.user.name }}</p>
                     <p class="card-text"><small>Acerca del curso: {{ class.description }}</small></p>
-                    <a href="{% url 'add_favorite_class' class.id %}" class="btn btn-primary">Agregar a Favoritos</a>
-                    <a href="{% url 'class_detail' class.id %}" class="btn btn-info">View Details</a>
 
-
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'add_favorite_class' class.id %}" class="button-custom-two">Agregar a Favoritos</a>
+                    <a href="{% url 'class_detail' class.id %}" class="button-custom-two">View Details</a>
                 </div>
             </div>
         </div>

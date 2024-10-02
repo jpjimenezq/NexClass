@@ -10,6 +10,12 @@ class ClassForm(forms.ModelForm):
         model = Class
         fields = ['className', 'description', 'class_picture']
 
+        widgets = {
+            'className': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'style': 'width:100%;'}),
+            'class_picture': forms.ClearableFileInput(attrs={'class': 'form-control '}),
+        }
+
 
 
 class ScheduleForm(forms.ModelForm):

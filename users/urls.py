@@ -11,5 +11,6 @@ urlpatterns = [
     path('complete_profile/', views.complete_profile_view, name='complete_profile'),
     path('edit_profile/', views.modificar_perfil, name='edit_profile'),  # Ruta para modificar perfil
     path('home_teacher/', views.home_teacher, name='home_teacher'),
+    path('cambiar_contrasena/', views.cambiar_contrasena, name='cambiar_contrasena'),
 
 ]
