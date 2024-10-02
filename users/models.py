@@ -84,6 +84,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     specialties = models.CharField(

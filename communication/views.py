@@ -15,7 +15,6 @@ import os
 import uuid
 from google.auth.transport.requests import Request
 from classCreation_Schedules.models import Schedule
-import pytz
 
 
 from django.contrib import messages

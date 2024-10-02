@@ -1,0 +1,33 @@
+{% extends 'navbarTeacher.html' %} {% load static %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ class_obj.class_picture.url }}" class="img-fluid rounded-start p-5" alt="user image">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body text_custom">
+                        <h2 class="card-title text-center"> {{ class_obj.className }} </h2>
+                        <div class="row align-items-start m-5">
+                            <div class="col ">
+                                <strong>Description:</strong>{{ class_obj.description }}
+                            </div>
+                            <div class="col ">
+                                <strong>Otros campos:</strong> otro campo???
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex justify-content-between">
+                        <a href="{% url 'edit_class' class_obj.id %}" class="card-link text-decoration-none button-custom-two btn-sm w-50 me-2">Edit</a>
+                        <a href="{% url 'delete_class' class_obj.id %}" class="card-link text-decoration-none button-custom-two btn-sm w-50 ms-2">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

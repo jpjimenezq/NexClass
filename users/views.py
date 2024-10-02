@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, logout
-
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm, StudentUpdateForm, UserUpdateForm, EditTeacherForm
 from .models import User, Student, Teacher
 from .models import UserType
 from django.urls import reverse
 from .models import StudentFavoritesTeachers, StudentFavoritesClasses
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 
 
 # Create your views here.
@@ -118,9 +119,10 @@ def student_classes(request):
 def modificar_perfil(request):
     user = request.user
 
-    # Verificar si el usuario es un estudiante
+
     if hasattr(user, 'student'):
-        student = user.student  # Usamos la relación OneToOneField
+        navbar_template = 'navbar.html'
+        student = user.student
         if request.method == 'POST':
             user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
             student_form = StudentUpdateForm(request.POST, instance=student)
@@ -135,12 +137,14 @@ def modificar_perfil(request):
 
         return render(request, 'edit_profile.html', {
             'user_form': user_form,
-            'student_form': student_form
+            'student_form': student_form,
+            'navbar_template': navbar_template
         })
 
-    # Verificar si el usuario es un profesor
     elif hasattr(user, 'teacher'):
-        teacher = user.teacher  # Usamos la relación OneToOneField
+        teacher = user.teacher
+        navbar_template = 'navbarTeacher.html'
+
         if request.method == 'POST':
             user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
             teacher_form = EditTeacherForm(request.POST, instance=teacher)
@@ -148,18 +152,64 @@ def modificar_perfil(request):
             if user_form.is_valid() and teacher_form.is_valid():
                 user_form.save()
                 teacher_form.save()
-                return redirect('home')
+                return redirect('home_teacher')
         else:
             user_form = UserUpdateForm(instance=user)
             teacher_form = EditTeacherForm(instance=teacher)
 
         return render(request, 'edit_profile.html', {
             'user_form': user_form,
-            'teacher_form': teacher_form
+            'teacher_form': teacher_form,
+            'navbar_template': navbar_template
         })
 
     else:
-        return redirect('home')  # Redirigir si no es ni estudiante ni profesor
+        return redirect('landing')  # Redirigir si no es ni estudiante ni profesor
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+@login_required
+def cambiar_contrasena(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Mantener la sesión activa
+            messages.success(request, 'Tu contraseña ha sido cambiada con éxito.')
+
+            # Redirigir según el tipo de usuario y establecer el navbar
+            if hasattr(user, 'student'):
+                navbar_template = 'navbar.html'  # Navbar para estudiantes
+                return redirect('home')  # Redirige a la página del estudiante
+            elif hasattr(user, 'teacher'):
+                navbar_template = 'navbarTeacher.html'  # Navbar para profesores
+                return redirect('home_teacher')  # Redirige a la página del profesor
+            else:
+                navbar_template = 'navbarLanding.html'  # Navbar por defecto
+                return redirect('home')  # Redirige a una página por defecto
+
+    else:
+        form = PasswordChangeForm(request.user)
+
+    # Determinar el navbar antes de renderizar
+    if hasattr(request.user, 'student'):
+        navbar_template = 'navbar.html'
+    elif hasattr(request.user, 'teacher'):
+        navbar_template = 'navbarTeacher.html'
+    else:
+        navbar_template = 'navbarLanding.html'
+
+    return render(request, 'cambiar_contrasena.html', {
+        'form': form,
+        'navbar_template': navbar_template,  # Pasar el navbar al contexto
+    })
+
+
+
 
 @login_required
 def home_teacher(request):

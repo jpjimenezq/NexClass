@@ -1,0 +1,15 @@
+{% extends 'navbarteacher.html' %}
+
+{% block title %}Class Edit{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Class Edit</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{% url 'teacher_classes' video.empleo.id %}" class="btn btn-warning">Cancel</a>
+    </form>
+</div>
+{% endblock %}
