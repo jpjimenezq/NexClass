@@ -150,10 +150,8 @@ def classes(request):
 
     return render(request, 'student_classes.html', context)
 
+
 def class_detail(request, class_id):
     class_obj = get_object_or_404(Class, id=class_id)
-    schedules = class_obj.schedules.all()  # Obtener los horarios asociados a esta clase
+    schedules = Schedule.objects.filter(class_obj=class_obj, available=True)
     return render(request, 'class_detail.html', {'class_obj': class_obj, 'schedules': schedules})
-
-
-

@@ -1,6 +1,6 @@
 {% extends 'navbarteacher.html' %}
 
-{% block title %}Class Edit{% endblock %}
+{% block title %}Schedule Edit{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
@@ -8,8 +8,8 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="button-custom-two">Save Changes</button>
-        <a href="{% url 'class_detail_teacher' class_obj_instance.id %}" class="button-custom">Cancel</a>
+        <button type="submit" class="button-custom-two ">Save Changes</button>
+        <a href="{% url 'class_detail_teacher' class_obj_instance.id %}" class="button-custom text-decoration-none">Cancel</a>
     </form>
 </div>
 {% endblock %}

@@ -1,79 +1,71 @@
 {% extends 'navbar.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Find your ideal teacher</h1>
+    <div class="container mt-3">
+        <h1>Find your ideal teacher</h1>
 
-    <form method="GET" action="{% url 'teachers' %}">
-        <div>
-            <label for="searchTeacher">Search: </label>
-            <input type="text" id="searchTeacher" name="searchTeacher" value="{{ request.GET.searchTeacher }}">
-        </div>
+        <form method="GET" action="{% url 'teachers' %}">
+            <div>
+                <label for="searchTeacher">Search: </label>
+                <input type="text" id="searchTeacher" name="searchTeacher" value="{{ request.GET.searchTeacher }}">
+            </div>
 
-        <div>
-            <label for="specialties">Specialties:</label>
-            <select id="specialties" name="specialties">
-                <option value=""></option>
-                {% for key, value in specialties %}
-                    <option value="{{ key }}" {% if request.GET.specialties == key %}selected{% endif %}>{{ value }}</option>
-                {% endfor %}
-            </select>
-        </div>
+            <div>
+                <label for="specialties">Specialties:</label>
+                <select id="specialties" name="specialties">
+                    <option value=""></option>
+                    {% for key, value in specialties %}
+                        <option value="{{ key }}" {% if request.GET.specialties == key %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <div>
-            <label for="mode">Mode:</label>
-            <select id="mode" name="mode">
-                <option value=""></option>
-                {% for key, value in modes %}
-                    <option value="{{ key }}" {% if request.GET.mode == key %}selected{% endif %}>{{ value }}</option>
-                {% endfor %}
-            </select>
-        </div>
+            <div>
+                <label for="mode">Mode:</label>
+                <select id="mode" name="mode">
+                    <option value=""></option>
+                    {% for key, value in modes %}
+                        <option value="{{ key }}" {% if request.GET.mode == key %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <div>
-            <label for="availability">Availability:</label>
-            <select id="availability" name="availability">
-                <option value=""></option>
-                {% for key, value in availabilities %}
-                    <option value="{{ key }}" {% if request.GET.availability == key %}selected{% endif %}>{{ value }}</option>
-                {% endfor %}
-            </select>
-        </div>
+            <div>
+                <label for="availability">Availability:</label>
+                <select id="availability" name="availability">
+                    <option value=""></option>
+                    {% for key, value in availabilities %}
+                        <option value="{{ key }}" {% if request.GET.availability == key %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <div>
-            <label for="rating">Rating (min):</label>
-            <input type="number" id="rating" name="rating" min="0" max="5" step="1" value="{{ request.GET.rating }}">
-        </div>
+            <div>
+                <label for="rating">Rating (min):</label>
+                <input type="number" id="rating" name="rating" min="0" max="5" step="1" value="{{ request.GET.rating }}">
+            </div>
 
-        <button type="submit" class="button-custom-two">Search</button>
-    </form>
+            <button type="submit" class="button-custom-two">Search</button>
+        </form>
 
-    <div class="row">
-        {% for teacher in teachers %}
-        <div class="col-md-4 mb-4 d-flex align-items-stretch">
-            <div class="card bg-transparent border">
-                <img class="card-img-top px-3 pt-3" src="{{ teacher.user.profile_picture.url }}" alt="{{ teacher.user.username }}">
-                <div class="card-body text_custom">
-                    <h5 class="card-title text-center">{{ teacher.user.username }}</h5>
-                    <p class="card-text">{{ teacher.biography }}</p>
-                    <p class="card-text"><small>Rating: {{ teacher.average_rating }}</small></p>
-                    <p class="card-text"><small>Modalidad: {{ teacher.get_mode_display }}</small></p>
-                    <p class="card-text"><small>Disponibilidad: {{ teacher.get_availability_display }}</small></p>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="{% url 'add_favorite_teacher' teacher.id %}" class="button-custom-two">Agregar a Favoritos</a>
-                    <a href="{% url 'teachers_detail' teacher.id %}" class="button-custom-two">Learn more</a>
+        <div class="row">
+            {% for teacher in teachers %}
+            <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                <div class="card bg-transparent border">
+                    <img class="card-img-top px-3 pt-3" src="{{ teacher.user.profile_picture.url }}" alt="{{ teacher.user.username }}">
+                    <div class="card-body text_custom">
+                        <h5 class="card-title text-center">{{ teacher.user.username }}</h5>
+                        <p class="card-text">{{ teacher.biography }}</p>
+                        <p class="card-text"><small>Rating: {{ teacher.average_rating }}</small></p>
+                        <p class="card-text"><small>Modalidad: {{ teacher.get_mode_display }}</small></p>
+                        <p class="card-text"><small>Disponibilidad: {{ teacher.get_availability_display }}</small></p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'add_favorite_teacher' teacher.id %}" class="button-custom-two mb-3">Agregar a Favoritos</a>
+                        <a href="{% url 'teachers_detail' teacher.id %}" class="button-custom-two mb-3">Learn more</a>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</body>
-</html>
 {% endblock content %}
