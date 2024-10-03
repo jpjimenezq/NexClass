@@ -1,4 +1,4 @@
-{% include navbar_template %}  {# Incluye el navbar correcto #}
+{% extends navbar_template %}  {% load static %}
 
 {% block content %}
 
@@ -17,4 +17,6 @@
     <button type="submit">Guardar cambios</button>
 </form>
 </div>
+
 {% endblock content %}
+

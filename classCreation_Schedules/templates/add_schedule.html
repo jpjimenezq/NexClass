@@ -1,8 +1,16 @@
-<h1>Add Schedule for {{ class_obj.className }}</h1>
-<form method="POST">
-    <a href="{%  url 'home_teacher' %}">HOME</a>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Schedule</button>
+{% extends 'navbarTeacher.html' %} {% load static %}
+{% load static %}
 
-</form>
+{% block content %}
+    <div class="container d-flex justify-content-center  vh-100">
+        <div class="w-50">
+            <h1 class="text-center mt-4">Add Schedule for: {{ class_obj.className }}</h1>
+            <form method="POST" class="mt-4">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="button-custom-two w-100">Add Schedule</button>
+                <a href="{% url 'class_detail_teacher' class_obj.id %}" class="button-custom-two text-decoration-none my-4 w-100">Finalizar</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

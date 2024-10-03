@@ -58,5 +58,26 @@ def delete_class(request, class_id):
 
 def class_detail_teacher(request, class_id):
     class_obj = get_object_or_404(Class, id=class_id)
+    schedules = Schedule.objects.filter(class_obj=class_obj)
+    return render(request, 'class_detail_teacher.html', {'class_obj': class_obj, 'schedules': schedules})
 
-    return render(request, 'class_detail_teacher.html', {'class_obj': class_obj})
+
+def edit_schedule(request, class_id, schedule_id):
+    class_obj_instance = get_object_or_404(Class, id=class_id)
+    schedule_instance = get_object_or_404(Schedule, id=schedule_id)
+    if request.method == 'POST':
+        form = ScheduleForm(request.POST, request.FILES, instance=schedule_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('class_detail_teacher', class_id=class_id)
+    else:
+        form = ScheduleForm(instance=schedule_instance)
+
+    return render(request, 'edit_schedule.html', {'form': form, 'class_obj_instance': class_obj_instance})
+
+
+def delete_schedule(request, class_id, schedule_id):
+    class_obj = get_object_or_404(Class, id=class_id)
+    schedule_instance = get_object_or_404(Schedule, id=schedule_id)  # Asegúrate de que sea el modelo correcto
+    schedule_instance.delete()
+    return redirect('class_detail_teacher', class_id=class_obj.id)

@@ -1,13 +1,7 @@
 {% extends 'navbar.html' %}
 {% block content %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<div class="container mt-3">
     <h1>Find your ideal class: {{user.username }}</h1>
     <form method="GET" action="{% url 'student_classes' %}">
         <div>
@@ -52,13 +46,12 @@
 
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{% url 'add_favorite_class' class.id %}" class="button-custom-two">Agregar a Favoritos</a>
-                    <a href="{% url 'class_detail' class.id %}" class="button-custom-two">View Details</a>
+                    <a href="{% url 'add_favorite_class' class.id %}" class="button-custom-two mb-3">Agregar a Favoritos</a>
+                    <a href="{% url 'class_detail' class.id %}" class="button-custom-two mb-3">View Details</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-</body>
-</html>
+</div>
 {% endblock content %}
