@@ -118,12 +118,16 @@ def generate_meet_link(request, class_id):
 
 
 @login_required()
-def classes(request):
+def classes(request, teacher_id=None):
     searchClass = request.GET.get('searchClass', '')
     className = request.GET.get('className', '')
     teacher = request.GET.get('teacher', '')
 
     filters = Q()
+
+    if teacher_id:
+        filters &= Q(teacher__id=teacher_id)
+
     if searchClass:
         filters |= (
                 Q(teacher__user__username__icontains=searchClass) |
@@ -140,10 +144,10 @@ def classes(request):
     if teacher:
         filters &= Q(teacher__user__username__icontains=teacher)
 
-    classes = Class.objects.filter(filters)
+    filtered_classes = Class.objects.filter(filters)
 
     context = {
-        'classes': classes,
+        'classes': filtered_classes,
         'className': Class.objects.values_list('className', flat=True).distinct(),
         'teacher': Teacher.objects.values_list('user__username', flat=True).distinct()
     }
