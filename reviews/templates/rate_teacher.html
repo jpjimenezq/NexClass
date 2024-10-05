@@ -1,7 +1,20 @@
+{% extends 'navbar.html' %}
+{% block content %}
 
-<h2>Rate {{ teacher.user.username }}</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit Rating</button>
-</form>
+<div class="container">
+    <h2 class="my-4">Rate {{ teacher.user.username }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.rating.label_tag }}
+            {{ form.rating }}
+        </div>
+        <div class="mb-3">
+            {{ form.comment.label_tag }}
+            {{ form.comment }}
+        </div>
+        <button type="submit" class="button-custom-two">Submit Rating</button>
+    </form>
+</div>
+
+{% endblock content %}
