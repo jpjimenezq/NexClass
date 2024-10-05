@@ -1,6 +1,7 @@
 {% extends 'navbar.html' %}
 {% block content %}
     <div class="container mt-3">
+
         <h1>Find your ideal teacher</h1>
 
         <form method="GET" action="{% url 'teachers' %}">
@@ -62,6 +63,7 @@
                     <div class="card-footer text-center">
                         <a href="{% url 'add_favorite_teacher' teacher.id %}" class="button-custom-two mb-3">Agregar a Favoritos</a>
                         <a href="{% url 'teachers_detail' teacher.id %}" class="button-custom-two mb-3">Learn more</a>
+
                     </div>
                 </div>
             </div>

@@ -2,7 +2,18 @@
 {% block content %}
 
     <div class="container-fluid">
-
+        {% if messages %}
+            <div class="row">
+                <div class="col-md-12">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
         <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
             <div class="row g-0">
                 <div class="col-md-4">
