@@ -8,6 +8,7 @@ from .models import StudentFavoritesTeachers, StudentFavoritesClasses
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
+from mis_clases_inscritas.models import HistoryClasses
 
 
 # Create your views here.
@@ -116,6 +117,20 @@ def student_classes(request):
 
 
 @login_required
+def edit_teacher_profile(request):
+    teacher = get_object_or_404(Teacher, user=request.user)
+    form = None
+    if request.method == 'POST':
+        form = TeacherCreationForm(request.POST, instance=teacher)
+        if form.is_valid():
+            form.save()
+            return redirect('my_profile_teacher')
+    else:
+        form = TeacherCreationForm(instance=teacher)
+    return render(request, 'edit_teacher_profile.html', {'form': form})
+
+
+@login_required
 def modificar_perfil(request):
     user = request.user
 
@@ -209,8 +224,21 @@ def cambiar_contrasena(request):
     })
 
 
-
-
 @login_required
 def home_teacher(request):
     return render(request, 'home_teacher.html')
+
+
+@login_required
+def my_profile_student(request):
+    user = request.user
+    student = get_object_or_404(Student, user=user)
+    history_classes = HistoryClasses.objects.filter(student=student)
+    return render(request, 'my_profile_student.html', {'student': student, 'history_classes': history_classes})
+
+
+@login_required
+def my_profile_teacher(request):
+    user = request.user
+    teacher = get_object_or_404(Teacher, user=user)
+    return render(request, 'my_profile_teacher.html', {'teacher': teacher})

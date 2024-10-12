@@ -28,6 +28,8 @@ urlpatterns = [
     path('', include('favorites.urls')),
     path('', include('classCreation_Schedules.urls')),
     path('', include('reviews.urls')),
+    path('', include('mis_clases_inscritas.urls')),
+
 ]
 
 if settings.DEBUG:

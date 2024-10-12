@@ -36,9 +36,16 @@
                         <table class="table table-striped table-hover table-borderless table-info ">
                             <tbody>
                                 {% for schedule in schedules %}
-                                <tr>
+                                <tr class="align-middle">
                                     <td>{{ schedule.start_time }}</td>
                                     <td>{{ schedule.end_time }}</td>
+                                     <td class="d-flex align-items-center">
+                                        <form action="{% url 'generate_meet_link' class_obj.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="schedule_id" value="{{ schedule.id }}">
+                                            <button type="submit" class="btn btn-primary btn-sm">Generar Google Meet</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 {% empty %}
                                 <tr>

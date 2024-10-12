@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'reviews',
     'favorites',
     'classCreation_Schedules',
+    'mis_clases_inscritas',
     
 ]
 
