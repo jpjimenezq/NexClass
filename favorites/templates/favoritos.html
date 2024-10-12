@@ -34,6 +34,10 @@
                        <p class="card-text"><small>Modalidad: {{ favorite_teacher.teacher.get_mode_display }}</small></p>
                        <p class="card-text"><small>Disponibilidad: {{ favorite_teacher.teacher.get_availability_display }}</small></p>
                    </div>
+                   <div class="card-footer text-center">
+                        <a href="{% url 'teachers_detail' favorite_teacher.id %}" class="button-custom-two mb-3">Learn more</a>
+
+                    </div>
 
                </div>
            </div>
