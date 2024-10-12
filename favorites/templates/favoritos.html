@@ -13,11 +13,10 @@
                        <h5 class="card-title text-center">{{ favorite_class.student_class.className }}</h5>
                        <p class="card-text">Profesor: {{ favorite_class.student_class.teacher.user.name }}</p>
                        <p class="card-text"><small>Acerca del curso: {{ favorite_class.student_class.description }}</small></p>
-                       <form action="{% url 'generate_meet_link' favorite_class.student_class.id %}" method="post">
-                           {% csrf_token %}
-                           <button class="button-custom-two " type="submit">Generar enlace de Google Meet</button>
-                       </form>
                    </div>
+                    <div class="card-footer text-center">
+                   <a href="{% url 'class_detail' favorite_class.id %}" class="button-custom-two mb-3 ">View Details</a>
+                </div>
                </div>
            </div>
            {% endfor %}
@@ -35,6 +34,7 @@
                        <p class="card-text"><small>Modalidad: {{ favorite_teacher.teacher.get_mode_display }}</small></p>
                        <p class="card-text"><small>Disponibilidad: {{ favorite_teacher.teacher.get_availability_display }}</small></p>
                    </div>
+
                </div>
            </div>
            {% endfor %}

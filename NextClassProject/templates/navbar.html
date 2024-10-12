@@ -21,13 +21,17 @@
       <a href="{% url 'student_classes' %}" class="text-decoration-none text_custom small me-4">
         Clases
       </a>
+        <a href="{% url 'clases_inscritas' %}" class="text-decoration-none text_custom small me-4">
+            Clases Inscritas
+        </a>
+
         <div class="dropdown text_custom">
         <span class="dropdown-toggle text_custom small me-4" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
             Perfil
         </span>
         <ul class=" mt-2 dropdown-menu bg-transparent" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item border text_custom " href="{% url 'edit_profile' %}">Perfil</a></li>
-            <li><a class="dropdown-item border text_custom " href="{% url 'cambiar_contrasena' %}">Cambiar contrasena</a></li>
+            <li><a class="dropdown-item border text_custom " href="{% url 'my_profile_student' %}">Mi Perfil</a></li>
+            <li><a class="dropdown-item border text_custom " href="#">otro</a></li>
         </ul>
     </div>
     </nav>

@@ -1,0 +1,40 @@
+{% extends 'navbar.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ student.user.profile_picture.url }}" class="img-fluid rounded-start p-5" alt="user image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body text_custom">
+                    <h2 class="card-title text-center"> student.user.user_type, {{ student.user.name }}</h2>
+
+                    <div class="row align-items-start mx-5 mt-5 mb-3">
+                        <div class="col">
+                            <strong>User Name:</strong>{{ student.user.username }}
+                        </div>
+                        <div class="col">
+                            <strong>Email:</strong> {{ student.user.email }}
+                        </div>
+                    </div>
+
+                    <div class="row align-items-start mx-5 ">
+                        <div class="col">
+                            <strong>Registro:</strong>{{ student.user.registration_date|date:"d M Y" }}
+                        </div>
+                        <div class="col">
+                            <strong>Address:</strong> {{ student.user.address }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a class="btn btn-outline-secondary w-100 " href="{% url 'edit_profile' %}">Modificar Perfil</a>
+                    <a class="btn btn-outline-secondary w-100 " href="{% url 'cambiar_contrasena' %}">Cambiar contrasena</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

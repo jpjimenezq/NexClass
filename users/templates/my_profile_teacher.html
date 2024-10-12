@@ -1,0 +1,79 @@
+{% extends 'navbarTeacher.html' %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{ teacher.user.profile_picture.url }}" class="img-fluid rounded-start p-5" alt="user image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body text_custom">
+                    <h2 class="card-title text-center"> {{ teacher.user.user_type }}, {{ teacher.user.name }}</h2>
+
+                    <div class="row align-items-start mx-5 mt-5 mb-3">
+                        <div class="col">
+                            <strong>User Name:</strong>{{ teacher.user.username }}
+                        </div>
+                        <div class="col">
+                            <strong>Email:</strong> {{ teacher.user.email }}
+                        </div>
+                    </div>
+
+                    <div class="row align-items-start mx-5 ">
+                        <div class="col">
+                            <strong>Registro:</strong>{{ teacher.user.registration_date|date:"d M Y" }}
+                        </div>
+                        <div class="col">
+                            <strong>Address:</strong> {{ teacher.user.address }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <a class="btn btn-outline-secondary w-100 " href="{% url 'edit_profile' %}">Modificar Perfil</a>
+                    <a class="btn btn-outline-secondary w-100 " href="{% url 'cambiar_contrasena' %}">Cambiar contrasena</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
+        <div class="row g-0">
+            <div class="col-md-12">
+                <div class="card-body text_custom">
+                    <h2 class="card-title text-center"> Descripcion </h2>
+
+                    <div class="row align-items-start mx-5 mt-5 mb-3">
+                        <div class="col">
+                            <strong>Especialidades: </strong>{{ teacher.specialties }}
+                        </div>
+                    </div>
+
+                    <div class="row align-items-start mx-5 mt-5 mb-3">
+                        <div class="col">
+                            <strong>Biography: </strong>{{ teacher.biography }}
+                        </div>
+                    </div>
+
+                    <div class="row align-items-start mx-5 mt-5 mb-3">
+                        <div class="col">
+                            <strong>Rating: </strong>{{ teacher.average_rating }}
+                        </div>
+                        <div class="col">
+                            <strong>Availability: </strong>{{ teacher.availability }}
+                        </div>
+                        <div class="col">
+                            <strong>Mode: </strong>{{ teacher.mode }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-footer text-center">
+                    <a class="btn btn-outline-secondary w-100 " href="{% url 'edit_teacher_profile' %}">Modificar Descripcion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
