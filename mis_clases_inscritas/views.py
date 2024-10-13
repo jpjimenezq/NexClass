@@ -3,6 +3,8 @@ from .models import EnrolledClasses, HistoryClasses
 from classCreation_Schedules.models import Class, Schedule
 from users.models import Student
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 # Create your views here.
@@ -20,15 +22,16 @@ def enroll_in_class(request, class_id):
 
         messages.success(request, f'Te has inscrito exitosamente en la clase {student_class.className}.')
 
-
-        # teacher_email = student_class.teacher.user.email
-        # send_mail(
-        #     'Nuevo estudiante inscrito',
-        #     f'{student.user.username} se ha inscrito a tu clase {student_class.class_name}.',
-        #     'from@example.com',
-        #     [teacher_email],
-        #     fail_silently=False,
-        # )
+        subject = f'Inscripcion Exitosa de la clase: {student_class.className}'
+        message = f'La incripcion para la clase: {student_class.className} fue realizado exitosamente \n Estudiante: {student.user.name}\n Profesor: {student_class.teacher.user.name}'
+        student_email = request.user.email
+        teacher_email = student_class.teacher.user.email
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [student_email, teacher_email]
+        )
 
     return redirect('clases_inscritas')
 
@@ -51,6 +54,7 @@ def remove_class(request, class_id):
 def clases_inscritas(request):
     student = Student.objects.get(user=request.user)
     enrolled_classes = EnrolledClasses.objects.filter(student=student)  # Filtrar clases inscritas por el estudiante
+
 
     return render(request, 'clases_inscritas.html', {'enrolled_classes': enrolled_classes})
 
