@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from users.models import Student, Teacher, Class, User, StudentFavoritesTeachers, StudentFavoritesClasses
+from users.models import Student, Teacher, User
+from classCreation_Schedules.models import Class
+
+from .models import StudentFavoritesTeachers, StudentFavoritesClasses
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
