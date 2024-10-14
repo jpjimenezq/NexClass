@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('classCreation_Schedules.urls')),
     path('', include('reviews.urls')),
     path('', include('mis_clases_inscritas.urls')),
+    path('', include('teacher_blog.urls')),
 
 ]
 

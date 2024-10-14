@@ -1,0 +1,11 @@
+{% extends 'navbarTeacher.html' %}
+{% block content %}
+<div class="container">
+    <h2>Create Blog Post</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+{% endblock content %}
