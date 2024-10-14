@@ -1,0 +1,20 @@
+{% extends 'navbar.html' %}
+{% block content %}
+
+<div class="container">
+    <h2 class="text-center my-5">Blog del Profesor {{ teacher.user.name }}</h2>
+    
+    <ul class="list-group">
+        {% for post in blog_posts %}
+            <li class="list-group-item">
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content|truncatewords:50 }}</p>
+                <p><small>Publicado el: {{ post.created_at|date:"d M Y" }}</small></p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">Este profesor aún no tiene publicaciones en el blog.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock content %}

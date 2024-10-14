@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from users.models import Teacher, Specialties, Mode, Availability
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from teacher_blog.models import BlogPost
 
 # Create your views here.
 @login_required()
@@ -54,8 +55,11 @@ def teachers(request):
 def teachers_detail(request, teacher_id):
     teacher = get_object_or_404(Teacher, id=teacher_id)
     ratings = teacher.ratings.all()
+    blog_posts = BlogPost.objects.filter(teacher=teacher)
+
     return render(request, 'teachers_detail.html', {
         'teacher': teacher,
         'ratings': ratings,
         'average_rating': teacher.average_rating(),
+        'blog_posts': blog_posts,
     })

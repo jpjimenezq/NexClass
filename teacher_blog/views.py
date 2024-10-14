@@ -46,3 +46,16 @@ def delete_blog_post(request, pk):
         messages.success(request, "El post del blog ha sido eliminado con éxito.")
         return redirect('my_profile_teacher')
     return render(request, 'teacher_blog/delete_blog_post.html', {'blog_post': blog_post})
+
+def teacher_blog_posts(request, teacher_id):
+    teacher = get_object_or_404(Teacher, id=teacher_id)
+    blog_posts = BlogPost.objects.filter(teacher=teacher)
+
+    return render(request, 'teacher_blog/teacher_blog_posts.html', {
+        'teacher': teacher,
+        'blog_posts': blog_posts
+    })
+
+def view_blog_post(request, post_id):
+    post = get_object_or_404(BlogPost, id=post_id)
+    return render(request, 'teacher_blog/view_blog_post.html', {'post': post})
