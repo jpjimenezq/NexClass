@@ -80,3 +80,7 @@ body {
 a {
   gap: 2px;
 }
+
+.border-dotted {
+  border: 2px dotted #cdfffe; /* 2px de ancho, punteado, color negro */
+}
