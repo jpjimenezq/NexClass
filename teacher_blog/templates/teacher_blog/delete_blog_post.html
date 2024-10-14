@@ -1,0 +1,16 @@
+{% extends 'navbarTeacher.html' %}
+{% block content %}
+
+<div class="container-fluid text-center">
+    <div class="alert alert-warning" role="alert">
+        <h4>¿Estás seguro de que quieres eliminar este post del blog?</h4>
+        <p><strong>{{ blog_post.title }}</strong></p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'my_profile_teacher' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+{% endblock content %}

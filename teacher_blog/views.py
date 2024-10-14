@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import BlogPost
 from .forms import BlogPostForm
 from users.models import Teacher
-
+from django.contrib import messages
 
 @login_required
 def create_blog_post(request):
@@ -37,3 +37,12 @@ def edit_blog_post(request, post_id):
         form = BlogPostForm(instance=blog_post)
 
     return render(request, 'teacher_blog/edit_blog_post.html', {'form': form})
+
+@login_required
+def delete_blog_post(request, pk):
+    blog_post = get_object_or_404(BlogPost, pk=pk, teacher=request.user.teacher)
+    if request.method == "POST":
+        blog_post.delete()
+        messages.success(request, "El post del blog ha sido eliminado con éxito.")
+        return redirect('my_profile_teacher')
+    return render(request, 'teacher_blog/delete_blog_post.html', {'blog_post': blog_post})

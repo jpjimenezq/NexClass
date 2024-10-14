@@ -87,6 +87,10 @@
                         <h3>{{ post.title }}</h3>
                         <p>{{ post.content|truncatewords:30 }}</p>
                         <a href="{% url 'edit_blog_post' post.id %}" class="btn btn-secondary">Editar</a>
+                        <form action="{% url 'delete_blog_post' post.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
                     </li>
                 {% empty %}
                     <p class="text_custom">Aún no tienes publicaciones en el blog.</p>
