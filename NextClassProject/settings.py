@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'favorites',
     'classCreation_Schedules',
     'mis_clases_inscritas',
+    'teacher_blog',
     
 ]
 

@@ -2,6 +2,7 @@
 {% block content %}
 
 <div class="container-fluid">
+    <!-- Card de Información del Profesor -->
     <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
         <div class="row g-0">
             <div class="col-md-4">
@@ -13,16 +14,16 @@
 
                     <div class="row align-items-start mx-5 mt-5 mb-3">
                         <div class="col">
-                            <strong>User Name:</strong>{{ teacher.user.username }}
+                            <strong>User Name:</strong> {{ teacher.user.username }}
                         </div>
                         <div class="col">
                             <strong>Email:</strong> {{ teacher.user.email }}
                         </div>
                     </div>
 
-                    <div class="row align-items-start mx-5 ">
+                    <div class="row align-items-start mx-5">
                         <div class="col">
-                            <strong>Registro:</strong>{{ teacher.user.registration_date|date:"d M Y" }}
+                            <strong>Registro:</strong> {{ teacher.user.registration_date|date:"d M Y" }}
                         </div>
                         <div class="col">
                             <strong>Address:</strong> {{ teacher.user.address }}
@@ -30,50 +31,69 @@
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <a class="btn btn-outline-secondary w-100 " href="{% url 'edit_profile' %}">Modificar Perfil</a>
-                    <a class="btn btn-outline-secondary w-100 " href="{% url 'cambiar_contrasena' %}">Cambiar contrasena</a>
+                    <a class="btn btn-outline-secondary w-100" href="{% url 'edit_profile' %}">Modificar Perfil</a>
+                    <a class="btn btn-outline-secondary w-100" href="{% url 'cambiar_contrasena' %}">Cambiar contraseña</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Card de Descripción del Profesor -->
     <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
         <div class="row g-0">
             <div class="col-md-12">
                 <div class="card-body text_custom">
-                    <h2 class="card-title text-center"> Descripcion </h2>
+                    <h2 class="card-title text-center"> Descripción </h2>
 
                     <div class="row align-items-start mx-5 mt-5 mb-3">
                         <div class="col">
-                            <strong>Especialidades: </strong>{{ teacher.specialties }}
+                            <strong>Especialidades:</strong> {{ teacher.specialties }}
                         </div>
                     </div>
 
                     <div class="row align-items-start mx-5 mt-5 mb-3">
                         <div class="col">
-                            <strong>Biography: </strong>{{ teacher.biography }}
+                            <strong>Biography:</strong> {{ teacher.biography }}
                         </div>
                     </div>
 
                     <div class="row align-items-start mx-5 mt-5 mb-3">
                         <div class="col">
-                            <strong>Rating: </strong>{{ teacher.average_rating }}
+                            <strong>Rating:</strong> {{ teacher.average_rating }}
                         </div>
                         <div class="col">
-                            <strong>Availability: </strong>{{ teacher.availability }}
+                            <strong>Availability:</strong> {{ teacher.availability }}
                         </div>
                         <div class="col">
-                            <strong>Mode: </strong>{{ teacher.mode }}
+                            <strong>Mode:</strong> {{ teacher.mode }}
                         </div>
                     </div>
-
                 </div>
                 <div class="card-footer text-center">
-                    <a class="btn btn-outline-secondary w-100 " href="{% url 'edit_teacher_profile' %}">Modificar Descripcion</a>
+                    <a class="btn btn-outline-secondary w-100" href="{% url 'edit_teacher_profile' %}">Modificar Descripción</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Card de Blog del Profesor -->
+    <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
+        <div class="card-body text_custom">
+            <h2 class="card-title text-center"> Blog del Profesor </h2>
+            <a href="{% url 'create_blog_post' %}" class="btn btn-primary mb-3">Crear Nuevo Post de Blog</a>
+            <ul class="list-group list-group-flush">
+                {% for post in blog_posts %}
+                    <li class="list-group-item bg-transparent border">
+                        <h3>{{ post.title }}</h3>
+                        <p>{{ post.content|truncatewords:30 }}</p>
+                        <a href="{% url 'edit_blog_post' post.id %}" class="btn btn-secondary">Editar</a>
+                    </li>
+                {% empty %}
+                    <p class="text_custom">Aún no tienes publicaciones en el blog.</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
+
 {% endblock content %}

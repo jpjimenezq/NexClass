@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from mis_clases_inscritas.models import HistoryClasses
+from teacher_blog.models import BlogPost
 
 
 # Create your views here.
@@ -239,6 +240,9 @@ def my_profile_student(request):
 
 @login_required
 def my_profile_teacher(request):
-    user = request.user
-    teacher = get_object_or_404(Teacher, user=user)
-    return render(request, 'my_profile_teacher.html', {'teacher': teacher})
+    teacher = get_object_or_404(Teacher, user=request.user)
+    blog_posts = BlogPost.objects.filter(teacher=teacher)
+    return render(request, 'my_profile_teacher.html', {
+        'teacher': teacher,
+        'blog_posts': blog_posts,
+    })
