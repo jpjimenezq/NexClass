@@ -4,19 +4,17 @@ from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationF
 from .models import User, Student, Teacher
 from .models import UserType
 from django.urls import reverse
-from .models import StudentFavoritesTeachers, StudentFavoritesClasses
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from mis_clases_inscritas.models import HistoryClasses
 from teacher_blog.models import BlogPost
 
-
 # Create your views here.
 @login_required
 def home(request):
     user = request.user
-    return render(request, 'home.html', {'user' : user})
+    return render(request, 'home.html', {'user': user})
 
 
 def landing(request):
@@ -182,11 +180,6 @@ def modificar_perfil(request):
     else:
         return redirect('landing')  # Redirigir si no es ni estudiante ni profesor
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
-from django.shortcuts import render, redirect
-from django.contrib import messages
 
 @login_required
 def cambiar_contrasena(request):

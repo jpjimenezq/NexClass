@@ -1,18 +1,25 @@
 {% extends 'navbar.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clase Confirmada</title>
-</head>
-<body>
-    <h1>¡Clase Programada Exitosamente!</h1>
-    <p>Tu enlace para la clase es: <a href="{{ meet_link }}" target="_blank">{{ meet_link }}</a></p>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
 
-    <!-- Botón para ir a las clases -->
-    <a href="{% url 'student_classes' %}" class="button">Volver a las Clases</a>
-</body>
-</html>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" width="200" height="200">
+              <path d="M6 0a6 6 0 1 1 0 12A6 6 0 0 1 6 0Zm-.705 8.737L9.63 4.403 8.392 3.166 5.295 6.263l-1.7-1.702L2.356 5.8l2.938 2.938Z" fill="#cdfffe"></path>
+            </svg>
+
+            <h1 class="mb-0 mt-2"><strong>Class programmed!</strong></h1>
+
+            <div class="text-left mt-3">
+                <h4 class="font-weight-bold mb-0"> Class link: </h4>
+
+                <p><a href="{{ meet_link }}" class="text_custom text-decoration-none" target="_blank">{{ meet_link }}</a></p>
+            </div>
+
+            <a href="{% url 'clases_inscritas' %}" class="text_custom button-custom-two text-decoration-none">Volver a las Clases</a>
+
+        </div>
+    </div>
+</div>
 {% endblock content %}
+
