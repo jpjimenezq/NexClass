@@ -1,0 +1,31 @@
+{% extends 'navbarTeacher.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <h1 class="text-center">{{ titulo }}</h1>
+
+        <ul class="list-group ">
+            {% for quiz in quizzes %}
+            <li class="list-group-item d-flex justify-content-between align-items-center border bg-transparent text_custom">
+                <span>{{ quiz.title }}</span>
+                <a href="{% url 'quiz_detail' quiz.id %}" class="btn btn-light button-custom-two">Mirar quiz</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% if class_id %}
+            <div class=" d-grid gap-2 col-6 mx-auto m-3">
+                <a href="{% url 'create_quiz_with_class' class_id %}" class="btn btn-light button-custom">Crear Quiz para esta clase</a>
+            </div>
+        {% else %}
+            <div class=" d-grid gap-2 col-6 mx-auto m-3">
+                <a href="{% url 'create_quiz' %}" class="btn btn-light button-custom">Crear Quiz</a>
+            </div>
+        {% endif %}
+
+
+
+    </div>
+</div>
+{% endblock %}

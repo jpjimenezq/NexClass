@@ -13,15 +13,20 @@
     </a>
     <nav class="ms-auto d-flex gap-2 gap-lg-4">
 
-      <a href="{% url 'teacher_classes' %}" class="text-decoration-none text_custom small me-4">
+    <a href="{% url 'teacher_classes' %}" class="text-decoration-none text_custom small me-4">
         Mis clases
-      </a>
+    </a>
+
+    <a href="{% url 'quiz_list' %}" class="text-decoration-none text_custom small me-4">
+        Quices
+    </a>
+
       <div class="dropdown text_custom">
         <span class="dropdown-toggle text_custom small me-4" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
             Perfil
         </span>
         <ul class=" mt-2 dropdown-menu bg-transparent" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item border text_custom " href="{% url 'edit_teacher_profile' %}">Perfil</a></li>
+            <li><a class="dropdown-item border text_custom " href="{% url 'my_profile_teacher' %}">Perfil</a></li>
             <li><a class="dropdown-item border text_custom " href="#">Otro campo</a></li>
         </ul>
     </div>

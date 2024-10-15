@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'classCreation_Schedules',
     'mis_clases_inscritas',
     'teacher_blog',
-    
+    'class_quizzes'
 ]
 
 MIDDLEWARE = [

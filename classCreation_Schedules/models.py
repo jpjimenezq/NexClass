@@ -8,6 +8,9 @@ class Class(models.Model):
     description = models.TextField()
     class_picture = models.ImageField(upload_to='class_photos/', default='class_photos/default_profile.png', null=True, blank=True)
 
+    def __str__(self):
+        return self.className
+
 
 class Schedule(models.Model):
     class_obj = models.ForeignKey(Class, on_delete=models.CASCADE, related_name='schedules')
