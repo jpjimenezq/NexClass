@@ -1,0 +1,35 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Quices Disponibles para la Clase: {{ class_obj.className }}</h2>
+
+    {% if quizzes %}
+        <div class="row ">
+            {% for quiz in quizzes %}
+                <div class="col-md-4 " >
+                    <div class="card mb-4 shadow-sm bg-transparent border-dotted ">
+                        <div class="card-body text_custom ">
+                            <h5 class="card-title"><strong>{{ quiz.title }}</strong></h5>
+                            <p class="card-text"><strong>Descripcion:</strong> {{ quiz.description|truncatewords:20 }}</p>
+
+                        </div>
+                        <div class="card-footer text-muted text_custom border-dotted border-start-0 border-end-0">
+                            <p class="text_custom"><strong>Creado el: </strong>{{ quiz.created_at|date:"d M, Y" }}</p>
+                        </div>
+                        <div class="card-footer text-muted text-center ">
+                            <a href="{% url 'take_quiz' quiz.id %}" class="btn btn-light button-custom">Comenzar Quiz</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No hay quices disponibles para esta clase en este momento.</p>
+    {% endif %}
+    <div class="text-center ">
+        <a href="{% url 'mi_clase_inscrita' class_obj.id %}" class="btn btn-light button-custom-two mb-5">Volver a la Lista de Clases</a>
+    </div>
+
+</div>
+{% endblock %}

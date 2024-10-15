@@ -22,3 +22,12 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     text = models.CharField(max_length=255)
     is_correct = models.BooleanField(default=False)
+
+
+class QuizResult(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    score = models.IntegerField()  # Guardará el puntaje obtenido
+    total_questions = models.IntegerField()  # Número total de preguntas
+    correct_answers = models.IntegerField()  # Número de respuestas correctas
+    completed_at = models.DateTimeField(auto_now_add=True)  # Fecha en que el estudiante completó el quiz

@@ -1,0 +1,18 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+
+<div class="container mt-5 d-flex justify-content-center flex-column align-items-center">
+    <h2 class="text-center">Resultados del Quiz: {{ quiz.title }}</h2>
+    <p class="text-center">¡Has completado el quiz! Aquí están tus resultados:</p>
+
+    <ul class="list-group w-25 text-center">
+        <li class="list-group-item bg-transparent text_custom"><strong>Preguntas Totales:</strong> {{ result.total_questions }}</li>
+        <li class="list-group-item bg-transparent text_custom"><strong>Respuestas Correctas:</strong> {{ result.correct_answers }}</li>
+        <li class="list-group-item bg-transparent text_custom"><strong>Puntaje:</strong> {{ result.score }}%</li>
+    </ul>
+    <div class="text-center ">
+        <a href="{% url 'quiz_list_student' quiz.class_obj.id %}" class="btn btn-light button-custom-two mb-4 mt-3">Volver a la lista de quices</a>
+    </div>
+</div>
+{% endblock %}
