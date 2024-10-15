@@ -1,11 +1,26 @@
 {% extends 'navbarTeacher.html' %}
 {% block content %}
-<div class="container">
-    <h2>Edit Blog Post</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
+<div class="container-fluid">
+    <!-- Card para editar el Blog del Profesor -->
+    <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
+        <div class="card-body text_custom">
+            <h2 class="card-title text-center">Editar Publicación del Blog</h2>
+            <form method="POST" class="mt-4">
+                {% csrf_token %}
+                <div class="mb-3">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                </div>
+                <div class="mb-3">
+                    {{ form.content.label_tag }}
+                    {{ form.content }}
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <a href="{% url 'my_profile_teacher' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock content %}
