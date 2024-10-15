@@ -80,6 +80,9 @@
                         <li class="list-group-item bg-transparent border">
                             <h3>{{ post.title }}</h3>
                             <p>{{ post.content|truncatewords:30 }}</p>
+                            {% if post.url %}
+                                <p><a href="{{ post.url }}" target="_blank" class="btn btn-info btn-sm">Ver Enlace Relacionado</a></p>
+                            {% endif %}
                             <a href="{% url 'view_blog_post' post.id %}" class="btn btn-primary btn-sm">Leer más</a>
                         </li>
                     {% empty %}
