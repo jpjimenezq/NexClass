@@ -1,7 +1,6 @@
 {% extends 'navbarTeacher.html' %}
 {% block content %}
 <div class="container-fluid">
-    <!-- Card para editar el Blog del Profesor -->
     <div class="card mb-3 m-5 border border-dark-subtle bg-transparent border-5">
         <div class="card-body text_custom">
             <h2 class="card-title text-center">Editar Publicación del Blog</h2>
@@ -14,6 +13,10 @@
                 <div class="mb-3">
                     {{ form.content.label_tag }}
                     {{ form.content }}
+                </div>
+                <div class="mb-3">
+                    {{ form.url.label_tag }}
+                    {{ form.url }}
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
