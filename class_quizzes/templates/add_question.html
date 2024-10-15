@@ -1,0 +1,49 @@
+{% extends 'navbarTeacher.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Agregar Pregunta al Quiz: {{ quiz.title }}</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Campo de texto para la pregunta -->
+        <div class="form-group">
+            <label for="question_text">Texto de la Pregunta:</label>
+            <input type="text" name="question_text" class="form-control" required>
+        </div>
+
+        <!-- Número total de respuestas -->
+        <div class="form-group">
+            <label for="total_answers">Número Total de Respuestas:</label>
+            <input type="number" id="total_answers" name="total_answers" class="form-control" min="2" max="4" onchange="updateAnswers()" required>
+        </div>
+
+        <!-- Contenedor para respuestas -->
+        <div id="answers-container">
+            <!-- Respuestas se generarán aquí -->
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">Agregar Pregunta y Respuestas</button>
+        <a href="{% url 'quiz_list_by_class' quiz.class_obj.id %}" class="btn btn-secondary mt-3">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    function updateAnswers() {
+        const totalAnswers = document.getElementById('total_answers').value;
+        const answersContainer = document.getElementById('answers-container');
+        answersContainer.innerHTML = ''; // Limpiar respuestas anteriores
+
+        for (let i = 0; i < totalAnswers; i++) {
+            answersContainer.innerHTML += `
+                <div class="form-group">
+                    <label for="answer_text_${i}">Respuesta ${i + 1}:</label>
+                    <input type="text" name="answer_text_${i}" class="form-control" required>
+                    <label for="is_correct_${i}">¿Es correcta?</label>
+                    <input type="checkbox" name="is_correct_${i}">
+                </div>
+            `;
+        }
+    }
+</script>
+{% endblock %}

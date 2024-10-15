@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include('reviews.urls')),
     path('', include('mis_clases_inscritas.urls')),
     path('', include('teacher_blog.urls')),
+    path('', include('class_quizzes.urls')),
 
 ]
 
