@@ -26,17 +26,18 @@ def create_blog_post(request):
 
 
 @login_required
-def edit_blog_post(request, post_id):
-    blog_post = get_object_or_404(BlogPost, id=post_id, teacher__user=request.user)
+def edit_blog_post(request, pk):
+    blog_post = get_object_or_404(BlogPost, pk=pk)
+
     if request.method == 'POST':
         form = BlogPostForm(request.POST, instance=blog_post)
         if form.is_valid():
             form.save()
-            return redirect('my_profile_teacher')
+            return redirect('my_profile_teacher')  # Redirige al perfil del profesor después de guardar los cambios
     else:
         form = BlogPostForm(instance=blog_post)
 
-    return render(request, 'teacher_blog/edit_blog_post.html', {'form': form})
+    return render(request, 'teacher_blog/edit_blog_post.html', {'form': form, 'blog_post': blog_post})
 
 @login_required
 def delete_blog_post(request, pk):
