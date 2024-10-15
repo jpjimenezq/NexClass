@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelformset_factory
-from .models import Quiz, Question, Answer
+from .models import Quiz, Question, Answer, QuizResult
 from .forms import QuizForm, QuestionForm, QuizFormClass, AnswerFormSet
 from classCreation_Schedules.models import Class
+from users.models import Student
 
 
 # Vista para crear un quiz
@@ -78,9 +79,86 @@ def add_question(request, quiz_id):
     })
 
 
-
 def quiz_detail(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     return render(request, 'quiz_detail.html', {'quiz': quiz})
 
 
+def take_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    questions = Question.objects.filter(quiz=quiz)
+    total_questions = questions.count()
+    student = Student.objects.get(user=request.user)
+
+    current_question_index = int(request.GET.get('question_index', 0))
+
+    if 'correct_answers' not in request.session:
+        request.session['correct_answers'] = 0
+
+    if current_question_index >= total_questions:
+        # Guardar el resultado en la base de datos
+        correct_answers = request.session['correct_answers']
+        score = int((correct_answers / total_questions) * 100)
+
+        QuizResult.objects.create(
+            student=student,  # Asumiendo que el usuario está autenticado
+            quiz=quiz,
+            score=score,
+            total_questions=total_questions,
+            correct_answers=correct_answers
+        )
+
+        del request.session['correct_answers']
+
+        return redirect('quiz_result', quiz_id=quiz.id)
+
+    current_question = questions[current_question_index]
+    answers = current_question.answers.all()
+
+    if request.method == 'POST':
+        selected_answer_id = request.POST.get('answer')
+        selected_answer = Answer.objects.get(id=selected_answer_id)
+
+        # Verificar si la respuesta es correcta y actualizar el conteo
+        if selected_answer.is_correct:
+            request.session['correct_answers'] += 1
+
+        # Redirigir a la siguiente pregunta
+        return redirect(f'{request.path}?question_index={current_question_index + 1}')
+
+    progress = int((current_question_index + 1) / total_questions * 100)  # Progreso en %
+
+    return render(request, 'take_quiz.html', {
+        'quiz': quiz,
+        'current_question': current_question,
+        'answers': answers,
+        'progress': progress,
+        'current_question_index': current_question_index + 1,
+        'total_questions': total_questions
+    })
+
+
+def quiz_result(request, quiz_id):
+    student = Student.objects.get(user=request.user)
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    result = QuizResult.objects.filter(student=student, quiz=quiz).last()
+    return render(request, 'quiz_result.html', {'quiz': quiz, 'result': result})
+
+
+def quiz_list_student(request, class_id):
+    class_obj = get_object_or_404(Class, id=class_id)
+    quizzes = Quiz.objects.filter(class_obj=class_obj)
+
+    return render(request, 'quiz_list_student.html', {
+        'quizzes': quizzes,
+        'class_obj': class_obj
+    })
+
+
+def completed_quizzes(request):
+    student = Student.objects.get(user=request.user)
+    student_quizzes = QuizResult.objects.filter(student=student)
+
+    return render(request, 'completed_quizzes.html', {
+        'student_quizzes_': student_quizzes,
+    })

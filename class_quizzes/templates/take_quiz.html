@@ -1,0 +1,35 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ quiz.title }}</h2>
+    <p>{{ quiz.description }}</p>
+    
+    <!-- Barra de progreso de Bootstrap -->
+    <div class="progress mb-4">
+        <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">{{ progress }}%</div>
+    </div>
+    
+    <h5>Pregunta {{ current_question_index }} de {{ total_questions }}</h5>
+    <p><strong>{{ current_question.text }}</strong></p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="list-group">
+            {% for answer in answers %}
+                <label class="list-group-item border bg-light bg-opacity-10 text_custom">
+                    <input type="radio" name="answer" value="{{ answer.id }}" required>
+                    {{ answer.text }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-evenly">
+            <button type="submit" class="btn btn-primary mt-3 w-25 ">Siguiente</button>
+            <a href="{% url 'quiz_list_student' quiz.class_obj.id %}" class="btn btn-danger mt-3 w-25">Cancelar</a>
+        </div>
+    </form>
+
+
+</div>
+{% endblock %}

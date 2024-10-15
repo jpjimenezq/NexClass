@@ -1,0 +1,36 @@
+{% extends 'navbar.html' %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Mis quices realizados</h2>
+
+    {% if student_quizzes_ %}
+        <div class="row ">
+
+        {% for student_quizzes in student_quizzes_ %}
+            <div class="col-md-4 mb-4 d-flex align-items-stretch">
+
+                <div class="card bg-transparent border ">
+                    <div class="card-header bg-light bg-opacity-25">
+                        <h2>{{ student_quizzes.quiz.title }}</h2>
+                    </div>
+                    <div class="card-body text_custom border border-0 border-top bg-light bg-opacity-10" >
+                        <h3 class="card-title"><strong>Clase: </strong>{{ student_quizzes.quiz.class_obj.className }}</h3>
+                        <p class="card-text"><strong>Descripción: </strong>{{ student_quizzes.quiz.class_obj.description }}</p>
+                        <p class="card-text"><strong>Puntuación:</strong> {{ student_quizzes.score }}</p>
+                        <p class="card-text"><strong>Número de Preguntas:</strong> {{ student_quizzes.total_questions }}</p>
+                        <p class="card-text"><strong>Respuestas Correctas:</strong> {{ student_quizzes.correct_answerscompleted_at }}</p>
+                        <p class="card-text"><strong>Completado el:</strong> {{ student_quizzes.completed_at }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>No hay quices disponibles para esta clase en este momento.</p>
+    {% endif %}
+    </div>
+
+
+{% endblock %}
