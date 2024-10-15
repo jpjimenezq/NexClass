@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body text_custom">
-                    <h2 class="card-title text-center"> {{ teacher.user.user_type }}, {{ teacher.user.name }}</h2>
+                    <h2 class="card-title text-center"> {{ teacher.user.user_type }} {{ teacher.user.name }}</h2>
 
                     <div class="row align-items-start mx-5 mt-5 mb-3">
                         <div class="col">
@@ -88,6 +88,9 @@
                     <li class="list-group-item bg-transparent border">
                         <h3>{{ post.title }}</h3>
                         <p>{{ post.content|truncatewords:30 }}</p>
+                        <a href="{{ post.url }}" target="_blank">{{ post.url }}</a>
+
+                        <br>
                         <a href="{% url 'edit_blog_post' post.id %}" class="btn btn-secondary">Editar</a>
                         <form action="{% url 'delete_blog_post' post.id %}" method="post" style="display:inline;">
                             {% csrf_token %}
