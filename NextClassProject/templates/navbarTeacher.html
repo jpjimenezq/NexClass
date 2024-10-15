@@ -4,7 +4,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="{% static 'styles/global.css' %}" rel="stylesheet" />
-
 </head>
 
 <header class="px-4 px-lg-6 h-14 d-flex align-items-center text_custom">
@@ -12,30 +11,33 @@
         <img src="{% static 'images/LogoConFondo.png' %}" alt="Teacher Search" width="70" height="70"/>
     </a>
     <nav class="ms-auto d-flex gap-2 gap-lg-4">
+        <a href="{% url 'teacher_classes' %}" class="text-decoration-none text_custom small me-4">
+            Mis clases
+        </a>
 
-    <a href="{% url 'teacher_classes' %}" class="text-decoration-none text_custom small me-4">
-        Mis clases
-    </a>
+        <a href="{% url 'quiz_list' %}" class="text-decoration-none text_custom small me-4">
+            Quices
+        </a>
 
-    <a href="{% url 'quiz_list' %}" class="text-decoration-none text_custom small me-4">
-        Quices
-    </a>
+        <!-- Toggle de Tema -->
+        <button id="theme-toggle" class="btn btn-light me-4">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+        </button>
 
-      <div class="dropdown text_custom">
-        <span class="dropdown-toggle text_custom small me-4" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-            Perfil
-        </span>
-        <ul class=" mt-2 dropdown-menu bg-transparent" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item border text_custom " href="{% url 'my_profile_teacher' %}">Perfil</a></li>
-            <li><a class="dropdown-item border text_custom " href="#">Otro campo</a></li>
-        </ul>
-    </div>
-
+        <div class="dropdown text_custom">
+            <span class="dropdown-toggle text_custom small me-4" role="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                Perfil
+            </span>
+            <ul class="mt-2 dropdown-menu bg-transparent" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item border text_custom" href="{% url 'my_profile_teacher' %}">Perfil</a></li>
+                <li><a class="dropdown-item border text_custom" href="#">Otro campo</a></li>
+            </ul>
+        </div>
     </nav>
-  </header>
+</header>
 
-    {% block content %}
-    {% endblock content %}
+{% block content %}
+{% endblock content %}
 
 <footer class="background-color-custom py-3">
     <div class="container d-flex justify-content-between">
@@ -52,3 +54,41 @@
         </nav>
     </div>
 </footer>
+
+<!-- JavaScript para cambiar el tema -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Cambiar el tema y guardar la preferencia en localStorage
+        themeToggleButton.addEventListener('click', () => {
+            if (body.classList.contains('dark-theme')) {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Verificar el tema guardado en localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme && savedTheme === 'dark') {
+            body.classList.add('dark-theme');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        } else {
+            body.classList.add('light-theme');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+    });
+</script>
