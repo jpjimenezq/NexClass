@@ -1,3 +1,44 @@
+/* Variables del tema */
+:root {
+  --bg-color: #010f1e;
+  --text-color: #cdfffe;
+  --nav-bg-color: #275972;
+  --button-bg-color: #010f1e;
+  --button-bg-color-two: #275972;
+  --button-text-color: #cdfffe;
+  --border-color: #cdfffe;
+}
+
+/* Tema oscuro */
+.dark-theme {
+  --bg-color: #010f1e;
+  --text-color: #cdfffe;
+  --nav-bg-color: #275972;
+  --button-bg-color: #010f1e;
+  --button-bg-color-two: #275972;
+  --button-text-color: #cdfffe;
+  --border-color: #000000;
+}
+
+/* Tema claro */
+.light-theme {
+  --bg-color: #bdcbd4fb;
+  --text-color: #010f1e;
+  --nav-bg-color: #1d3b4e;
+  --button-bg-color: #070606;
+  --button-bg-color-two: #add1fa;
+  --button-text-color: #010f1e;
+  --border-color: #000000;
+}
+
+/* Estilo de la página utilizando variables */
+body {
+  font-family: "Space Mono", monospace;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 h1,
 h2,
 h3,
@@ -5,82 +46,76 @@ h4,
 h5,
 h6 {
   font-family: "Space Mono", monospace;
-  --font-monospace: "Space Mono";
-  color: #cdfffe;
-}
-body {
-  font-family: "Space Mono", monospace;
-  --font-monospace: "Space Mono";
-  background-color: #010f1e;
-  color: #cdfffe;
+  color: var(--text-color);
 }
 
 .text_custom {
-  color: #cdfffe;
+  color: var(--text-color);
 }
 
 .background-color-custom {
-  background-color: #275972;
+  background-color: var(--nav-bg-color);
 }
 
 .background-color-custom-two {
-  background-color: #010f1e;
-  color: #cdfffe;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .background-color-custom-two:focus {
-  background-color: #010f1e;
-  color: #cdfffe;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .background-color-custom-two::placeholder {
-  color: #cdfffe;
+  color: var(--text-color);
 }
 
 /* Estilo general para los botones cuadrados */
 .button-custom {
-  background-color: #010f1e; /* Color de fondo */
-  color: #cdfffe; /* Color del texto */
-  border: 0.5px solid #cdfffe; /* Color del borde */
-  border-radius: 0; /* Bordes cuadrados (sin redondear) */
-  padding: 12px 24px; /* Ajusta el espaciado interno */
-  text-align: center; /* Alinea el texto en el centro */
-  display: inline-block; /* Asegura que el botón se alinee correctamente */
-  font-size: 16px; /* Tamaño de fuente */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  transition: background-color 0.3s, color 0.3s; /* Transición suave para el cambio de color */
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  border: 0.5px solid var(--border-color);
+  border-radius: 0;
+  padding: 12px 24px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 /* Estilo para el botón cuando está en foco (seleccionado) */
 .button-custom:focus {
-  outline: none; /* Elimina el borde de enfoque predeterminado del navegador */
-  background-color: #010f1e; /* Color de fondo cuando está en foco */
-  color: #cdfffe; /* Color del texto cuando está en foco */
+  outline: none;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
 }
 
 .button-custom-two {
-  background-color: #275972; /* Color de fondo */
-  color: #cdfffe; /* Color del texto */
-  border: 0.5px solid #cdfffe; /* Color del borde */
-  border-radius: 0; /* Bordes cuadrados (sin redondear) */
-  padding: 12px 24px; /* Ajusta el espaciado interno */
-  text-align: center; /* Alinea el texto en el centro */
-  display: inline-block; /* Asegura que el botón se alinee correctamente */
-  font-size: 16px; /* Tamaño de fuente */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-  transition: background-color 0.3s, color 0.3s; /* Transición suave para el cambio de color */
+  background-color: var(--button-bg-color-two);
+  color: var(--button-text-color);
+  border: 0.5px solid var(--border-color);
+  border-radius: 0;
+  padding: 12px 24px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.button-custom:focus {
-  outline: none; /* Elimina el borde de enfoque predeterminado del navegador */
-  background-color: #275972; /* Color de fondo cuando está en foco */
-  color: #cdfffe; /* Color del texto cuando está en foco */
+.button-custom-two:focus {
+  outline: none;
+  background-color: var(--button-bg-color-two);
+  color: var(--button-text-color);
 }
 
 a {
   gap: 2px;
+  color: var(--text-color);
 }
 
 .border-dotted {
-  border: 2px dotted #cdfffe; /* 2px de ancho, punteado, color negro */
+  border: 2px dotted var(--border-color);
 }
