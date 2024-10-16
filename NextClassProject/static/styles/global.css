@@ -25,7 +25,7 @@
   --bg-color: #f4f4f4; /* Color de fondo más claro */
   --text-color: #010f1e; /* Color de texto oscuro */
   --nav-bg-color: #ffffff; /* Fondo blanco para la navegación */
-  --button-bg-color: #cdfffe; /* Fondo para botones */
+  --button-bg-color: #275972; /* Fondo para botones */
   --button-bg-color-two: #275972; /* Color secundario para botones */
   --button-text-color: #010f1e; /* Texto oscuro para botones */
   --border-color: #275972; /* Color de borde oscuro */
@@ -126,4 +126,3 @@ a {
   object-fit: cover;
   border-radius: 10px;
 }
-
