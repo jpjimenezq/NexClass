@@ -64,7 +64,8 @@
                             </div>
                             <div class="card-footer text-center">
                                 <a href="{% url 'rate_teacher' teacher.id %}" class="button-custom-two mb-3">Rate this Teacher</a>
-                                <a href="{% url 'student_classes_teacher' teacher.id %}" class="button-custom-two mb-3">Clases del profesor</a>
+                                <a href="{% url 'student_classes_teacher' teacher.id %}" class="button-custom-two mb-3">Classes of Teacher</a>
+                                <a href="{% url 'chat' teacher.id %}" class="button-custom-two mb-3">Chat with me</a> <!-- Cambié aquí -->
                             </div>
                     </div>
                 </div>
@@ -79,11 +80,14 @@
                     {% for post in blog_posts %}
                         <li class="list-group-item bg-transparent border">
                             <h3>{{ post.title }}</h3>
-                            <p>{{ post.content|truncatewords:30 }}</p>
-                            {% if post.url %}
-                                <p><a href="{{ post.url }}" target="_blank" class="btn btn-info btn-sm">Ver Enlace Relacionado</a></p>
-                            {% endif %}
-                            <a href="{% url 'view_blog_post' post.id %}" class="btn btn-primary btn-sm">Leer más</a>
+                            <p style="color: var(--text-color);">{{ post.content|truncatewords:30 }}</p>
+                            
+                            <div class="d-flex gap-2"> <!-- Contenedor d-flex para los enlaces -->
+                                {% if post.url %}
+                                    <a href="{{ post.url }}" target="_blank" class="btn btn-info btn-sm button-custom">Ver Enlace Relacionado</a>
+                                {% endif %}
+                                <a href="{% url 'view_blog_post' post.id %}" class="btn btn-primary btn-sm button-custom-two">Leer más</a>
+                            </div>
                         </li>
                     {% empty %}
                         <p class="text_custom">Este profesor aún no tiene publicaciones en el blog.</p>
@@ -91,6 +95,7 @@
                 </ul>
             </div>
         </div>
+        
     </div>
 
 {% endblock content %}

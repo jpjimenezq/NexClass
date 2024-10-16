@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from users.models import Teacher, Specialties, Mode, Availability
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from teacher_blog.models import BlogPost
+from users.models import ProfessorChatMessage
+from users.forms import ChatMessageForm
 
 # Create your views here.
 @login_required()
@@ -63,3 +65,37 @@ def teachers_detail(request, teacher_id):
         'average_rating': teacher.average_rating(),
         'blog_posts': blog_posts,
     })
+
+@login_required()
+def send_message(request, teacher_id):
+    teacher = get_object_or_404(Teacher, id=teacher_id)
+
+    if request.method == 'POST':
+        form = ChatMessageForm(request.POST)
+        if form.is_valid():
+            professor_chat_message = form.save(commit=False)
+            professor_chat_message.student = request.user.student  # Asegúrate de que el usuario es un estudiante
+            professor_chat_message.teacher = teacher  # Relaciona con el profesor
+            professor_chat_message.content = form.cleaned_data['content']  # Asigna el contenido
+            professor_chat_message.save()
+            return redirect('chat', teacher_id=teacher_id)  # Redirige al chat
+    else:
+        form = ChatMessageForm()
+
+    return render(request, 'chat/send_message.html', {
+        'form': form,
+        'teacher': teacher
+    })
+
+
+@login_required()
+def chat(request, teacher_id):
+    teacher = get_object_or_404(Teacher, id=teacher_id)
+    messages = ProfessorChatMessage.objects.filter(teacher=teacher, student=request.user.student).order_by('timestamp')
+
+    return render(request, 'chat.html', {
+        'messages': messages,
+        'teacher': teacher  # Para mostrar información del profesor
+    })
+
+

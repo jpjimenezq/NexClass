@@ -1,20 +1,81 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
-from .forms import CustomUserCreationForm, TeacherCreationForm, StudentCreationForm, StudentUpdateForm, UserUpdateForm, EditTeacherForm
-from .models import User, Student, Teacher
-from .models import UserType
+from .forms import (
+    CustomUserCreationForm, TeacherCreationForm, StudentCreationForm,
+    StudentUpdateForm, UserUpdateForm, EditTeacherForm
+)
+from .models import User, Student, Teacher, UserType
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib import messages
 from mis_clases_inscritas.models import HistoryClasses
 from teacher_blog.models import BlogPost
+from NextClassProject.settings import GENERATIVE_AI_KEY
+from .models import ChatMessage
+import google.generativeai as genai
+
+INITIAL_CONTEXT = """
+    Eres un asistente virtual amigable y experto en asesoramiento sobre clases y profesores.
+    Responde a las preguntas de los usuarios de manera clara, concisa y directa, evitando explicaciones largas.
+    Limítate a la información más relevante y útil. Dile que profesor especializado en que como por ejemplo:
+    Mathematics, Science, Languages, History, Geography, Music, Art, Physical Education, Computer Science, Economics,
+    Philosophy, Engineering, Psychology, Law, Medicine, Other.
+"""
+
+
+MAX_HISTORY = 10
+
+genai.configure(api_key=GENERATIVE_AI_KEY)
 
 # Create your views here.
 @login_required
 def home(request):
-    user = request.user
-    return render(request, 'home.html', {'user': user})
+    user = request.user  # Usuario autenticado
+
+    if request.method == 'POST':
+        # Procesar el mensaje del chatbot
+        genai.configure(api_key=GENERATIVE_AI_KEY)
+        model = genai.GenerativeModel("gemini-pro")
+
+        user_message = request.POST.get('user_message')
+
+        # Recupera el historial de mensajes del usuario logueado
+        messages = ChatMessage.objects.filter(user=user).order_by('-timestamp')[:MAX_HISTORY]
+
+        # Construye el prompt con los mensajes filtrados por el usuario
+        prompt = INITIAL_CONTEXT + "\n"
+        for msg in reversed(messages):  # Revertir para mantener el orden cronológico
+            prompt += f"Usuario: {msg.user_message}\nAsistente: {msg.bot_response}\n"
+        prompt += f"Usuario: {user_message}\nAsistente:"
+
+        # Generar la respuesta del bot
+        try:
+            bot_response = model.generate_content(prompt)
+            bot_text = bot_response.text.strip()
+        except Exception as e:
+            bot_text = "Lo siento, ocurrió un error al generar la respuesta."
+            print(f"Error generando respuesta: {e}")
+
+        # Guardar el nuevo mensaje del usuario
+        ChatMessage.objects.create(user=user, user_message=user_message, bot_response=bot_text)
+
+        # Actualizar el historial de mensajes del usuario
+        messages = ChatMessage.objects.filter(user=user).order_by('-timestamp')[:MAX_HISTORY]
+
+        return render(request, 'home.html', {
+            'user': user,
+            'messages': messages,
+            'bot_response': bot_text
+        })
+
+    else:
+        # Obtener solo los mensajes del usuario autenticado
+        messages = ChatMessage.objects.filter(user=user).order_by('-timestamp')[:MAX_HISTORY]
+        return render(request, 'home.html', {
+            'user': user,
+            'messages': messages
+        })
 
 
 def landing(request):

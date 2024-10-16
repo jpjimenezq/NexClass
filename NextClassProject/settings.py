@@ -12,10 +12,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -156,6 +158,7 @@ LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/home/'
 
+GENERATIVE_AI_KEY = os.environ.get('GENERATIVE_AI_KEY')
 
-
-
+if not GENERATIVE_AI_KEY:
+    raise ValueError('GENERATIVE_AI_KEY environment variable not set')

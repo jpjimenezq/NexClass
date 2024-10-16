@@ -22,13 +22,13 @@
 
 /* Tema claro */
 .light-theme {
-  --bg-color: #bdcbd4fb;
-  --text-color: #010f1e;
-  --nav-bg-color: #1d3b4e;
-  --button-bg-color: #070606;
-  --button-bg-color-two: #add1fa;
-  --button-text-color: #587799;
-  --border-color: #000000;
+  --bg-color: #f4f4f4; /* Color de fondo más claro */
+  --text-color: #010f1e; /* Color de texto oscuro */
+  --nav-bg-color: #ffffff; /* Fondo blanco para la navegación */
+  --button-bg-color: #cdfffe; /* Fondo para botones */
+  --button-bg-color-two: #275972; /* Color secundario para botones */
+  --button-text-color: #010f1e; /* Texto oscuro para botones */
+  --border-color: #275972; /* Color de borde oscuro */
 }
 
 /* Estilo de la página utilizando variables */
@@ -75,7 +75,7 @@ h6 {
 .button-custom {
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
-  border: 0.5px solid var(--border-color);
+  border: 1px solid var(--border-color); /* Ajuste el grosor del borde */
   border-radius: 0;
   padding: 12px 24px;
   text-align: center;
@@ -95,7 +95,7 @@ h6 {
 .button-custom-two {
   background-color: var(--button-bg-color-two);
   color: var(--button-text-color);
-  border: 0.5px solid var(--border-color);
+  border: 1px solid var(--border-color);
   border-radius: 0;
   padding: 12px 24px;
   text-align: center;
@@ -119,3 +119,11 @@ a {
 .border-dotted {
   border: 2px dotted var(--border-color);
 }
+
+.card-img-top {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+

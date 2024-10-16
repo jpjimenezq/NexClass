@@ -10,7 +10,7 @@
     <a href="{% url 'home' %}" class="d-flex align-items-center justify-content-center">
         <img src="{% static 'images/LogoConFondo.png' %}" alt="Teacher Search" width="70" height="70"/>
     </a>
-    <nav class="ms-auto d-flex gap-2 gap-lg-4">
+    <nav class="ms-auto d-flex gap-2 gap-lg-4 align-items-center">
         <a href="{% url 'favoritos' %}" class="text-decoration-none text_custom small me-4">
             Favoritos
         </a>
@@ -26,7 +26,7 @@
         <a href="{% url 'completed_quizzes' %}" class="text-decoration-none text_custom small me-4">
             Quices Completados
         </a>
-        
+
         <!-- Toggle de Tema -->
         <button id="theme-toggle" class="btn btn-light me-4">
             <i id="theme-icon" class="fa-solid fa-moon"></i>
