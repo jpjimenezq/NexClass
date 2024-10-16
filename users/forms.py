@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Teacher, Student
-
+from .models import ProfessorChatMessage
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150, label='Nombre de usuario')
@@ -82,4 +82,7 @@ class UserUpdateForm(forms.ModelForm):
             'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
         }
 
-
+class ChatMessageForm(forms.ModelForm):
+    class Meta:
+        model = ProfessorChatMessage
+        fields = ['content']

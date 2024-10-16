@@ -110,5 +110,26 @@ class Teacher(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+class ChatMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_messages')
+    user_message = models.TextField()
+    bot_response = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        # Verificar si el usuario es estudiante
+        if self.user.user_type != UserType.STUDENT:
+            raise ValueError("Solo los estudiantes pueden enviar mensajes.")
+        super().save(*args, **kwargs)
 
+    def __str__(self):
+        return f"Chat with {self.user.username} at {self.timestamp}"
+
+class ProfessorChatMessage(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_messages')
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_messages')
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.student.user.username} to {self.teacher.user.username} at {self.timestamp}"

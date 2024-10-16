@@ -12,7 +12,12 @@
     <link href="{% static 'styles/global.css' %}" rel="stylesheet" />
 </head>
 <body>
-    <h1>Register now</h1>
+    <h1 class="text-center mt-3">Register</h1>
+
+    <div class="d-flex gap-3">
+        <p>I already have an account</p>
+        <a href="{% url 'login' %}" class="navegacion__enlace">Log in now</a>
+    </div>
 
     <form method="POST">
     {% csrf_token %}
@@ -22,9 +27,8 @@
     {% elif user_form.cleaned_data.user_type == 'Student' %}
         {{ student_form.as_p }}
     {% endif %}
-    <button type="submit">Sign Up</button>
+    <button type="submit">Register</button>
 </form>
-    <a href="{% url 'login' %}" class="navegacion__enlace">I already have an account</a>
 </body>
 </html>
 {% endblock content %}
