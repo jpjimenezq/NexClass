@@ -124,12 +124,3 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"Chat with {self.user.username} at {self.timestamp}"
-
-class ProfessorChatMessage(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_messages')
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_messages')
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Message from {self.student.user.username} to {self.teacher.user.username} at {self.timestamp}"
