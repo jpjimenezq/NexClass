@@ -14,13 +14,19 @@ from teacher_blog.models import BlogPost
 from NextClassProject.settings import GENERATIVE_AI_KEY
 from .models import ChatMessage
 import google.generativeai as genai
+from dotenv import load_dotenv, find_dotenv
+from openai import OpenAI
+import os
+from classCreation_Schedules.models import Class
+from embeddings_simmilarities.utils import calcular_similitud
 
 INITIAL_CONTEXT = """
-    Eres un asistente virtual amigable y experto en asesoramiento sobre clases y profesores.
-    Responde a las preguntas de los usuarios de manera clara, concisa y directa, evitando explicaciones largas.
-    Limítate a la información más relevante y útil. Dile que profesor especializado en que como por ejemplo:
-    Mathematics, Science, Languages, History, Geography, Music, Art, Physical Education, Computer Science, Economics,
-    Philosophy, Engineering, Psychology, Law, Medicine, Other.
+    Eres un asistente virtual amigable y experto en asesoramiento sobre clases y profesores. 
+    Responde a las preguntas de los usuarios de manera clara, concisa y directa, evitando explicaciones largas. 
+    Si el usuario menciona dificultades en alguna materia o muestra interés en aprender algo nuevo, siempre responde recomendando un profesor o clase. 
+    Usa alguna de estas expresiones forzosamente dependiendo de de la pregunta: "te recomiendo", "puedes encontrar ayuda en", o "podrías buscar un profesor especializado en". 
+    Interpreta naturalmente el mensaje del usuario y haz recomendaciones cuando corresponda. 
+    Si no es necesario recomendar un profesor o clase, responde normalmente.
 """
 
 
@@ -32,7 +38,8 @@ genai.configure(api_key=GENERATIVE_AI_KEY)
 @login_required
 def home(request):
     user = request.user  # Usuario autenticado
-
+    resultado_clases_sorted = []
+    resultado_teacher_sorted = []
     if request.method == 'POST':
         # Procesar el mensaje del chatbot
         genai.configure(api_key=GENERATIVE_AI_KEY)
@@ -53,6 +60,48 @@ def home(request):
         try:
             bot_response = model.generate_content(prompt)
             bot_text = bot_response.text.strip()
+            # MEjorar esto que esta como rarito, para poder identificar si necesita o no
+            if "te recomiendo" in bot_text.lower() or "puedes encontrar ayuda en" in bot_text.lower() or "podrías buscar un profesor especializado en" in bot_text.lower():
+
+                _ = load_dotenv('api_keys.env')
+                client = OpenAI(
+                    # This is the default and can be omitted
+                    api_key=os.environ.get('openai_apikey'),)
+
+                response = client.embeddings.create(
+                    input=user_message,
+                    model = "text-embedding-ada-002"
+                )
+                user_embedding = response.data[0].embedding
+
+                clases = Class.objects.all()
+
+                teachers = Teacher.objects.all()
+
+                resultado_teacher = []
+                resultado_clases = []
+
+                for clase in clases:
+                    similitud = calcular_similitud(user_embedding, clase.get_embedding())
+                    resultado_clases.append((clase, similitud))
+
+                for teacher in teachers:
+                    similitud = calcular_similitud(user_embedding, teacher.get_embedding())
+                    resultado_teacher.append((teacher, similitud))
+
+                resultado_clases_sorted = sorted(resultado_clases, key=lambda x: x[1], reverse=True)[:3]
+                resultado_teacher_sorted = sorted(resultado_teacher, key=lambda x: x[1], reverse=True)[:3]
+                bot_text += "\nTe recomendaría estas opciones basadas en tu mensaje:\n"
+                bot_text += "clases: "
+                for class_obj, sim in resultado_clases_sorted:
+                    bot_text += f'<a href="{reverse("class_detail", args=[class_obj.id])}" class="">'
+                    bot_text += f'<strong>{class_obj.className},</strong></a> '
+                bot_text += "teachers: "
+                for teacher, sim in resultado_teacher_sorted:
+                    bot_text += f'<a href="{reverse("teachers_detail", args=[teacher.id])}" class="">'
+                    bot_text += f'<strong>{teacher.user.name},</strong></a> '
+
+
         except Exception as e:
             bot_text = "Lo siento, ocurrió un error al generar la respuesta."
             print(f"Error generando respuesta: {e}")
@@ -66,7 +115,7 @@ def home(request):
         return render(request, 'home.html', {
             'user': user,
             'messages': messages,
-            'bot_response': bot_text
+            'bot_response': bot_text,
         })
 
     else:

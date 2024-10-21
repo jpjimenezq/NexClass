@@ -40,7 +40,7 @@
                   {% for message in messages reversed %}
                   <div class="message" style="margin: 10px 0; padding: 10px; color: var(--text-color);">
                     <strong style="color: var(--text-color);">You:</strong> {{ message.user_message }} <br />
-                    <strong style="color: var(--text-color);">NexClass:</strong> {{ message.bot_response }}
+                    <strong style="color: var(--text-color);">NexClass:</strong> {{ message.bot_response|safe }}
                   </div>
                   {% endfor %}
                 </div>

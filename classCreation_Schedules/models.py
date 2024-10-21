@@ -1,4 +1,6 @@
 from django.db import models
+import pickle
+from embeddings_simmilarities.utils import generate_embedding, save_embedding_to_binary
 
 
 # Create your models here.
@@ -7,9 +9,28 @@ class Class(models.Model):
     teacher = models.ForeignKey('users.Teacher', on_delete=models.CASCADE)
     description = models.TextField()
     class_picture = models.ImageField(upload_to='class_photos/', default='class_photos/default_profile.png', null=True, blank=True)
+    embedding = models.BinaryField(blank=True, null=True)
 
     def __str__(self):
         return self.className
+
+    def set_embedding(self, emb_vector):
+        self.embedding = save_embedding_to_binary(emb_vector)
+
+    def get_embedding(self):
+        return pickle.loads(self.embedding)
+
+    def save(self, *args, **kwargs):
+        combined_text = (
+            f"Class Name: {self.className}. "
+            f"Description: {self.description}. "
+        )
+
+        if not self.embedding or self._state.adding:
+            embedding = generate_embedding(combined_text)
+            self.set_embedding(embedding)
+
+        super().save(*args, **kwargs)
 
 
 class Schedule(models.Model):

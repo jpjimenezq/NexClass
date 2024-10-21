@@ -2,6 +2,9 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+import pickle
+from embeddings_simmilarities.utils import generate_embedding, save_embedding_to_binary
+
 
 # Create your models here.
 # Opciones de tipo de usuario
@@ -9,17 +12,20 @@ class UserType(models.TextChoices):
     STUDENT = 'Student', 'Student'
     TEACHER = 'Teacher', 'Teacher'
 
+
 # Opciones de disponibilidad
 class Availability(models.TextChoices):
     FULL_TIME = 'Full-Time', 'Full-Time'
     PART_TIME = 'Part-Time', 'Part-Time'
     FLEXIBLE = 'Flexible', 'Flexible'
 
+
 # Opciones de modalidad
 class Mode(models.TextChoices):
     ONLINE = 'Online', 'Online'
     IN_PERSON = 'In-Person', 'In-Person'
     HYBRID = 'Hybrid', 'Hybrid'
+
 
 class Specialties(models.TextChoices):
     MATHEMATICS = 'Mathematics', 'Mathematics'
@@ -38,6 +44,7 @@ class Specialties(models.TextChoices):
     LAW = 'Law', 'Law'
     MEDICINE = 'Medicine', 'Medicine'
     OTHER = 'Other', 'Other'
+
 
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -86,11 +93,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    specialties = models.CharField(
+    specialities = models.CharField(
         max_length=50,
         choices=Specialties.choices
     )
     biography = models.TextField()
+    description = models.TextField(default="No description provided.")
     average_rating = models.FloatField(default=0.0)
     availability = models.CharField(
         max_length=50,
@@ -100,15 +108,44 @@ class Teacher(models.Model):
         max_length=50,
         choices=Mode.choices
     )
+    embedding = models.BinaryField(blank=True, null=True)
+    ciudad = models.CharField(max_length=150, default="Colombia")
+
     def average_rating(self):
         ratings = self.ratings.all()
         if ratings:
             return sum([rating.rating for rating in ratings]) / ratings.count()
         return 0
 
+    def set_embedding(self, emb_vector):
+        self.embedding = save_embedding_to_binary(emb_vector)
+
+    def get_embedding(self):
+        return pickle.loads(self.embedding)
+
+    def save(self, *args, **kwargs):
+        # Combinación de los textos relevantes para generar el embedding
+        combined_text = (
+            f"Description: {self.description}. "
+            f"Specialities: {self.specialities}. "
+            f"Biography: {self.biography}. "
+            f"Mode: {self.mode}. "
+            f"Ciudad: {self.ciudad}. "
+            f"Availability: {self.availability}. "
+            f"Average rating: {self.average_rating}."
+        )
+
+        # Generar el embedding si es nuevo o si ha cambiado algún campo relevante
+        if not self.embedding or self._state.adding:
+            embedding = generate_embedding(combined_text)
+            self.set_embedding(embedding)
+
+        super().save(*args, **kwargs)
+
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
 
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_messages')

@@ -16,7 +16,7 @@ class CustomUserCreationForm(UserCreationForm):
 class TeacherCreationForm(forms.ModelForm):
     class Meta:
         model = Teacher
-        fields = ['specialties', 'biography', 'availability', 'mode']
+        fields = ['specialities', 'description', 'biography', 'availability', 'mode', 'ciudad']
 
 
 class StudentCreationForm(forms.ModelForm):
@@ -44,16 +44,20 @@ class EditTeacherForm(forms.ModelForm):
     class Meta:
         model = Teacher
         fields = [
-            'specialties',
+            'specialities',
+            'description',
             'biography',
             'availability',
-            'mode'
+            'mode',
+            'ciudad'
         ]
         widgets = {
-            'specialties': forms.Select(attrs={'class': 'form-control'}),
+            'specialities': forms.Select(attrs={'class': 'form-control'}),
+            'description': forms.Select(attrs={'class': 'form-control'}),
             'biography': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Biografía'}),
             'availability': forms.Select(attrs={'class': 'form-control'}),
             'mode': forms.Select(attrs={'class': 'form-control'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 
