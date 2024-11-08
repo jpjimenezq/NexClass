@@ -1,22 +1,22 @@
 {% extends navbar_template %}  {% load static %}
 
 {% block content %}
+<div class="container d-flex flex-column align-items-center py-5">
+        <h1 class="text-center mb-3">Modificar Perfil</h1>
+        <div class="p-4 shadow-sm w-100 rounded" style="max-width: 800px; background-color: #1a2634">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ user_form.as_p }}
 
-<div class="container">
-    <h2>Modificar Perfil</h2>
-    <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ user_form.as_p }}
+                {% if student_form %}
+                    {{ student_form.as_p }}
+                {% elif teacher_form %}
+                    {{ teacher_form.as_p }}
+                {% endif %}
 
-    {% if student_form %}
-        {{ student_form.as_p }}
-    {% elif teacher_form %}
-        {{ teacher_form.as_p }}
-    {% endif %}
-
-    <button type="submit">Guardar cambios</button>
-</form>
-</div>
-
+                <button type="submit" class="btn btn-light w-100 button-custom-two mx-auto">Guardar cambios</button>
+            </form>
+        </div>
+    </div>
 {% endblock content %}
 

@@ -12,19 +12,36 @@
     <link href="{% static 'styles/global.css' %}" rel="stylesheet" />
 </head>
 <body>
-    <h1>Login</h1>
+    <div class="container-fluid vh-100">
+        <div class="row h-100">
+            <!-- Left section with image -->
+            <div class="col-md-6 d-flex justify-content-center align-items-center">
+                <img src="{% static 'images/logo_sin_fondo.svg' %}" alt="Logo" class="img-fluid">
+            </div>
 
-    <div class="d-flex gap-3">
-        <p>Don't have an account</p>
-        <a href="{% url 'signup' %}" class="navegacion__enlace">Register Now</a>
+            <!-- Right section with login form -->
+            <div class="col-md-6 p-2 d-flex align-items-center background-color-custom">
+                <div class="m-auto" style="max-width: 500px">
+                    <h1 class="text-center"><strong>Welcome back...</strong></h1>
+                    <h3 class="text-center mt-3">Login</h3>
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="row g-2">
+                        <input type="text" name="username" class="form-control border-3  border-dark rounded-pill shadow-lg" placeholder="Username" required>
+                        <input type="password" name="password" class="form-control border-3 border-dark rounded-pill shadow-lg" placeholder="Password" required>
+                        <button type="submit" class="btn btn-light w-50 button-custom mx-auto">Login</button>
+                            </div>
+                    </form>
+                    <div class="d-flex gap-3 justify-content-center mt-3">
+                        <p>Don't have an account</p>
+                        <a href="{% url 'signup' %}" class="navegacion__enlace">Register Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <button type="submit">Login</button>
-    </form>
+
 </body>
 </html>
 {% endblock content %}

@@ -3,7 +3,7 @@ from django.forms import modelformset_factory
 from .models import Quiz, Question, Answer, QuizResult
 from .forms import QuizForm, QuestionForm, QuizFormClass, AnswerFormSet
 from classCreation_Schedules.models import Class
-from users.models import Student
+from users.models import Student, Teacher
 
 
 # Vista para crear un quiz
@@ -37,15 +37,16 @@ def create_quiz(request, class_id=None):
 
 def quiz_list(request, class_id=None):
     titulo = ''
+    teacher_obj = get_object_or_404(Teacher, user=request.user)
     if class_id:
         class_obj = get_object_or_404(Class, id=class_id)
         quizzes = Quiz.objects.filter(class_obj=class_obj)
         titulo = f'Mostrando quices para la clase: {class_obj.className}'
         # return render(request, 'quiz_list.html', {'quizzes': quizzes, 'class_obj': class_obj, 'titulo': titulo})
     else:
-        quizzes = Quiz.objects.all()
+        quizzes = Quiz.objects.filter(class_obj__teacher=teacher_obj)
         titulo = f'Mostrando Todos los quices: '
-        # return render(request, 'quiz_list.html', {'quizzes': quizzes, 'class_obj': class_id, 'titulo': titulo})
+
     return render(request, 'quiz_list.html', {'quizzes': quizzes, 'class_id': class_id, 'titulo': titulo})
 
 

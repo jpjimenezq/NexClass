@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Teacher, Student
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=150, label='Nombre de usuario')
+    username = forms.CharField(max_length=150, label='Nombre de usuario' )
     password = forms.CharField(widget=forms.PasswordInput, label='Contraseña')
 
 
@@ -11,12 +11,28 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['name', 'username', 'email', 'user_type', 'password1', 'password2']
-
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'username': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'user_type': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control bg-info-subtle'}),
+        }
 
 class TeacherCreationForm(forms.ModelForm):
     class Meta:
         model = Teacher
         fields = ['specialities', 'description', 'biography', 'availability', 'mode', 'ciudad']
+
+        widgets = {
+            'specialities': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'description': forms.Textarea(attrs={'class': 'form-control bg-info-subtle'}),
+            'biography': forms.Textarea(attrs={'class': 'form-control bg-info-subtle'}),
+            'availability': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'mode': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
+        }
 
 
 class StudentCreationForm(forms.ModelForm):
@@ -36,8 +52,13 @@ class EditUserForm(forms.ModelForm):
             'password',
         ]
         widgets = {
-            'email': forms.EmailInput(),
+            'name': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'address': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control bg-info-subtle'}),
         }
+
 
 
 class EditTeacherForm(forms.ModelForm):
@@ -52,12 +73,12 @@ class EditTeacherForm(forms.ModelForm):
             'ciudad'
         ]
         widgets = {
-            'specialities': forms.Select(attrs={'class': 'form-control'}),
-            'description': forms.Select(attrs={'class': 'form-control'}),
-            'biography': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Biografía'}),
-            'availability': forms.Select(attrs={'class': 'form-control'}),
-            'mode': forms.Select(attrs={'class': 'form-control'}),
-            'ciudad': forms.TextInput(attrs={'class': 'form-control'}),
+            'specialities': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'description': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'biography': forms.Textarea(attrs={'class': 'form-control bg-info-subtle', 'rows': 5, 'placeholder': 'Biografía'}),
+            'availability': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'mode': forms.Select(attrs={'class': 'form-control bg-info-subtle'}),
+            'ciudad': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
         }
 
 
@@ -78,9 +99,9 @@ class UserUpdateForm(forms.ModelForm):
             'address'
         ]
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre completo'}),
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de usuario'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo electrónico'}),
-            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
-            'address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección'}),
+            'name': forms.TextInput(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Nombre completo'}),
+            'username': forms.TextInput(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Nombre de usuario'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Correo electrónico'}),
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'address': forms.TextInput(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Dirección'}),
         }

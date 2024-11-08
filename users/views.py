@@ -242,11 +242,10 @@ def edit_teacher_profile(request):
 @login_required
 def modificar_perfil(request):
     user = request.user
-
-
     if hasattr(user, 'student'):
         navbar_template = 'navbar.html'
-        student = user.student
+        student = get_object_or_404(Student, user=request.user)
+
         if request.method == 'POST':
             user_form = UserUpdateForm(request.POST, request.FILES, instance=user)
             student_form = StudentUpdateForm(request.POST, instance=student)
@@ -266,7 +265,8 @@ def modificar_perfil(request):
         })
 
     elif hasattr(user, 'teacher'):
-        teacher = user.teacher
+
+        teacher = get_object_or_404(Teacher, user=request.user)
         navbar_template = 'navbarTeacher.html'
 
         if request.method == 'POST':

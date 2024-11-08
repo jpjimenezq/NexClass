@@ -11,9 +11,9 @@ class ClassForm(forms.ModelForm):
         fields = ['className', 'description', 'class_picture']
 
         widgets = {
-            'className': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'style': 'width:100%;'}),
-            'class_picture': forms.ClearableFileInput(attrs={'class': 'form-control '}),
+            'className': forms.TextInput(attrs={'class': 'form-control bg-info-subtle'}),
+            'description': forms.Textarea(attrs={'class': 'form-control bg-info-subtle', 'rows': 4, 'style': 'width:100%;'}),
+            'class_picture': forms.ClearableFileInput(attrs={'class': 'form-control bg-info-subtle'}),
         }
 
 
@@ -24,6 +24,6 @@ class ScheduleForm(forms.ModelForm):
         fields = ['start_time', 'end_time', 'available']
 
         widgets = {
-            'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local', 'placeholder': 'Select date and time'}),
-            'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local', 'placeholder': 'Select date and time'}),
+            'start_time': forms.DateTimeInput(attrs={'type': 'datetime-local', 'placeholder': 'Select date and time', 'class': 'form-control bg-info-subtle'}),
+            'end_time': forms.DateTimeInput(attrs={'type': 'datetime-local', 'placeholder': 'Select date and time', 'class': 'form-control bg-info-subtle'}),
         }

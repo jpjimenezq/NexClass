@@ -7,14 +7,14 @@ class QuizForm(forms.ModelForm):
     class_obj = forms.ModelChoiceField(
         queryset=Class.objects.none(),  # Inicialmente vacío
         label="class",
-        widget=forms.Select(attrs={'class': 'form-select'})  # Agregar clase Bootstrap aquí
+        widget=forms.Select(attrs={'class': 'form-select bg-info-subtle'})  # Agregar clase Bootstrap aquí
     )
     class Meta:
         model = Quiz
         fields = ['title', 'description', 'class_obj']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter quiz title'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter quiz description'}),
+            'title': forms.TextInput(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Enter quiz title'}),
+            'description': forms.Textarea(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Enter quiz description'}),
         }
 
     def __init__(self, *args, **kwargs):

@@ -11,24 +11,27 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="{% static 'styles/global.css' %}" rel="stylesheet" />
 </head>
-<body>
-    <h1 class="text-center mt-3">Register</h1>
+<body class="">
+    <div class="container d-flex flex-column align-items-center py-5">
+        <h1 class="text-center mb-3">Register</h1>
+        <div class="p-4 shadow-sm w-100 rounded" style="max-width: 800px; background-color: #1a2634">
+            <div class="text-center mb-3">
+                <span>Already have an account?</span>
+                <a href="{% url 'login' %}" class=""><strong>Log in now</strong></a>
+            </div>
 
-    <div class="d-flex gap-3">
-        <p>I already have an account</p>
-        <a href="{% url 'login' %}" class="navegacion__enlace">Log in now</a>
+            <form method="POST">
+                {% csrf_token %}
+                {{ user_form.as_p }}
+                {% if user_form.cleaned_data.user_type == 'Teacher' %}
+                    {{ teacher_form.as_p }}
+                {% elif user_form.cleaned_data.user_type == 'Student' %}
+                    {{ student_form.as_p }}
+                {% endif %}
+                <button type="submit" class="btn btn-light w-100 button-custom-two mx-auto">Register</button>
+            </form>
+        </div>
     </div>
-
-    <form method="POST">
-    {% csrf_token %}
-    {{ user_form.as_p }}
-    {% if user_form.cleaned_data.user_type == 'Teacher' %}
-        {{ teacher_form.as_p }}
-    {% elif user_form.cleaned_data.user_type == 'Student' %}
-        {{ student_form.as_p }}
-    {% endif %}
-    <button type="submit">Register</button>
-</form>
 </body>
 </html>
 {% endblock content %}
