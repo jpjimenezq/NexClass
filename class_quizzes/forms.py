@@ -5,7 +5,7 @@ from classCreation_Schedules.models import Class
 
 class QuizForm(forms.ModelForm):
     class_obj = forms.ModelChoiceField(
-        queryset=Class.objects.none(),  # Inicialmente vacío
+        queryset=Class.objects.all(),  # Inicialmente vacío
         label="class",
         widget=forms.Select(attrs={'class': 'form-select bg-info-subtle'})  # Agregar clase Bootstrap aquí
     )
@@ -16,12 +16,6 @@ class QuizForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Enter quiz title'}),
             'description': forms.Textarea(attrs={'class': 'form-control bg-info-subtle', 'placeholder': 'Enter quiz description'}),
         }
-
-    def __init__(self, *args, **kwargs):
-        class_id = kwargs.pop('class_id', None)  # Obtener el class_id de los kwargs
-        super(QuizForm, self).__init__(*args, **kwargs)
-        if class_id:
-            self.fields['class_obj'].queryset = Class.objects.filter(id=class_id)
 
 
 class QuizFormClass(forms.ModelForm):

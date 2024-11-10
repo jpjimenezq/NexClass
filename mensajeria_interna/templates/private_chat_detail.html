@@ -1,0 +1,73 @@
+
+{% extends base %}
+
+{% block content %}
+
+<div class="container-sm my-5 text-center ">
+
+    <h2 class="mb-4">
+        <strong>
+            {% if request.user == private_chat.teacher.user %}
+                Chat privado con {{ private_chat.student.user.name }}
+            {% else %}
+                Chat privado con {{ private_chat.teacher.user.name }}
+            {% endif %}
+        </strong>
+    </h2>
+
+    <div class="messages ">
+        {% for message in messages %}
+            <div class="row d-flex justify-content-center my-5">
+                <div class="col-md-7 bg-light  bg-opacity-10 p-3 rounded shadow-lg">
+                    {% if message.sender == request.user %}
+                        <div class="border-start border-info ">
+                            <h5 class=" ms-4 my-0 text-start mb-1"><strong>{{ message.sender.name }}:</strong></h5>
+                            <p class=" ms-4 my-0 text-start">{{ message.content }}</p>
+                            <p class=" ms-4 my-0 mt-3 text-start"><span class="badge text-bg-secondary">{{ message.timestamp }}</span></p>
+                        </div>
+                {% else %}
+                        <div class="border-end">
+                            <h5 class="me-4 my-0 text-end mb-2"><strong>{{ message.sender.name }}:</strong></h5>
+                            <p class=" me-4 my-0 text-end">{{ message.content }}</p>
+                            <p class="me-4 my-0 mt-3 text-end"><span class="badge text-bg-secondary">{{ message.timestamp }}</span></p>
+                        </div>
+                {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <form method="post" class="w-75 mx-auto p-3 bg-light bg-opacity-10 rounded shadow-lg">
+        {% csrf_token %}
+        <h2>Enviar mensaje:</h2>
+        {{ form.content }}
+        <div class="mt-4">
+            <h4>Recomendaciones de mensajes:</h4>
+            <ul id="recommendations-list " class="list-group-item">
+                {% for suggestion in quick_suggestions %}
+                    <li class="list-group-item list-group-item- m-3 shadow-lg" style="cursor: pointer;">
+                        <div class="badge text-bg-secondary text-wrap w-100">
+                            <p class="text_custom">{{ suggestion }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <button type="submit" class="button-custom-two btn btn-light mt-3">Enviar Mensaje</button>
+    </form>
+</div>
+
+<script>
+// JavaScript para manejar la inserción de la recomendación en el campo de mensaje
+document.querySelectorAll('.recommendation-item').forEach(item => {
+    item.addEventListener('click', function() {
+        const recommendationText = this.innerText;
+        const contentField = document.querySelector('[name="content"]'); // Se selecciona el campo de contenido
+
+        // Inserta la recomendación en el campo de texto
+        contentField.value = recommendationText;
+    });
+});
+</script>
+
+{% endblock %}

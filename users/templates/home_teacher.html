@@ -1,34 +1,73 @@
 {% extends 'navbarTeacher.html' %}
-{% block content %}
-<!DOCTYPE html>
-<html lang="en">
-{% load static %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
-    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block content %}{% load static %}
+
+
 <body>
-    <section class="w-100 py-5 py-md-5 py-lg-5 py-xl-5 mb-5">
-        <div class="container px-4 px-md-6">
-          <div class="row g-4">
-            <div class="col-lg-8">
-              <div class="d-flex flex-column justify-content-center mb-4">
-                <h1 class="text-3xl fw-bold sm:text-5xl xl:text-6xl">
-                  Welcome to NexClass, {{user.username}}
+    <section class="container-sm my-5 text-center">
+            <div class="row d-flex justify-content-center my-5">
+                <div class="col-md-11 bg-light  bg-opacity-10 p-3 rounded shadow-lg">
+                <h1 class="text-center">
+                    <strong>
+                        Welcome to NexClass, {{user.username}}
+                    </strong>
                 </h1>
-                <p class="max-w-600 text_custom">
-                    How are you, ready to learn?
-                </p>
-              </div>
+
+                    <p class="mt-4 ">
+                        Plataforma educativa orientada a la experiencia de usuario, usa nuestras herramientas de inteligencia artificial para mejorar la experiencia dentro de la aplicacion
+                    </p>
+                    <p class="mx-5 mt-3 pb-4">Crea clases, quices, crea llamadas y accede a todas las funciones que te ofrece NexClass</p>
+
+                    <div class="row mt-5">
+                        <div class="col-5 mx-3">
+                            <div class="row">
+                                <div class="card bg-light bg-opacity-75 mb-3 " style="background-color: #295972;">
+                                  <div class="card-body">
+                                    <h5 class="card-title fw-bold"><i class="fa-solid fa-ranking-star fa-2xl me-2" style="color: #295972;"></i>Crea tus quices</h5>
+                                    <p class="card-text text-start">Puedes crear quices para tus estudiantes y ayudarles a que practiquen sus conocimientos.   <span class="badge text-bg-secondary"><a href="{% url 'quiz_list' %}">mirar</a></span></p>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="card bg-light bg-opacity-75 mb-3" >
+                                  <div class="card-body">
+                                   <h5 class="card-title text-start fw-bold">
+                                        <i class="fas fa-chalkboard-teacher me-2 fa-2xl" style="color: #295972;"></i> <!-- Icono de Font Awesome a la izquierda -->
+                                       Crea tus clases
+                                    </h5>
+                                      <p class="card-text text-start">Crea clases personalizadas y adapta tu perfil para los estudiantes, crea horarios para tus clases y automatiza tus reuniones en google meet.   <span class="badge text-bg-secondary"><a href="{% url 'teacher_classes' %}">mirar</a></span></p>
+
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="card bg-light bg-opacity-75 mb-3" >
+                                  <div class="card-body">
+                                    <h5 class="card-title fw-bold"><i class="fa-solid fa-comment-dots fa-2xl me-2" style="color: #295972;"></i>Chat IA</h5>
+                                    <p class="card-text text-start">Con nuestro chat interno NexClass interactua con tu salon de clases y tus alumnos en particular, usando nuestro sistema integrado con Inteligencia Artificial.    <span class="badge text-bg-secondary"><a href="{% url 'chat_list' %}">mirar</a></span</p>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div id="color_chart" class="border-start ">
+                                <h4 class="text-center">
+                                    <strong>
+                                        Tus estadisticas de clase
+                                    </strong>
+                                </h4>
+                                <canvas class="ms-4" id="enrollmentChart"
+                                    data-class-names='{{ class_names|safe }}'
+                                    data-enrollment-counts='{{ enrollment_counts|safe }}'>
+                                </canvas>
+                            </div>
+                        </div>
+                    </div>
+
+
             </div>
-          </div>
         </div>
-      </section>
+    </section>
+    <script src="{% static 'js/enrollment_chart.js' %}"></script>
+
 </body>
-</html>
 {% endblock content %}

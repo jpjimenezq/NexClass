@@ -7,15 +7,15 @@
         <h1>Classes</h1>
            {% for favorite_class in student_favorites_classes %}
            <div class="col-md-4 mb-4 d-flex align-items-stretch">
-               <div class="card bg-transparent border">
+               <div class="card bg-transparent border shadow-lg">
                    <img class="card-img-top px-3 pt-3" src="{{ favorite_class.student_class.class_picture.url }}" alt="{{ favorite_class.student_class.className }}">
                    <div class="card-body text_custom">
                        <h5 class="card-title text-center">{{ favorite_class.student_class.className }}</h5>
                        <p class="card-text">Profesor: {{ favorite_class.student_class.teacher.user.name }}</p>
-                       <p class="card-text"><small>Acerca del curso: {{ favorite_class.student_class.description }}</small></p>
+                       <p class="card-text"><small>Acerca del curso: {{ favorite_class.student_class.description|truncatewords:20 }}</small></p>
                    </div>
                     <div class="card-footer text-center">
-                   <a href="{% url 'class_detail' favorite_class.id %}" class="button-custom-two mb-3 ">View Details</a>
+                   <a href="{% url 'class_detail' favorite_class.student_class.id %}" class="btn btn-light button-custom mb-3 ">View Details</a>
                 </div>
                </div>
            </div>
@@ -29,13 +29,13 @@
                    <img class="card-img-top px-3 pt-3" src="{{ favorite_teacher.teacher.user.profile_picture.url }}" alt="{{ favorite_teacher.teacher.user.username }}">
                    <div class="card-body text_custom">
                        <h5 class="card-title text-center fw-bold">{{ favorite_teacher.teacher.user.username }}</h5>
-                       <p class="card-text">{{ favorite_teacher.teacher.biography }}</p>
+                       <p class="card-text">{{ favorite_teacher.teacher.biography|truncatewords:20 }}</p>
                        <p class="card-text"><small>Rating: {{ favorite_teacher.teacher.average_rating }}</small></p>
                        <p class="card-text"><small>Modalidad: {{ favorite_teacher.teacher.get_mode_display }}</small></p>
                        <p class="card-text"><small>Disponibilidad: {{ favorite_teacher.teacher.get_availability_display }}</small></p>
                    </div>
                    <div class="card-footer text-center">
-                        <a href="{% url 'teachers_detail' favorite_teacher.id %}" class="button-custom-two mb-3">Learn more</a>
+                        <a href="{% url 'teachers_detail' favorite_teacher.id %}" class="btn btn-light button-custom mb-3">Learn more</a>
 
                     </div>
 

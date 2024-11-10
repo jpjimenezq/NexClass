@@ -28,13 +28,13 @@
                     <div class="card-body text_custom">
                         <h5 class="card-title text-center fw-bold">{{ enrolled_class.student_class.className }}</h5>
                         <p class="card-text">Profesor: {{ enrolled_class.student_class.teacher.user.name }}</p>
-                        <p class="card-text"><small>Acerca del curso: {{ enrolled_class.student_class.description }}</small></p>
+                        <p class="card-text"><small>Acerca del curso: {{ enrolled_class.student_class.description|truncatewords:30 }}</small></p>
 
                     </div>
                     <div class="card-footer text-center">
-                        <a href="{% url 'add_favorite_class' enrolled_class.student_class.id %}" class="button-custom-two mb-3">Agregar a Favoritos</a>
-                        <a href="{% url 'remove_class' enrolled_class.student_class.id %}" class="button-custom-two mb-3">Desinscribirme</a>
-                        <a href="{% url 'mi_clase_inscrita' enrolled_class.student_class.id %}" class="button-custom-two mb-3">Mi Clase</a>
+                        <a href="{% url 'add_favorite_class' enrolled_class.student_class.id %}" class="btn btn-light button-custom mb-3">Agregar a Favoritos</a>
+                        <a href="{% url 'remove_class' enrolled_class.student_class.id %}" class="btn btn-light button-custom mb-3">Desinscribirme</a>
+                        <a href="{% url 'mi_clase_inscrita' enrolled_class.student_class.id %}" class="btn btn-light button-custom mb-3">Mi Clase</a>
 
                     </div>
                 </div>

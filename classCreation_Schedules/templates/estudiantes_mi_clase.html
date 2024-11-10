@@ -1,0 +1,40 @@
+{% extends 'navbarTeacher.html' %} {% load static %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+        <h2 class="mb-4">Lista de Estudiantes Inscritos</h2>
+        <table class="table border-0" >
+            <thead class="table-light ">
+                <tr>
+                    <th class="bg-light bg-opacity-50">#</th>
+                    <th class="bg-light bg-opacity-50">Foto</th>
+                    <th class="bg-light bg-opacity-50">Nombre</th>
+                    <th class="bg-light bg-opacity-50">Email</th>
+                    <th class="bg-light bg-opacity-50">Fecha de Inscripción</th>
+                    <th class="bg-light bg-opacity-50">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="border-0">
+                {% for enrollment in estudiantes %}
+                    <tr class="">
+                        <td class="bg-light bg-opacity-75">{{ forloop.counter }}</td>
+                        <td class="bg-light bg-opacity-75">
+                            <img src="{{ enrollment.student.user.profile_picture.url }}" alt="Foto de {{ enrollment.student.user.name }}" class="" style="width: 50px; height: 50px;">
+                        </td>
+                        <td class="align-middle bg-light bg-opacity-75">{{ enrollment.student.user.name }}</td>
+                        <td class="align-middle bg-light bg-opacity-75">{{ enrollment.student.user.email }}</td>
+                        <td class="align-middle bg-light bg-opacity-75">{{ enrollment.enrolled_date|date:"d-m-Y" }}</td>
+                        <td class="align-middle bg-light bg-opacity-75">
+                            <a href="{% url 'get_or_create_private_chat' enrollment.student.id %}" class="text-dark"><span class="badge text-bg-primary">Mensaje</span></a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No hay estudiantes inscritos</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

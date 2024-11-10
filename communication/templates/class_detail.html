@@ -26,9 +26,6 @@
                             <div class="col ">
                                 <strong>Description:</strong>{{ class_obj.description }}
                             </div>
-                            <div class="col ">
-                                <strong>Otros campos:</strong> otro campo???
-                            </div>
                         </div>
                     </div>
                     <div class="row g-0 mt-5 border-top border-dark-subtle border-2">
@@ -49,8 +46,8 @@
                         </table>
                     </div>
                 <div class="card-footer text-center">
-                    <a href="#" class="text-decoration-none button-custom mb-3">Contactar(MensajeriaInterna)</a>
-                    <a href="{% url 'enroll_in_class' class_obj.id %}" class="text-decoration-none button-custom">Inscribirme (notificación ingreso al profe)</a>
+                    <a href="{% url 'get_or_create_private_chat' class_obj.teacher.user.id %}" class="button-custom-two btn btn-light btn-sm me-2">Enviar Mensaje a profesor</a>
+                    <a href="{% url 'enroll_in_class' class_obj.id %}" class="button-custom-two btn btn-light btn-sm me-2">Inscribirme</a>
                 </div>
                 </div>
             </div>

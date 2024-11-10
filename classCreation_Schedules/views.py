@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Class, Schedule
 from .forms import ClassForm, ScheduleForm
 from users.models import Teacher
-
+from mensajeria_interna.models import ClassChat
+from mis_clases_inscritas.models import EnrolledClasses
 
 def teacher_classes(request):
     teacher = Teacher.objects.get(user=request.user)
@@ -17,6 +18,12 @@ def create_class(request):
             class_obj = form.save(commit=False)
             class_obj.teacher = request.user.teacher  # Asumiendo que el usuario es un Teacher
             class_obj.save()
+            
+            class_chat = ClassChat.objects.create(
+                class_instance=class_obj,
+                teacher=Teacher.objects.get(user=request.user)
+            )
+            
             return redirect('add_schedule', class_id=class_obj.id)
     else:
         form = ClassForm()
@@ -43,7 +50,7 @@ def edit_class(request, class_id):
         form = ClassForm(request.POST, request.FILES, instance=class_obj_instance)
         if form.is_valid():
             form.save()
-            return redirect('teacher_classes_detail', class_id=class_id)
+            return redirect('class_detail_teacher', class_id=class_id)
     else:
         form = ClassForm(instance=class_obj_instance)
 
@@ -59,7 +66,15 @@ def delete_class(request, class_id):
 def class_detail_teacher(request, class_id):
     class_obj = get_object_or_404(Class, id=class_id)
     schedules = Schedule.objects.filter(class_obj=class_obj)
+
     return render(request, 'class_detail_teacher.html', {'class_obj': class_obj, 'schedules': schedules})
+
+
+def estudiantes_mi_clase(request, class_id):
+    class_obj = get_object_or_404(Class, id=class_id)
+    estudiantes = EnrolledClasses.objects.filter(student_class=class_obj).select_related('student')
+    return render(request, 'estudiantes_mi_clase.html', {'estudiantes': estudiantes})
+
 
 
 def edit_schedule(request, class_id, schedule_id):

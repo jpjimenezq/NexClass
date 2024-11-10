@@ -49,8 +49,6 @@ def create_google_meet_event(student_email, teacher_email, class_name, start_tim
     credentials = get_google_credentials()
     service = build('calendar', 'v3', credentials=credentials)
 
-    print(f"{start_time} ---- {end_time}")
-
     # Convertir los tiempos a UTC usando timezone.utc
     start_time_utc = start_time.astimezone(timezone.utc).isoformat()
     end_time_utc = end_time.astimezone(timezone.utc).isoformat()

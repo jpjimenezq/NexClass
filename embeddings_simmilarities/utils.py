@@ -1,8 +1,8 @@
 import os
 import pickle
-from dotenv import load_dotenv, find_dotenv
 from openai import OpenAI
 import numpy as np
+from dotenv import load_dotenv, find_dotenv
 
 _ = load_dotenv('api_keys.env')
 client = OpenAI(

@@ -1,0 +1,62 @@
+{% extends base %}
+
+{% block content %}
+
+<div class="container-sm my-5 text-center ">
+
+<h2 class="mb-4"><strong>Chats</strong></h2>
+
+<div class="row  d-flex justify-content-center">
+    <div class="col rounded mx-3 bg-light bg-opacity-10 shadow-lg">
+    <div class="m-5">
+        <h3 class="mb-4"><strong>Clases Grupales</strong></h3>
+        {% if class_chats_data %}
+            <ul class="list-group list-group-flush border-0">
+                {% for chat, unread in class_chats_data %}
+                    <li class="bg-transparent list-group-item mb-2">
+                        <a class="text-decoration-none" href="{% url 'class_chat_detail' chat.id %}">
+                            Nombre de la clase: {{ chat.class_instance.className }}
+                        </a>
+                        <span class="badge rounded-pill text-bg-danger">{{ unread }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay chats de grupo.</p>
+        {% endif %}
+    </div>
+
+    </div>
+
+    <div class="col rounded mx-3 bg-light bg-opacity-10 shadow-lg">
+        <div class="m-5">
+            <h3 class="mb-4"><strong>Chats Privados</strong></h3>
+            {% if private_chats_data %}
+                <ul class="list-group list-group-flush">
+                    {% for chat, unread in private_chats_data %}
+                        <li class="bg-transparent list-group-item mb-2">
+                        {% if base == "navbarTeacher.html" %}
+                            <a href="{% url 'get_or_create_private_chat' chat.student.user.id %}" class="text-decoration-none">
+                                    Chat privado con: {{ chat.student.user.name }}
+                            </a>
+                            <span class="badge rounded-pill text-bg-danger">{{ unread }}</span>
+
+                        {% elif base == "navbar.html" %}
+                            <a href="{% url 'get_or_create_private_chat' chat.teacher.user.id %}" class="text-decoration-none">
+                                Chat privado con: {{ chat.teacher.user.name }}
+                            </a>
+                            <span class="badge rounded-pill text-bg-danger">{{ unread }}</span>
+                        {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No tienes ningún chat privado.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+</div>
+
+{% endblock %}

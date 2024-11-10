@@ -31,6 +31,8 @@ urlpatterns = [
     path('', include('mis_clases_inscritas.urls')),
     path('', include('teacher_blog.urls')),
     path('', include('class_quizzes.urls')),
+    path('', include('mensajeria_interna.urls')),
+
 
 ]
 

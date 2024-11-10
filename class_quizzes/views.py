@@ -21,13 +21,12 @@ def create_quiz(request, class_id=None):
 
     else:
         if request.method == 'POST':
-            form = QuizForm(request.POST, class_id=class_id)
+            form = QuizForm(request.POST)
             if form.is_valid():
                 quiz = form.save()
                 return redirect('add_question', quiz_id=quiz.id)
         else:
-            form = QuizForm(class_id=class_id)
-            form.fields['class_obj'].queryset = Class.objects.all()
+            form = QuizForm()
 
     return render(request, 'create_quiz.html', {
         'form': form,

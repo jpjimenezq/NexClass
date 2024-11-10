@@ -126,3 +126,7 @@ a {
   object-fit: cover;
   border-radius: 10px;
 }
+
+td{
+  background-color: transparent;
+}

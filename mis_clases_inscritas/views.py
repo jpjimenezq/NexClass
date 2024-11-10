@@ -5,6 +5,7 @@ from users.models import Student
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from mensajeria_interna.models import ClassChat
 
 
 # Create your views here.
@@ -19,6 +20,11 @@ def enroll_in_class(request, class_id):
         EnrolledClasses.objects.create(student=student, student_class=student_class)
 
         HistoryClasses.objects.create(student=student, student_class=student_class, action='enrolled')
+
+        class_chat = get_object_or_404(ClassChat, class_instance=student_class)
+
+        class_chat.students.add(student)
+        class_chat.save()
 
         messages.success(request, f'Te has inscrito exitosamente en la clase {student_class.className}.')
 

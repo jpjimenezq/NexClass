@@ -5,21 +5,21 @@
     <div class="container mt-4 ">
         <div class="row mb-4">
             <div class="col-md-12 text-center">
-                <a href="{% url 'create_class' %}" class="text-decoration-none button-custom-two">Create New Class</a>
+                <a href="{% url 'create_class' %}" class="button-custom-two btn btn-light">Create New Class</a>
             </div>
         </div>
 
         <div class="row">
             {% for class in classes %}
                 <div class="col-md-4 mb-4 d-flex align-items-stretch">
-                    <div class="card bg-transparent border">
+                    <div class="card bg-transparent border shadow-lg">
                         <img src="{{ class.class_picture.url }}" class="card-img-top px-3 pt-3" alt="Class Image">
                         <div class="card-body">
                             <h3 class="card-title text-center text_custom">{{ class.className }}</h3>
-                            <p class="card-text text_custom"><strong>Descripcion: </strong> {{ class.description }}</p>
+                            <p class="card-text text_custom"><strong>Descripcion: </strong> {{ class.description | truncatewords:30 }}</p>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="{% url 'class_detail_teacher' class.id %}" class="text-decoration-none button-custom">Class Detail</a>
+                            <a href="{% url 'class_detail_teacher' class.id %}" class="button-custom-two btn btn-light">Class Detail</a>
                         </div>
                     </div>
                 </div>

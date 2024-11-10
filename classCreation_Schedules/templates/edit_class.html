@@ -7,7 +7,7 @@
     <div class="container d-flex flex-column align-items-center py-5">
     <h1 class="text-center mb-3">Class Edit</h1>
     <div class="p-4 shadow-sm w-100 rounded" style="max-width: 800px; background-color: #1a2634">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-light w-100 button-custom-two mx-auto">Save Changes</button>

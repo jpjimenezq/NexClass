@@ -19,6 +19,8 @@ from openai import OpenAI
 import os
 from classCreation_Schedules.models import Class
 from embeddings_simmilarities.utils import calcular_similitud
+from django.db.models import Count
+import json
 
 INITIAL_CONTEXT = """
     Eres un asistente virtual amigable y experto en asesoramiento sobre clases y profesores. 
@@ -330,7 +332,23 @@ def cambiar_contrasena(request):
 
 @login_required
 def home_teacher(request):
-    return render(request, 'home_teacher.html')
+    teacher = Teacher.objects.get(user=request.user)
+    print(f'teacher: {teacher}')
+    classes = Class.objects.filter(teacher=teacher).annotate(enrollment_count=Count('enrolledclasses'))
+    print(f"classes: {classes}")
+    class_names = [cls.className for cls in classes]
+    enrollment_counts = [cls.enrollment_count for cls in classes]
+    print(f"class_names: {class_names}")
+    print(f"enrollment_counts: {enrollment_counts}")
+
+
+    context = {
+        'class_names': json.dumps(class_names),
+        'enrollment_counts': json.dumps(enrollment_counts),
+        'teacher': teacher,
+    }
+
+    return render(request, 'home_teacher.html', context)
 
 
 @login_required

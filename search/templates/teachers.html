@@ -55,14 +55,14 @@
                     <img class="card-img-top px-3 pt-3" src="{{ teacher.user.profile_picture.url }}" alt="{{ teacher.user.username }}">
                     <div class="card-body text_custom">
                         <h5 class="card-title text-center">{{ teacher.user.username }}</h5>
-                        <p class="card-text">{{ teacher.biography }}</p>
+                        <p class="card-text">{{ teacher.biography|truncatewords:20 }}</p>
                         <p class="card-text"><small>Rating: {{ teacher.average_rating }}</small></p>
                         <p class="card-text"><small>Modalidad: {{ teacher.get_mode_display }}</small></p>
                         <p class="card-text"><small>Disponibilidad: {{ teacher.get_availability_display }}</small></p>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="{% url 'add_favorite_teacher' teacher.id %}" class="button-custom-two mb-3">Agregar a Favoritos</a>
-                        <a href="{% url 'teachers_detail' teacher.id %}" class="button-custom-two mb-3">Learn more</a>
+                        <a href="{% url 'add_favorite_teacher' teacher.id %}" class="btn btn-light button-custom mb-3">Agregar a Favoritos</a>
+                        <a href="{% url 'teachers_detail' teacher.id %}" class="btn btn-light button-custom mb-3">Learn more</a>
                     </div>
                 </div>
             </div>

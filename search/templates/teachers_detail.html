@@ -26,30 +26,36 @@
                         <h2 class="card-title text-center mb-3"> {{ teacher.user.username }} </h2>
                             <div class="row align-items-end">
                                 <div class="col ">
-                                    <strong>Biography:</strong> {{ teacher.biography }}
-                                </div>
-                                <div class="col ">
-                                    <strong>Specialties:</strong> {{ teacher.get_specialties_display }}
+                                    <h5><strong>Biography:</strong></h5> <p>{{ teacher.biography }}</p>
                                 </div>
                             </div>
-                            <div class="row align-items-end">
+
+                            <div class="row align-items-end my-4 border-top border-bottom">
+                                <div class="row my-3">
                                 <div class="col ">
-                                    <strong>Average Rating:</strong> {{ average_rating }}
+                                    <h5><strong>Specialties:</strong></h5> {{ teacher.specialities }}
                                 </div>
                                 <div class="col ">
-                                    <strong>Mode:</strong> {{ teacher.get_mode_display }}
+                                    <h5><strong>Mode:</strong></h5> {{ teacher.mode }}
                                 </div>
                                 <div class="col ">
-                                    <strong>Availability:</strong> {{ teacher.get_availability_display }}
+                                    <h5><strong>Availability:</strong></h5> {{ teacher.availability }}
+                                </div>
                                 </div>
                             </div>
-                            <div class="row align-items-end">
-                                <div class="col ">
-                                    <strong>Location:</strong> {{ teacher.user.address }}
+                            <div class="row align-items-end border-bottom">
+                                <div class="row">
+                                    <div class="col ">
+                                        <h5><strong>Location:</strong></h5> <p>{{ teacher.user.address }}</p>
+                                    </div>
+                                    <div class="col ">
+                                        <h5><strong>Rating:</strong></h5> {{ average_rating }}
+                                    </div>
+                                    <div class="col ">
+                                        <h5><strong>Registration date:</strong></h5> <p>{{ teacher.user.registration_date|date:"Y-m-d" }}</p>
+                                    </div>
                                 </div>
-                                <div class="col ">
-                                    <strong>Registration date:</strong> {{ teacher.user.registration_date|date:"Y-m-d" }}
-                                </div>
+
                             </div>
                             <div class="row align-items-end">
                                 <div class="col ">
@@ -57,14 +63,16 @@
                                         {% for rating in ratings %}
                                             <li class="list-group-item bg-transparent border"> <p class="text_custom"><strong>{{ rating.student.user.username }}</strong>: {{ rating.rating }} - {{ rating.comment }}</p></li>
                                         {% empty %}
-                                            <p class="text_custom">No ratings yet.</p>
+                                            <p class="text_custom text-center mt-4">No ratings yet.</p>
                                         {% endfor %}
                                     </ul>
                                 </div>
                             </div>
                             <div class="card-footer text-center">
-                                <a href="{% url 'rate_teacher' teacher.id %}" class="button-custom-two mb-3">Rate this Teacher</a>
-                                <a href="{% url 'student_classes_teacher' teacher.id %}" class="button-custom-two mb-3">Classes of Teacher</a>
+                                <a href="{% url 'rate_teacher' teacher.id %}" class="btn btn-light button-custom mb-3">Rate this Teacher</a>
+                                <a href="{% url 'student_classes_teacher' teacher.id %}" class="btn btn-light button-custom mb-3">Classes of Teacher</a>
+                                <a href="{% url 'get_or_create_private_chat' teacher.user.id %}" class="btn btn-light button-custom mb-3">Enviar Mensaje a profesor</a>
+
                             </div>
                     </div>
                 </div>

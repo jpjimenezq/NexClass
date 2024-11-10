@@ -42,12 +42,12 @@
                 <div class="card-body text_custom">
                     <h5 class="card-title text-center fw-bold">{{ class.className }}</h5>
                     <p class="card-text">Profesor: {{ class.teacher.user.name }}</p>
-                    <p class="card-text"><small>Acerca del curso: {{ class.description }}</small></p>
+                    <p class="card-text"><small>Acerca del curso: {{ class.description|truncatewords:30 }}</small></p>
 
                 </div>
                 <div class="card-footer text-center">
-                    <a href="{% url 'add_favorite_class' class.id %}" class="button-custom-two mb-3">Agregar a Favoritos</a>
-                    <a href="{% url 'class_detail' class.id %}" class="button-custom-two mb-3">View Details</a>
+                    <a href="{% url 'add_favorite_class' class.id %}" class="btn btn-light button-custom mb-3">Agregar a Favoritos</a>
+                    <a href="{% url 'class_detail' class.id %}" class="btn btn-light button-custom mb-3">View Details</a>
                 </div>
             </div>
         </div>

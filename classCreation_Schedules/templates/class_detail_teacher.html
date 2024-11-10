@@ -12,22 +12,22 @@
                 </div>
                 <div class="col-md-8 p-5">
                     <div class="card-body text_custom p-0 m-0 ">
-                        <h2 class="card-title text-center mb-3"> {{ class_obj.className }} </h2>
+                        <h2 class="card-title text-center mb-4"> {{ class_obj.className }} </h2>
                         <div class="row align-items-end">
-                            <div class="col ">
-                                <strong>Description:</strong>{{ class_obj.description }}
-                            </div>
-                            <div class="col ">
-                                <strong>Otros campos:</strong> otro campo???
+                            <div class="col">
+                                <strong>Description:</strong>
+                                <p> {{ class_obj.description }} </p>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body d-flex flex-wrap justify-content-center justify-content-between ">
-                        <a href="{% url 'edit_class' class_obj.id %}" class="button-custom-two">Edit</a>
-                        <a href="{% url 'delete_class' class_obj.id %}" class="button-custom-two">Delete</a>
-                        <a href="{% url 'add_schedule' class_obj.id %}" class="button-custom-two">Add schedules</a>
-                        <a href="#" class="button-custom-two">Alumnos</a>
-                        <a href="{% url 'quiz_list_by_class' class_obj.id %}" class="button-custom-two">quizzes</a>
+                    <div class="card-body d-flex flex-wrap justify-content-center justify-content-evenly">
+                        <a href="{% url 'edit_class' class_obj.id %}" class="button-custom-two btn btn-light">Edit</a>
+                        <a href="{% url 'delete_class' class_obj.id %}" class="button-custom-two btn btn-light">Delete</a>
+                        <a href="{% url 'add_schedule' class_obj.id %}" class="button-custom-two btn btn-light">Add schedules</a>
+                        <a href="{% url 'estudiantes_mi_clase' class_obj.id %}" class="button-custom-two btn btn-light bn-sm">Alumnos</a>
+                        <a href="{% url 'class_chat_detail' class_obj.chat.id %}" class="button-custom-two btn btn-light">chat de grupo</a>
+                        <a href="{% url 'quiz_list_by_class' class_obj.id %}" class="button-custom-two btn btn-light">quizzes</a>
+
                     </div>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="{% url 'edit_schedule' class_id=schedule.class_obj.id schedule_id=schedule.id %}" class="btn btn-primary btn-sm me-2 ">Editar</a>
-                                <a href="{% url 'delete_schedule' class_id=schedule.class_obj.id schedule_id=schedule.id %}" class="btn btn-danger btn-sm me-2">Eliminar</a>
+                                <a href="{% url 'edit_schedule' class_id=schedule.class_obj.id schedule_id=schedule.id %}" class="button-custom-two btn btn-light btn-sm me-2">Editar</a>
+                                <a href="{% url 'delete_schedule' class_id=schedule.class_obj.id schedule_id=schedule.id %}" class="button-custom-two btn btn-light btn-sm me-2">Eliminar</a>
 
                             </td>
                         </tr>
