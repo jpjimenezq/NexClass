@@ -33,20 +33,13 @@
 
     <form method="post" class="w-75 mx-auto p-3 bg-light bg-opacity-10 rounded shadow-lg">
         {% csrf_token %}
-        <h2>Enviar mensaje a clase:</h2>
-        {{ form.content }}
-        <button type="submit" class="button-custom-two btn btn-light mt-3">Enviar Mensaje</button>
-    </form>
-
-    <form method="post" class="w-75 mx-auto p-3 bg-light bg-opacity-10 rounded shadow-lg">
-        {% csrf_token %}
         <h2>Enviar mensaje:</h2>
         {{ form.content }}
         <div class="mt-4">
             <h4>Recomendaciones de mensajes:</h4>
             <ul id="recommendations-list " class="list-group-item">
                 {% for suggestion in quick_suggestions %}
-                    <li class="list-group-item list-group-item- m-3" style="cursor: pointer;">
+                    <li class="list-group-item list-group-item- m-3 shadow-lg recommendation-item" style="cursor: pointer;">
                         <div class="badge text-bg-secondary text-wrap w-100">
                             <p class="text_custom">{{ suggestion }}</p>
                         </div>

@@ -57,8 +57,8 @@ def class_chat_detail(request, chat_id):
         form = MessageForm(request.POST)
         if form.is_valid():
             message = form.save(commit=False)
+            message.class_chat = class_chat
             message.sender = request.user
-            message.chat = class_chat
             message.save()
             return redirect('class_chat_detail', chat_id=chat_id)
     else:
