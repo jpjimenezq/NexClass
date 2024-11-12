@@ -32,7 +32,7 @@ urlpatterns = [
     path('', include('teacher_blog.urls')),
     path('', include('class_quizzes.urls')),
     path('', include('mensajeria_interna.urls')),
-
+    path('', include('sistema_comparacion.urls')),
 
 ]
 

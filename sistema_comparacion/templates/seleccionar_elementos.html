@@ -1,0 +1,65 @@
+{%  extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid vh-100 ">
+    <form method="post" class="row m-5">
+        {% csrf_token %}
+        <h1 class="text-center mb-5">Selecciona entre 2 y 4 {{ tipo_elemento }}s para comparar:</h1>
+
+            <label>
+
+                {%  if tipo_elemento == "profesor" %}
+                    <div class="row">
+                        {% for elemento in elementos %}
+                        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                            <div class="card bg-transparent border">
+                                <img class="card-img-top px-3 pt-3" src="{{ elemento.user.profile_picture.url }}" alt="{{ elemento.user.username }}">
+                                <div class="card-body text_custom">
+                                    <h5 class="card-title text-center">{{ elemento.user.username }}</h5>
+                                    <p class="card-text">{{ elemento.biography|truncatewords:20 }}</p>
+                                    <p class="card-text"><small>Rating: {{ elemento.average_rating }}</small></p>
+                                    <p class="card-text"><small>Modalidad: {{ elemento.get_mode_display }}</small></p>
+                                    <p class="card-text"><small>Disponibilidad: {{ elemento.get_availability_display }}</small></p>
+                                </div>
+                                <label class="btn btn-outline-light border-0 m-2 button-custom-two mx-auto w-50" style="width: 150px;">
+                                    <input type="checkbox" name="elementos" class="form-check-input w-100 p-2" value="{{ elemento.id }}">
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                {% else %}
+                    <div class="row">
+                        {% for elemento in elementos %}
+
+                        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                            <div class="card bg-transparent border">
+                                <img class="card-img-top px-3 pt-3" src="{{ elemento.class_picture.url }}" alt="{{ elemento.className }}">
+                                <div class="card-body text_custom">
+                                    <h5 class="card-title text-center fw-bold">{{ elemento.className }}</h5>
+                                    <p class="card-text">Profesor: {{ elemento.teacher.user.name }}</p>
+                                    <p class="card-text"><small>Acerca del curso: {{ elemento.description|truncatewords:30 }}</small></p>
+                                </div>
+                                <label class="btn btn-outline-light border-0 m-2 button-custom-two mx-auto w-50">
+                                    <input type="checkbox" class="form-check-input w-100 p-2" name="elementos" value="{{ elemento.id }}">
+                                </label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </label><br>
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <button class="w-25 btn btn-light button-custom-two" type="submit">Comparar</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+{% endblock %}

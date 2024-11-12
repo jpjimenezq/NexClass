@@ -1,0 +1,27 @@
+{%  extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid vh-100">
+
+            <form class="row h-100" method="post" action="{% url 'seleccionar_comparacion' %}">
+                <div class="col-md-6 d-flex justify-content-center align-items-center ">
+                {% csrf_token %}
+
+                    <button class="w-100 h-100 bg-transparent border-0 d-flex flex-column  boton-hover align-items-center justify-content-center" type="submit" name="tipo_comparacion" value="profesores">
+                        <h1>Comparar Profesores</h1>
+                        <i class="fa-solid fa-person-chalkboard fa-10x " style="color: #25b3b4;"></i>
+                    </button>
+                </div>
+
+                <div class="col-md-6 p-2 d-flex align-items-center background-color-custom ">
+                    <button class="w-100 h-100 bg-transparent border-0  d-flex  boton-hover flex-column align-items-center justify-content-center" type="submit" name="tipo_comparacion" value="clases">
+                        <h1>Comparar Comparar Clases</h1>
+                        <i class="fa-solid fa-chalkboard fa-10x " style="color: #010f1e;"></i>
+                    </button>
+                </div>
+
+            </form>
+
+    </div>
+{% endblock %}
+

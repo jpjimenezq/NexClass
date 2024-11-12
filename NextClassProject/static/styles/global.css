@@ -130,3 +130,20 @@ a {
 td{
   background-color: transparent;
 }
+
+.boton-hover {
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.boton-hover:hover {
+    transform: scale(1.1);
+}
+
+.boton-hover span {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.boton-hover:hover h1 {
+    color: white;
+}

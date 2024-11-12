@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'teacher_blog',
     'class_quizzes',
     'mensajeria_interna',
+    'sistema_comparacion'
 ]
 
 MIDDLEWARE = [
