@@ -1,6 +1,8 @@
 {% extends 'navbarTeacher.html' %}
 {% block content %}{% load static %}
-
+<head>
+    <title>Home</title>
+</head>
 
 <body>
     <section class="container-sm my-5 text-center">
@@ -23,7 +25,7 @@
                                 <div class="card bg-light bg-opacity-75 mb-3 " style="background-color: #295972;">
                                   <div class="card-body">
                                     <h5 class="card-title fw-bold"><i class="fa-solid fa-ranking-star fa-2xl me-2" style="color: #295972;"></i>Crea tus quices</h5>
-                                    <p class="card-text text-start">Puedes crear quices para tus estudiantes y ayudarles a que practiquen sus conocimientos.   <span class="badge text-bg-secondary"><a href="{% url 'quiz_list' %}">mirar</a></span></p>
+                                    <p class="card-text text-start">Puedes crear quices para tus estudiantes y ayudarles a que practiquen sus conocimientos.   <span class="badge text-bg-secondary"><a href="{% url 'quiz_list' %}">Mirar</a></span></p>
                                   </div>
                                 </div>
                             </div>
@@ -34,7 +36,7 @@
                                         <i class="fas fa-chalkboard-teacher me-2 fa-2xl" style="color: #295972;"></i> <!-- Icono de Font Awesome a la izquierda -->
                                        Crea tus clases
                                     </h5>
-                                      <p class="card-text text-start">Crea clases personalizadas y adapta tu perfil para los estudiantes, crea horarios para tus clases y automatiza tus reuniones en google meet.   <span class="badge text-bg-secondary"><a href="{% url 'teacher_classes' %}">mirar</a></span></p>
+                                      <p class="card-text text-start">Crea clases personalizadas y adapta tu perfil para los estudiantes, crea horarios para tus clases y automatiza tus reuniones en google meet.   <span class="badge text-bg-secondary"><a href="{% url 'teacher_classes' %}">Mirar</a></span></p>
 
                                   </div>
                                 </div>
@@ -43,7 +45,7 @@
                                 <div class="card bg-light bg-opacity-75 mb-3" >
                                   <div class="card-body">
                                     <h5 class="card-title fw-bold"><i class="fa-solid fa-comment-dots fa-2xl me-2" style="color: #295972;"></i>Chat IA</h5>
-                                    <p class="card-text text-start">Con nuestro chat interno NexClass interactua con tu salon de clases y tus alumnos en particular, usando nuestro sistema integrado con Inteligencia Artificial.    <span class="badge text-bg-secondary"><a href="{% url 'chat_list' %}">mirar</a></span</p>
+                                    <p class="card-text text-start">Con nuestro chat interno NexClass interactua con tu salon de clases y tus alumnos en particular, usando nuestro sistema integrado con Inteligencia Artificial.    <span class="badge text-bg-secondary"><a href="{% url 'chat_list' %}">Mirar</a></span</p>
                                   </div>
                                 </div>
                             </div>

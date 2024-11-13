@@ -1,38 +1,42 @@
 {% extends 'navbar.html' %}
 {% block content %}
 <!DOCTYPE html>
+<head>
+    <title>Clases</title>
+</head>
 <div class="container mt-3">
-    <h1>Find your ideal class: {{user.username }}</h1>
-    <form method="GET" action="{% url 'student_classes' %}">
-        <div>
-            <label for="searchClass">Search: </label>
-            <input type="text" id="searchClass" name="searchClass" value="{{ request.GET.searchClass }}">
-        </div>
-
-        <div>
-            <label for="className">Class Name:</label>
-            <select id="className" name="className">
-                <option value=""></option>
-                {% for class in className %}
-                <option value="{{ class }}" {% if request.GET.className == class %}selected{% endif %}>{{ class }}</option>
-
-                {% endfor %}
-            </select>
-        </div>
-
-        <div>
-            <label for="teacher">Teacher:</label>
-            <select id="teacher" name="teacher">
-                <option value=""></option>
-                {% for teacher_name in teacher %}
-                    <option value="{{ teacher_name }}" {% if request.GET.teacher == teacher_name %}selected{% endif %}>{{ teacher_name }}</option>
-
-                {% endfor %}
-            </select>
-        </div>
-
-        <button type="submit" class="button-custom-two ">Search</button>
-    </form>
+    <h1 class="text-center">Find your ideal class: {{user.username }}</h1>
+    <div class="d-flex justify-content-center mt-5 dark-theme">
+        <form method="GET" action="{% url 'student_classes' %}" class="w-50 p-4 border rounded-3">
+            <div class="mb-3">
+                <label for="searchClass" class="form-label">Search:</label>
+                <input type="text" id="searchClass" name="searchClass" class="form-control rounded-pill" value="{{ request.GET.searchClass }}">
+            </div>
+    
+            <div class="mb-3">
+                <label for="className" class="form-label">Class Name:</label>
+                <select id="className" name="className" class="form-select rounded-pill">
+                    <option value=""></option>
+                    {% for class in className %}
+                        <option value="{{ class }}" {% if request.GET.className == class %}selected{% endif %}>{{ class }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="mb-3">
+                <label for="teacher" class="form-label">Teacher:</label>
+                <select id="teacher" name="teacher" class="form-select rounded-pill">
+                    <option value=""></option>
+                    {% for teacher_name in teacher %}
+                        <option value="{{ teacher_name }}" {% if request.GET.teacher == teacher_name %}selected{% endif %}>{{ teacher_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <button type="submit" class="btn btn-primary w-100 rounded-pill">Search</button>
+        </form>
+    </div>
+    
 
     <div class="row">
         {% for class in classes %}

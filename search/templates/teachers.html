@@ -1,52 +1,57 @@
 {% extends 'navbar.html' %}
 {% block content %}
+<head>
+    <title>Profesores</title>
+</head>
     <div class="container mt-3">
 
-        <h1>Find your ideal teacher</h1>
+        <h1 class="text-center">Find your ideal teacher</h1>
 
-        <form method="GET" action="{% url 'teachers' %}">
-            <div>
-                <label for="searchTeacher">Search: </label>
-                <input type="text" id="searchTeacher" name="searchTeacher" value="{{ request.GET.searchTeacher }}">
-            </div>
-
-            <div>
-                <label for="specialties">Specialties:</label>
-                <select id="specialties" name="specialties">
-                    <option value=""></option>
-                    {% for key, value in specialties %}
-                        <option value="{{ key }}" {% if request.GET.specialties == key %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label for="mode">Mode:</label>
-                <select id="mode" name="mode">
-                    <option value=""></option>
-                    {% for key, value in modes %}
-                        <option value="{{ key }}" {% if request.GET.mode == key %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label for="availability">Availability:</label>
-                <select id="availability" name="availability">
-                    <option value=""></option>
-                    {% for key, value in availabilities %}
-                        <option value="{{ key }}" {% if request.GET.availability == key %}selected{% endif %}>{{ value }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div>
-                <label for="rating">Rating (min):</label>
-                <input type="number" id="rating" name="rating" min="0" max="5" step="1" value="{{ request.GET.rating }}">
-            </div>
-
-            <button type="submit" class="button-custom-two">Search</button>
-        </form>
+        <div class="d-flex justify-content-center mt-5 bg-color dark-theme">
+            <form method="GET" action="{% url 'teachers' %}" class="w-50 p-4 border rounded-3 dark-theme">
+                <div class="mb-3">
+                    <label for="searchTeacher" class="form-label">Search:</label>
+                    <input type="text" id="searchTeacher" name="searchTeacher" class="form-control rounded-pill" value="{{ request.GET.searchTeacher }}">
+                </div>
+        
+                <div class="mb-3">
+                    <label for="specialties" class="form-label">Specialties:</label>
+                    <select id="specialties" name="specialties" class="form-select rounded-pill">
+                        <option value=""></option>
+                        {% for key, value in specialties %}
+                            <option value="{{ key }}" {% if request.GET.specialties == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="mode" class="form-label">Mode:</label>
+                    <select id="mode" name="mode" class="form-select rounded-pill">
+                        <option value=""></option>
+                        {% for key, value in modes %}
+                            <option value="{{ key }}" {% if request.GET.mode == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="availability" class="form-label">Availability:</label>
+                    <select id="availability" name="availability" class="form-select rounded-pill">
+                        <option value=""></option>
+                        {% for key, value in availabilities %}
+                            <option value="{{ key }}" {% if request.GET.availability == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+        
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating (min):</label>
+                    <input type="number" id="rating" name="rating" min="0" max="5" step="1" class="form-control rounded-pill" value="{{ request.GET.rating }}">
+                </div>
+        
+                <button type="submit" class="btn btn-primary w-100 rounded-pill">Search</button>
+            </form>
+        </div>
 
         <div class="row">
             {% for teacher in teachers %}

@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Landing</title>
   </head>
   <main class="flex-grow-1">
     <section class="w-100 py-5 py-md-5 py-lg-5 py-xl-5 mb-5">
@@ -21,8 +21,8 @@
               </p>
             </div>
             <div class="d-flex flex-column gap-2 gap-sm-0 flex-sm-row">
-              <a href="#" class="text-decoration-none button-custom-two"> Find Teachers </a>
-              <a href="#" class="text-decoration-none button-custom">Become a Teacher</a>
+              <a href="{% url 'login' %}" class="text-decoration-none button-custom-two"> Find Teachers </a>
+              <a href="{% url 'login' %}" class="text-decoration-none button-custom">Become a Teacher</a>
             </div>
           </div>
           <div class="col-lg-4 d-none d-lg-block">
@@ -95,16 +95,6 @@
             finding the perfect teacher and providing personalized learning
             recommendations.
           </p>
-        </div>
-        <div class="row g-4 py-4">
-          <div class="col">
-            <textarea
-              class="form-control mb-2 background-color-custom-two"
-              placeholder="Type your question here..."
-              rows="3"
-            ></textarea>
-            <button class="button-custom-two">Get Recommendations</button>
-          </div>
         </div>
       </div>
     </section>
