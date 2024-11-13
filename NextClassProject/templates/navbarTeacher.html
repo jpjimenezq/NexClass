@@ -44,6 +44,8 @@
             <ul class="mt-2 dropdown-menu bg-transparent" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item border text_custom" href="{% url 'my_profile_teacher' %}">Perfil</a></li>
                 <li><a class="dropdown-item border text_custom" href="#">Otro campo</a></li>
+                <!-- Botón de Logout -->
+                <li><a class="dropdown-item border text_custom" href="{% url 'logout' %}">Logout</a></li>
             </ul>
         </div>
     </nav>
@@ -67,33 +69,6 @@
         </nav>
     </div>
 </footer>
-
-<!-- Script de Google Translate para activar el widget -->
-<script type="text/javascript">
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-            pageLanguage: 'es',  // Idioma base de la página
-            includedLanguages: 'en,es,pt',  // Idiomas disponibles
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE  // Diseño del widget
-        }, 'google_translate_element');
-    }
-
-    // Función para mostrar el widget cuando el usuario hace clic en el botón
-    function showGoogleTranslate() {
-        const translateElement = document.getElementById('google_translate_element');
-        translateElement.style.display = 'block';
-
-        // Iniciar un temporizador para monitorear el cambio de idioma
-        const interval = setInterval(() => {
-            const iframe = document.querySelector('.goog-te-menu-frame');
-            if (iframe && iframe.style.display === 'none') {
-                translateElement.style.display = 'none';
-                clearInterval(interval); // Detener el monitoreo cuando se haya ocultado
-            }
-        }, 500); // Revisar cada 500 ms si el menú ha sido ocultado
-    }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <!-- JavaScript para cambiar el tema -->
 <script>
