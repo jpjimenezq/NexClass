@@ -24,6 +24,13 @@
             Mis Chats
         </a>
 
+        <!-- Botón de cambio de idioma en el navbar -->
+        <a href="javascript:void(0);" onclick="showGoogleTranslate()" class="text-decoration-none text_custom small me-4">
+            Cambiar Idioma
+        </a>
+
+        <!-- Div donde aparecerá el widget de Google Translate, inicialmente oculto -->
+        <div id="google_translate_element" style="display: none;"></div>
 
         <!-- Toggle de Tema -->
         <button id="theme-toggle" class="btn btn-light me-4">
@@ -36,6 +43,8 @@
             </span>
             <ul class="mt-2 dropdown-menu bg-transparent" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item border text_custom" href="{% url 'my_profile_teacher' %}">Perfil</a></li>
+                <!-- Botón de Logout -->
+                <li><a class="dropdown-item border text_custom" href="{% url 'logout' %}">Logout</a></li>
                 <li><a class="dropdown-item border text_custom" href="#">Otro campo</a></li>
             </ul>
         </div>
