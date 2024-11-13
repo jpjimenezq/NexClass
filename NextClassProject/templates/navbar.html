@@ -33,6 +33,13 @@
             Comparación
         </a>
 
+        <!-- Botón de cambio de idioma en el navbar -->
+        <a href="javascript:void(0);" onclick="showGoogleTranslate()" class="text-decoration-none text_custom small me-4">
+            Cambiar Idioma
+        </a>
+
+        <!-- Div donde aparecerá el widget de Google Translate, inicialmente oculto -->
+        <div id="google_translate_element" style="display: none;"></div>
 
         <!-- Toggle de Tema -->
         <button id="theme-toggle" class="btn btn-light me-4">
@@ -69,6 +76,39 @@
         </nav>
     </div>
 </footer>
+
+<!-- Script de Google Translate para activar el widget -->
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'es',  // Idioma base de la página
+            includedLanguages: 'en,es,pt',  // Idiomas disponibles
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE  // Diseño del widget
+        }, 'google_translate_element');
+    }
+
+    // Función para mostrar el widget cuando el usuario hace clic en el botón
+    function showGoogleTranslate() {
+        document.getElementById('google_translate_element').style.display = 'block';
+    }
+
+    // Observador de cambios para detectar selección de idioma y ocultar el widget
+    document.addEventListener('DOMContentLoaded', () => {
+        const googleTranslateElement = document.getElementById('google_translate_element');
+
+        // MutationObserver para detectar cambios en el widget
+        const observer = new MutationObserver(() => {
+            const selectedLanguage = document.querySelector('.goog-te-menu-frame');
+            if (selectedLanguage && selectedLanguage.style.display === 'none') {
+                googleTranslateElement.style.display = 'none';
+            }
+        });
+
+        // Iniciar el observador sobre el widget de traducción
+        observer.observe(googleTranslateElement, { childList: true, subtree: true });
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <!-- JavaScript para cambiar el tema -->
 <script>
@@ -107,4 +147,3 @@
         }
     });
 </script>
-
